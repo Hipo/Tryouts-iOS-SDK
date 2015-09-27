@@ -1,6 +1,6 @@
 # Tryouts
 
-[![CI Status](http://img.shields.io/travis/Taylan Pince/Tryouts.svg?style=flat)](https://travis-ci.org/Taylan Pince/Tryouts)
+[![CI Status](http://img.shields.io/travis/Hipo/Tryouts-iOS-SDK.svg?style=flat)](https://travis-ci.org/Hipo/Tryouts-iOS-SDK)
 [![Version](https://img.shields.io/cocoapods/v/Tryouts.svg?style=flat)](http://cocoapods.org/pods/Tryouts)
 [![License](https://img.shields.io/cocoapods/l/Tryouts.svg?style=flat)](http://cocoapods.org/pods/Tryouts)
 [![Platform](https://img.shields.io/cocoapods/p/Tryouts.svg?style=flat)](http://cocoapods.org/pods/Tryouts)
@@ -22,7 +22,7 @@ pod "Tryouts"
 
 ## Author
 
-Taylan Pince, taylanpince@gmail.com
+Taylan Pince, taylan@hipolabs.com
 
 ## License
 
