@@ -11,7 +11,9 @@
 
 @interface Tryouts : NSObject
 
-+ (void)initializeWithAPIKey:(NSString *)APIKey
-                      secret:(NSString *)secret;
++ (Tryouts *)sharedManager;
++ (Tryouts *)initializeWithAppIdentifier:(NSString *)appIdentifier
+                                  APIKey:(NSString *)APIKey
+                                  secret:(NSString *)secret;
 
 @end
