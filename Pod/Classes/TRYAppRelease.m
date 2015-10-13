@@ -9,6 +9,9 @@
 #import "TRYAppRelease.h"
 
 
+static NSString * const TRYSystemAppInstallURLScheme = @"itms-services://?action=download-manifest&url=%@";
+
+
 @interface TRYAppRelease ()
 
 - (id)nonNullValueForKey:(NSString *)key
@@ -33,6 +36,7 @@
     
     NSString *downloadLink = [self nonNullValueForKey:@"download_link" fromDictionary:releaseInfo];
     NSString *iconLink = [self nonNullValueForKey:@"icon_thumbnail" fromDictionary:releaseInfo];
+    NSString *installLink = [self nonNullValueForKey:@"public_install_link" fromDictionary:releaseInfo];
     
     if (downloadLink != nil) {
         _downloadURL = [NSURL URLWithString:downloadLink];
@@ -40,6 +44,12 @@
     
     if (iconLink != nil) {
         _iconURL = [NSURL URLWithString:iconLink];
+    }
+    
+    if (installLink != nil) {
+        _installURL = [NSURL URLWithString:[NSString stringWithFormat:
+                                            TRYSystemAppInstallURLScheme,
+                                            installLink]];
     }
     
     NSString *dateInfo = [self nonNullValueForKey:@"date_created" fromDictionary:releaseInfo];

@@ -14,13 +14,14 @@
 static NSString * const TRYAPIVersionCheckURL = @"https://staging.tryouts.io/applications/%@/";
 
 
-@interface Tryouts ()
+@interface Tryouts () <UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSString *appIdentifier;
 @property (nonatomic, strong) NSString *APIKey;
 @property (nonatomic, strong) NSString *APISecret;
 @property (nonatomic, strong) NSString *appVersion;
 @property (nonatomic, strong) NSString *appShortVersion;
+@property (nonatomic, strong) TRYAppRelease *latestRelease;
 
 - (instancetype)initWithAppIdentifier:(NSString *)appIdentifier
                                APIKey:(NSString *)APIKey
@@ -160,6 +161,21 @@ static Tryouts *_sharedManager = nil;
         NSLog(@"SAME RELEASE");
     } else if (result == NSOrderedAscending) {
         NSLog(@"NEW RELEASE (Ascending)");
+        
+        _latestRelease = release;
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            UIAlertView *alertView = [[UIAlertView alloc]
+                                      initWithTitle:NSLocalizedString(@"New Version Found", nil)
+                                      message:[NSString stringWithFormat:
+                                               NSLocalizedString(@"%@ is available as an update.", nil),
+                                               _latestRelease.name]
+                                      delegate:self
+                                      cancelButtonTitle:NSLocalizedString(@"Remind me later", nil)
+                                      otherButtonTitles:NSLocalizedString(@"Update now", nil), nil];
+            
+            [alertView show];
+        });
     } else {
         NSLog(@"NO NEW RELEASE (Descending)");
     }
@@ -175,6 +191,20 @@ static Tryouts *_sharedManager = nil;
     }
     
     return comparison;
+}
+
+#pragma mark - Alert view delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != 1) {
+        return;
+    }
+    
+    if (_latestRelease == nil) {
+        return;
+    }
+    
+    [[UIApplication sharedApplication] openURL:_latestRelease.installURL];
 }
 
 @end

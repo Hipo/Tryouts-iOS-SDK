@@ -17,6 +17,7 @@
 @property (nonatomic, strong, readonly) NSString *binarySize;
 @property (nonatomic, strong, readonly) NSURL *downloadURL;
 @property (nonatomic, strong, readonly) NSURL *iconURL;
+@property (nonatomic, strong, readonly) NSURL *installURL;
 @property (nonatomic, strong, readonly) NSDate *creationDate;
 
 - (instancetype)initWithReleaseInfo:(NSDictionary *)releaseInfo;
