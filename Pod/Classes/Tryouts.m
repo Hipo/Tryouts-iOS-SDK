@@ -11,7 +11,7 @@
 #import "TRYAppRelease.h"
 
 
-static NSString * const TRYAPIVersionCheckURL = @"https://staging.tryouts.io/applications/%@/";
+static NSString * const TRYAPIVersionCheckURL = @"https://tryouts.io/applications/%@/";
 static NSTimeInterval const TRYAPIUpdateCheckInterval = 15.0 * 60.0;
 
 
@@ -88,8 +88,6 @@ static Tryouts *_sharedManager = nil;
                                                              withString:@""];
     }
     
-    NSLog(@"LOCAL VERSION: %@ / LOCAL SHORT VERSION: %@", _appVersion, _appShortVersion);
-    
     [[NSNotificationCenter defaultCenter]
      addObserver:self
      selector:@selector(didReceiveApplicationDidBecomeActiveNotification:)
@@ -109,14 +107,11 @@ static Tryouts *_sharedManager = nil;
 
 - (void)fetchLatestVersion {
     if (_lastUpdateCheckDate != nil && -[_lastUpdateCheckDate timeIntervalSinceNow] < TRYAPIUpdateCheckInterval) {
-        NSLog(@">>> TOO EARLY FOR AN UPDATE CHECK <<< BAIL");
         return;
     }
     
     _lastUpdateCheckDate = [NSDate date];
     
-    NSLog(@">>> CHECK FOR UPDATES");
-
     NSString *requestURL = [NSURL URLWithString:[NSString stringWithFormat:
                                                  TRYAPIVersionCheckURL, _appIdentifier]];
 
@@ -145,19 +140,14 @@ static Tryouts *_sharedManager = nil;
                                                                         options:0
                                                                         error:nil];
                                           
-                                          NSLog(@">>> %@", responseData);
-                                          
                                           NSDictionary *releaseInfo = responseData[@"latest_release"];
                                           
                                           if (response != nil && ![response isEqual:[NSNull null]]) {
                                               [self compareWithRelease:[[TRYAppRelease alloc]
                                                                         initWithReleaseInfo:releaseInfo]];
-                                          } else {
-                                              NSLog(@">>> NO LAST RELEASE FOUND");
                                           }
                                       } else {
                                           _lastUpdateCheckDate = nil;
-                                          NSLog(@"%@ / %@", response, error);
                                       }
                                   }];
     
@@ -167,34 +157,27 @@ static Tryouts *_sharedManager = nil;
 #pragma mark - Comparison
 
 - (void)compareWithRelease:(TRYAppRelease *)release {
-    NSLog(@">>> LATEST RELEASE: %@ - %@ (%@)",
-          release.name, release.appShortVersion, release.appVersion);
-    
     NSComparisonResult result = [self compareWithVersion:release.appShortVersion
                                             buildVersion:release.appVersion];
     
-    if (result == NSOrderedSame) {
-        NSLog(@"SAME RELEASE");
-    } else if (result == NSOrderedAscending) {
-        NSLog(@"NEW RELEASE (Ascending)");
-        
-        _latestRelease = release;
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            UIAlertView *alertView = [[UIAlertView alloc]
-                                      initWithTitle:NSLocalizedString(@"New Version Found", nil)
-                                      message:[NSString stringWithFormat:
-                                               NSLocalizedString(@"%@ is available as an update.", nil),
-                                               _latestRelease.name]
-                                      delegate:self
-                                      cancelButtonTitle:NSLocalizedString(@"Remind me later", nil)
-                                      otherButtonTitles:NSLocalizedString(@"Update now", nil), nil];
-            
-            [alertView show];
-        });
-    } else {
-        NSLog(@"NO NEW RELEASE (Descending)");
+    if (result != NSOrderedAscending) {
+        return;
     }
+
+    _latestRelease = release;
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        UIAlertView *alertView = [[UIAlertView alloc]
+                                  initWithTitle:NSLocalizedString(@"New Version Found", nil)
+                                  message:[NSString stringWithFormat:
+                                           NSLocalizedString(@"%@ is available as an update.", nil),
+                                           _latestRelease.name]
+                                  delegate:self
+                                  cancelButtonTitle:NSLocalizedString(@"Remind me later", nil)
+                                  otherButtonTitles:NSLocalizedString(@"Update now", nil), nil];
+        
+        [alertView show];
+    });
 }
 
 - (NSComparisonResult)compareWithVersion:(NSString *)version
