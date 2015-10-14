@@ -32,6 +32,12 @@ static NSString * const TRYSystemAppInstallURLScheme = @"itms-services://?action
     _name = [self nonNullValueForKey:@"name" fromDictionary:releaseInfo];
     _appVersion = [self nonNullValueForKey:@"cf_bundle_version" fromDictionary:releaseInfo];
     _appShortVersion = [self nonNullValueForKey:@"cf_bundle_short_version_string" fromDictionary:releaseInfo];
+    
+    if ([_appVersion hasPrefix:_appShortVersion]) {
+        _appVersion = [_appVersion stringByReplacingOccurrencesOfString:_appShortVersion
+                                                             withString:@""];
+    }
+    
     _binarySize = [self nonNullValueForKey:@"size" fromDictionary:releaseInfo];
     
     NSString *downloadLink = [self nonNullValueForKey:@"download_link" fromDictionary:releaseInfo];

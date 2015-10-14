@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = "Tryouts"
-    s.version          = "0.1.0"
+    s.version          = "0.1.1"
     s.summary          = "Tryouts SDK for beta distribution, version updates and tester feedback"
     s.description      = <<-DESC
     Tryouts SDK allows you to easily gather feedback from your testers
@@ -18,7 +18,6 @@ Pod::Spec.new do |s|
     DESC
 
     s.homepage         = "https://tryouts.io"
-    s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
     s.license          = 'MIT'
     s.author           = { "Taylan Pince" => "taylan@hipolabs.com" }
     s.source           = { :git => "https://github.com/Hipo/Tryouts-iOS-SDK.git", :tag => s.version.to_s }

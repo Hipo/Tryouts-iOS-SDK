@@ -12,6 +12,7 @@
 
 
 static NSString * const TRYAPIVersionCheckURL = @"https://staging.tryouts.io/applications/%@/";
+static NSTimeInterval const TRYAPIUpdateCheckInterval = 15.0 * 60.0;
 
 
 @interface Tryouts () <UIAlertViewDelegate>
@@ -22,6 +23,7 @@ static NSString * const TRYAPIVersionCheckURL = @"https://staging.tryouts.io/app
 @property (nonatomic, strong) NSString *appVersion;
 @property (nonatomic, strong) NSString *appShortVersion;
 @property (nonatomic, strong) TRYAppRelease *latestRelease;
+@property (nonatomic, strong) NSDate *lastUpdateCheckDate;
 
 - (instancetype)initWithAppIdentifier:(NSString *)appIdentifier
                                APIKey:(NSString *)APIKey
@@ -71,6 +73,7 @@ static Tryouts *_sharedManager = nil;
         return nil;
     }
     
+    _lastUpdateCheckDate = nil;
     _appIdentifier = [appIdentifier copy];
     _APIKey = [APIKey copy];
     _APISecret = [secret copy];
@@ -79,6 +82,11 @@ static Tryouts *_sharedManager = nil;
 
     _appVersion = infoDict[@"CFBundleVersion"];
     _appShortVersion = infoDict[@"CFBundleShortVersionString"];
+    
+    if ([_appVersion hasPrefix:_appShortVersion]) {
+        _appVersion = [_appVersion stringByReplacingOccurrencesOfString:_appShortVersion
+                                                             withString:@""];
+    }
     
     NSLog(@"LOCAL VERSION: %@ / LOCAL SHORT VERSION: %@", _appVersion, _appShortVersion);
     
@@ -100,6 +108,13 @@ static Tryouts *_sharedManager = nil;
 #pragma mark - Fetching
 
 - (void)fetchLatestVersion {
+    if (_lastUpdateCheckDate != nil && -[_lastUpdateCheckDate timeIntervalSinceNow] < TRYAPIUpdateCheckInterval) {
+        NSLog(@">>> TOO EARLY FOR AN UPDATE CHECK <<< BAIL");
+        return;
+    }
+    
+    _lastUpdateCheckDate = [NSDate date];
+    
     NSLog(@">>> CHECK FOR UPDATES");
 
     NSString *requestURL = [NSURL URLWithString:[NSString stringWithFormat:
@@ -141,6 +156,7 @@ static Tryouts *_sharedManager = nil;
                                               NSLog(@">>> NO LAST RELEASE FOUND");
                                           }
                                       } else {
+                                          _lastUpdateCheckDate = nil;
                                           NSLog(@"%@ / %@", response, error);
                                       }
                                   }];
