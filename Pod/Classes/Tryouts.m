@@ -112,8 +112,8 @@ static Tryouts *_sharedManager = nil;
     
     _lastUpdateCheckDate = [NSDate date];
     
-    NSString *requestURL = [NSURL URLWithString:[NSString stringWithFormat:
-                                                 TRYAPIVersionCheckURL, _appIdentifier]];
+    NSURL *requestURL = [NSURL URLWithString:[NSString stringWithFormat:
+                                              TRYAPIVersionCheckURL, _appIdentifier]];
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestURL];
     
