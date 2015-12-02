@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = "Tryouts"
-    s.version          = "0.1.4"
+    s.version          = "0.1.5"
     s.summary          = "Tryouts SDK for beta distribution, version updates and tester feedback"
     s.description      = <<-DESC
     Tryouts SDK allows you to easily gather feedback from your testers
