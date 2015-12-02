@@ -11,7 +11,7 @@
 #import "TRYAppRelease.h"
 
 
-static NSString * const TRYAPIVersionCheckURL = @"https://tryouts.io/applications/%@/";
+static NSString * const TRYAPIVersionCheckURL = @"https://api.tryouts.io/v1/applications/%@/";
 static NSTimeInterval const TRYAPIUpdateCheckInterval = 15.0 * 60.0;
 
 
