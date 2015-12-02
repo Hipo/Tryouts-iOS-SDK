@@ -1,6 +1,5 @@
 # Tryouts
 
-[![CI Status](http://img.shields.io/travis/Hipo/Tryouts-iOS-SDK.svg?style=flat)](https://travis-ci.org/Hipo/Tryouts-iOS-SDK)
 [![Version](https://img.shields.io/cocoapods/v/Tryouts.svg?style=flat)](http://cocoapods.org/pods/Tryouts)
 [![License](https://img.shields.io/cocoapods/l/Tryouts.svg?style=flat)](http://cocoapods.org/pods/Tryouts)
 [![Platform](https://img.shields.io/cocoapods/p/Tryouts.svg?style=flat)](http://cocoapods.org/pods/Tryouts)
@@ -9,7 +8,22 @@
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
-## Requirements
+To set it up for your own app, navigate to the Integrations section on your Tryouts dashboard, and find the following keys:
+
+* App identifier
+* API Key
+* API Secret
+
+In your app delegate's `application:didFinishLaunchingWithOptions:` method, initialize the Tryouts SDK:
+
+```objc
+[Tryouts initializeWithAppIdentifier:@"<App Identifier>"
+                              APIKey:@"<API Key>"
+                              secret:@"<API Secret>"];
+
+```
+
+Tryouts SDK will automatically check for new releases every time the app becomes active and alert users when there is a new version available.
 
 ## Installation
 
