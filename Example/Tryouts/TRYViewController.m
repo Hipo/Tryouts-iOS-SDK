@@ -21,7 +21,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+
+    [self.view setBackgroundColor:[UIColor whiteColor]];
 }
 
 @end
