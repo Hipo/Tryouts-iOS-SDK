@@ -32,8 +32,6 @@
                                         100,
                                         25.0)];
 
-    [feedbackButton.layer setBorderWidth:1.0];
-
     [feedbackButton setTitleColor:[UIColor blueColor]
                          forState:UIControlStateNormal];
 
@@ -53,6 +51,8 @@
 #pragma mark - Actions
 
 - (void)didTapFeedbackButton:(id)sender {
+    [Tryouts presentFeedBackViewControllerFromViewController:self animated:YES];
+    
     NSLog(@"GIVE FEEDBACK");
 }
 

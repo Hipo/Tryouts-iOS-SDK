@@ -9,7 +9,7 @@
 #import "Tryouts.h"
 
 #import "TRYAppRelease.h"
-
+#import "TRYFeedbackViewController.h"
 
 static NSString * const TRYAPIVersionCheckURL = @"https://api.tryouts.io/v1/applications/%@/";
 static NSTimeInterval const TRYAPIUpdateCheckInterval = 15.0 * 60.0;
@@ -204,6 +204,17 @@ static Tryouts *_sharedManager = nil;
     }
     
     [[UIApplication sharedApplication] openURL:_latestRelease.installURL];
+}
+
+#pragma mark - Feedback
+
+
++ (void)presentFeedBackViewControllerFromViewController:(UIViewController *)viewController
+                                               animated:(BOOL)animated {
+
+    TRYFeedbackViewController *controller = [[TRYFeedbackViewController alloc] init];
+
+    [viewController presentViewController:controller animated:animated completion:nil];
 }
 
 @end
