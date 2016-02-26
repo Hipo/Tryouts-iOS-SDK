@@ -9,6 +9,7 @@
 #import <Tryouts/Tryouts.h>
 
 #import "TRYViewController.h"
+#import <Purelayout/Purelayout.h>
 
 
 @interface TRYViewController ()
@@ -46,6 +47,7 @@
              forControlEvents:UIControlEventTouchUpInside];
 
     [self.view addSubview:feedbackButton];
+
 }
 
 #pragma mark - Actions
