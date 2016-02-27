@@ -15,30 +15,54 @@
     [self.view setBackgroundColor:[UIColor whiteColor]];
 
 
-    UIImageView *backgroundView = [UIImageView newAutoLayoutView];
+    UIView *feedbackView = [UIView newAutoLayoutView];
 
-    [backgroundView setImage:[UIImage imageNamed:@"bg-feedback"]];
-    [backgroundView.layer setBorderWidth:1.0];
-    [backgroundView.layer setBorderColor:[UIColor redColor].CGColor];
+    [self.view addSubview:feedbackView];
 
-    [self.view addSubview:backgroundView];
+    [feedbackView autoSetDimension:ALDimensionWidth toSize:300.0];
+    [feedbackView autoSetDimension:ALDimensionHeight toSize:350.0];
+    [feedbackView autoCenterInSuperview];
 
-    [backgroundView autoSetDimension:ALDimensionWidth toSize:180.0];
-    [backgroundView autoSetDimension:ALDimensionHeight toSize:211.0];
-    [backgroundView autoCenterInSuperview];
+
+    UIImageView *backgroundImage = [UIImageView newAutoLayoutView];
+
+    [backgroundImage setImage:[UIImage imageNamed:@"bg-feedback"]];
+
+    [feedbackView addSubview:backgroundImage];
+
+    [backgroundImage autoPinEdgesToSuperviewEdgesWithInsets:UIEdgeInsetsZero];
 
 
     UIImageView *tryoutsIcon = [UIImageView newAutoLayoutView];
 
     [tryoutsIcon setImage:[UIImage imageNamed:@"icon-tryouts"]];
-    [tryoutsIcon.layer setBorderWidth:1.0];
-    [tryoutsIcon.layer setBorderColor:[UIColor greenColor].CGColor];
 
-    [backgroundView addSubview:tryoutsIcon];
+    [feedbackView addSubview:tryoutsIcon];
 
-    [tryoutsIcon autoSetDimension:ALDimensionWidth toSize:50.0];
-    [tryoutsIcon autoSetDimension:ALDimensionHeight toSize:50.0];
-    [tryoutsIcon autoCenterInSuperview];
+    [tryoutsIcon autoSetDimension:ALDimensionWidth toSize:80.0];
+    [tryoutsIcon autoSetDimension:ALDimensionHeight toSize:80.0];
+    [tryoutsIcon autoAlignAxisToSuperviewAxis:ALAxisVertical];
+    [tryoutsIcon autoPinEdgeToSuperviewEdge:ALEdgeTop withInset:-40.0];
+
+
+    UITextField *usernameField = [UITextField newAutoLayoutView];
+
+
+    usernameField.placeholder = NSLocalizedString(@"Enter your username", nil);
+    usernameField.textAlignment = NSTextAlignmentCenter;
+    usernameField.layer.masksToBounds = YES;
+    usernameField.layer.cornerRadius = 10.0;
+    usernameField.layer.borderWidth = 1.0;
+    usernameField.layer.borderColor = [UIColor colorWithRed:38.0
+                                                      green:171
+                                                       blue:188
+                                                      alpha:1.0].CGColor;
+
+    [feedbackView addSubview:usernameField];
+
+    [usernameField autoPinEdge:ALEdgeTop toEdge:ALEdgeBottom ofView:tryoutsIcon];
+    [usernameField autoPinEdgeToSuperviewEdge:ALEdgeLeading withInset:40.0];
+    [usernameField autoPinEdgeToSuperviewEdge:ALEdgeTrailing withInset:40.0];
 }
 
 @end
