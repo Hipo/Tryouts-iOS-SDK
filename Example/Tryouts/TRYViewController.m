@@ -9,7 +9,7 @@
 #import <Tryouts/Tryouts.h>
 
 #import "TRYViewController.h"
-
+#import <PureLayout/PureLayout.h>
 
 @interface TRYViewController ()
 
@@ -21,10 +21,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-
-    self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
-    [self.view setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.view setBackgroundColor:[UIColor whiteColor]];
 
 
@@ -46,29 +42,13 @@
 
     [self.view addSubview:feedbackButton];
 
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:feedbackButton
-                                                          attribute:NSLayoutAttributeCenterX
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeCenterX
-                                                         multiplier:1.0
-                                                           constant:0.0]];
-
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:feedbackButton
-                                                          attribute:NSLayoutAttributeCenterY
-                                                          relatedBy:NSLayoutRelationEqual
-                                                             toItem:self.view
-                                                          attribute:NSLayoutAttributeCenterY
-                                                         multiplier:1.0
-                                                           constant:0.0]];
+    [feedbackButton autoCenterInSuperview];
 }
 
 #pragma mark - Actions
 
 - (void)didTapFeedbackButton:(id)sender {
     [Tryouts presentFeedBackViewControllerFromViewController:self animated:YES];
-    
-    NSLog(@"GIVE FEEDBACK");
 }
 
 @end
