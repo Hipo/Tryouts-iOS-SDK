@@ -20,18 +20,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
+
     self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
+    [self.view setTranslatesAutoresizingMaskIntoConstraints:NO];
     [self.view setBackgroundColor:[UIColor whiteColor]];
+
 
     UIButton *feedbackButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
-    [feedbackButton setFrame:CGRectMake((self.view.bounds.size.width / 2) - 50,
-                                        self.view.bounds.size.height / 2,
-                                        100,
-                                        25.0)];
-
+    [feedbackButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     [feedbackButton setTitleColor:[UIColor blueColor]
                          forState:UIControlStateNormal];
 
@@ -46,6 +45,22 @@
              forControlEvents:UIControlEventTouchUpInside];
 
     [self.view addSubview:feedbackButton];
+
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:feedbackButton
+                                                          attribute:NSLayoutAttributeCenterX
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeCenterX
+                                                         multiplier:1.0
+                                                           constant:0.0]];
+
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:feedbackButton
+                                                          attribute:NSLayoutAttributeCenterY
+                                                          relatedBy:NSLayoutRelationEqual
+                                                             toItem:self.view
+                                                          attribute:NSLayoutAttributeCenterY
+                                                         multiplier:1.0
+                                                           constant:0.0]];
 }
 
 #pragma mark - Actions
