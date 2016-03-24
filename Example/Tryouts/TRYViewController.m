@@ -9,8 +9,6 @@
 #import <Tryouts/Tryouts.h>
 
 #import "TRYViewController.h"
-#import <Purelayout/Purelayout.h>
-
 
 @interface TRYViewController ()
 
@@ -22,10 +20,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-
     [self.view setBackgroundColor:[UIColor whiteColor]];
 
+    
     UIButton *feedbackButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
     [feedbackButton setFrame:CGRectMake((self.view.bounds.size.width / 2) - 50,
@@ -47,13 +44,13 @@
              forControlEvents:UIControlEventTouchUpInside];
 
     [self.view addSubview:feedbackButton];
-
 }
 
 #pragma mark - Actions
 
 - (void)didTapFeedbackButton:(id)sender {
-    [Tryouts presentFeedBackViewControllerFromViewController:self animated:YES];
+    [Tryouts presentFeedBackViewControllerFromViewController:self
+                                                    animated:YES];
     
     NSLog(@"GIVE FEEDBACK");
 }

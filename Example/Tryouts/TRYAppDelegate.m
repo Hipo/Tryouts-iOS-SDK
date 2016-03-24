@@ -22,7 +22,10 @@
 
     UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-    [window setRootViewController:[[TRYViewController alloc] init]];
+    UINavigationController *navController = [[UINavigationController alloc]
+                                             initWithRootViewController:[[TRYViewController alloc] init]];
+
+    [window setRootViewController:navController];
     [window makeKeyAndVisible];
 
     [self setWindow:window];
