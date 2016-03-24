@@ -19,7 +19,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self.view setBackgroundColor:[UIColor whiteColor]];
 
     
@@ -50,9 +50,7 @@
 
 - (void)didTapFeedbackButton:(id)sender {
     [Tryouts presentFeedBackViewControllerFromViewController:self
-                                                    animated:YES];
-    
-    NSLog(@"GIVE FEEDBACK");
+                                                    animated:YES];    
 }
 
 @end
