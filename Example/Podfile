@@ -5,8 +5,6 @@ inhibit_all_warnings!
 
 target 'Tryouts_Example' do
   pod "Tryouts", :path => "../"
-
-  pod 'PureLayout'
 end
 
 target 'Tryouts_Tests' do
@@ -14,5 +12,4 @@ target 'Tryouts_Tests' do
 
   pod 'Specta'
   pod 'Expecta'
-  pod 'PureLayout'
 end

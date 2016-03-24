@@ -7,7 +7,6 @@ PODS:
 
 DEPENDENCIES:
   - Expecta
-  - PureLayout
   - Specta
   - Tryouts (from `../`)
 
@@ -19,8 +18,8 @@ SPEC CHECKSUMS:
   Expecta: 9d1bff6c8b0eeee73a166a2ee898892478927a15
   PureLayout: f35f5384c9c4e4479df041dbe33ad7577b71ddfb
   Specta: 69bb134672aae190a1379ff91df07dad8dd1f869
-  Tryouts: 25cb8c2d198ebe8dd86a89c73cd49e6c2ba5ec8d
+  Tryouts: df55112a1434651ffae014dad18b0d039513a391
 
-PODFILE CHECKSUM: d49549374c9271304750cadf0bfd2cdc03c29655
+PODFILE CHECKSUM: 7b4316ea12b888d5d6eea6234a59f4ec45683dcb
 
 COCOAPODS: 1.0.0.beta.4
