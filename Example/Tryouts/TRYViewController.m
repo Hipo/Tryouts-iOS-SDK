@@ -9,8 +9,9 @@
 #import <Tryouts/Tryouts.h>
 
 #import "TRYViewController.h"
+#import <Tryouts/TRYFeedbackViewController.h>
 
-@interface TRYViewController ()
+@interface TRYViewController () <TRYFeedbackViewControllerDelegate>
 
 @end
 
@@ -50,7 +51,13 @@
 
 - (void)didTapFeedbackButton:(id)sender {
     [Tryouts presentFeedBackViewControllerFromViewController:self
-                                                    animated:YES];    
+                                                    animated:YES];
+}
+
+#pragma mark - Feedback view controller delegate 
+
+- (void)feedbackViewControllerDismissed:(TRYFeedbackViewController *)feedbackViewController {
+    NSLog(@"FEEDBACK VIEW CONTROLLER DISMISSED");
 }
 
 @end

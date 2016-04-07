@@ -214,7 +214,11 @@ static Tryouts *_sharedManager = nil;
 
     TRYFeedbackViewController *controller = [[TRYFeedbackViewController alloc] init];
 
+    controller.delegate = viewController;
+
     [viewController presentViewController:controller animated:animated completion:nil];
 }
+
+
 
 @end

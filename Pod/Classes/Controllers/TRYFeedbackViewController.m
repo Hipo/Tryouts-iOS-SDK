@@ -22,43 +22,50 @@
                                      initWithTarget:self
                                              action:@selector(didTapBackground:)]];
 
+    [self configureView];
+}
 
-    TRYFeedbackOverlayView *feedBackOverlayView = [TRYFeedbackOverlayView new];
+#pragma mark - Layout
 
-    feedBackOverlayView.translatesAutoresizingMaskIntoConstraints = NO;
+- (void)configureView {
+    TRYFeedbackOverlayView *feedBackOverlayView = [[TRYFeedbackOverlayView alloc]
+                                                   initWithFrame:self.view.bounds];
     feedBackOverlayView.delegate = self;
 
-    NSMutableDictionary *views = [[NSMutableDictionary alloc]
-                                  initWithDictionary:@{ @"feedBackView":feedBackOverlayView }];
-
+//    feedBackOverlayView.translatesAutoresizingMaskIntoConstraints = NO;
+//
+//
+//    NSMutableDictionary *views = [[NSMutableDictionary alloc]
+//                                  initWithDictionary:@{ @"feedBackView":feedBackOverlayView }];
+//
     [self.view addSubview:feedBackOverlayView];
-
-
-    NSArray *horizontalConstraints = [NSLayoutConstraint
-                                      constraintsWithVisualFormat:@"H:|-[feedBackView]-|"
-                                                          options:NSLayoutFormatAlignAllTop
-                                                          metrics:nil
-                                                            views:views];
-
-    NSArray *verticalConstraints = [NSLayoutConstraint
-                                    constraintsWithVisualFormat:@"V:|-50-[feedBackView]-50-|"
-                                                        options:NSLayoutFormatAlignAllTop
-                                                        metrics:nil
-                                                          views:views];
-
-    [NSLayoutConstraint activateConstraints:horizontalConstraints];
-    [NSLayoutConstraint activateConstraints:verticalConstraints];
-
-    [feedBackOverlayView.layer setBackgroundColor:[UIColor blueColor].CGColor];
-    [feedBackOverlayView.superview.layer setBackgroundColor:[UIColor redColor].CGColor];
+//
+//    NSArray *horizontalConstraints = [NSLayoutConstraint
+//                                      constraintsWithVisualFormat:@"H:|-[feedBackView]-|"
+//                                      options:NSLayoutFormatAlignAllTop
+//                                      metrics:nil
+//                                      views:views];
+//
+//    NSArray *verticalConstraints = [NSLayoutConstraint
+//                                    constraintsWithVisualFormat:@"V:|-50-[feedBackView]-50-|"
+//                                    options:NSLayoutFormatAlignAllTop
+//                                    metrics:nil
+//                                    views:views];
+//
+//    [NSLayoutConstraint activateConstraints:horizontalConstraints];
+//    [NSLayoutConstraint activateConstraints:verticalConstraints];
 }
+
+#pragma mark - Actions
 
 - (void)didTapBackground:(id)sender {
 
 }
 
 - (void)feedbackOverlayViewDidTapCloseButton:(TRYFeedbackOverlayView *)feedbackOverlayView {
-    NSLog(@"CLOSE TAPPED");
+    [self dismissViewControllerAnimated:YES completion:^{
+        [_delegate feedbackViewControllerDismissed:self];
+    }];
 }
 
 @end

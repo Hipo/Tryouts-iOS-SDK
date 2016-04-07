@@ -8,6 +8,14 @@
 
 #import "TRYFeedbackOverlayView.h"
 
+@interface TRYFeedbackOverlayView()
+
+@property (nonatomic, strong) UIView *shieldView;
+@property (nonatomic, strong) UIView *panelView;
+@property (nonatomic, strong) NSLayoutConstraint *panelViewConstraint;
+
+@end
+
 @implementation TRYFeedbackOverlayView
 
 #pragma mark - Init
@@ -25,8 +33,38 @@
 #pragma mark - Layout
 
 - (void)configureLayout {
-    self.backgroundColor = [UIColor whiteColor];
+    //        [self setAlpha:0.0];
+    //        [self setHidden:YES];
+    [self setBackgroundColor:[UIColor clearColor]];
+    [self setAutoresizingMask:(UIViewAutoresizingFlexibleWidth |
+                               UIViewAutoresizingFlexibleHeight)];
 
+    _shieldView = [UIView new];
+
+    [_shieldView setBackgroundColor:[[UIColor blackColor] colorWithAlphaComponent:0.7]];
+
+    [_shieldView addGestureRecognizer:[[UITapGestureRecognizer alloc]
+                                       initWithTarget:self
+                                       action:@selector(didTriggerShieldTapRecognizer:)]];
+    [self addSubview:_shieldView];
+
+
+
+
+    _panelView = [UIView new];
+
+    [_panelView setBackgroundColor:[UIColor whiteColor]];
+    [_panelView.layer setCornerRadius:4.0];
+    [_panelView.layer setMasksToBounds:YES];
+
+    [self addSubview:_panelView];
+
+    [self.layer setBorderWidth:1.0];
+
+    [self configureCloseButton];
+}
+
+- (void)configureCloseButton {
     UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
     [closeButton setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -51,7 +89,7 @@
 
     NSArray *verticalConstraints = [NSLayoutConstraint
                                     constraintsWithVisualFormat:@"V:|-10-[closeButton]"
-                                    options:NSLayoutFormatAlignAllTop
+                                    options:NSLayoutFormatAlignAllRight
                                     metrics:nil
                                     views:views];
 
@@ -63,6 +101,10 @@
 
 - (void)didTapCloseButton:(id)sender {
     [_delegate feedbackOverlayViewDidTapCloseButton:self];
+}
+
+- (void)didTriggerShieldTapRecognizer:(UITapGestureRecognizer *)tapRecognizer {
+
 }
 
 @end
