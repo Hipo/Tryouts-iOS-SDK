@@ -28,6 +28,9 @@
 #pragma mark - Layout
 
 - (void)configureView {
+    self.view.backgroundColor = [UIColor clearColor];
+    
+
     TRYFeedbackOverlayView *feedBackOverlayView = [[TRYFeedbackOverlayView alloc]
                                                    initWithFrame:self.view.bounds];
     feedBackOverlayView.delegate = self;
