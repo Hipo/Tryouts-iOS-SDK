@@ -35,28 +35,7 @@
                                                    initWithFrame:self.view.bounds];
     feedBackOverlayView.delegate = self;
 
-//    feedBackOverlayView.translatesAutoresizingMaskIntoConstraints = NO;
-//
-//
-//    NSMutableDictionary *views = [[NSMutableDictionary alloc]
-//                                  initWithDictionary:@{ @"feedBackView":feedBackOverlayView }];
-//
     [self.view addSubview:feedBackOverlayView];
-//
-//    NSArray *horizontalConstraints = [NSLayoutConstraint
-//                                      constraintsWithVisualFormat:@"H:|-[feedBackView]-|"
-//                                      options:NSLayoutFormatAlignAllTop
-//                                      metrics:nil
-//                                      views:views];
-//
-//    NSArray *verticalConstraints = [NSLayoutConstraint
-//                                    constraintsWithVisualFormat:@"V:|-50-[feedBackView]-50-|"
-//                                    options:NSLayoutFormatAlignAllTop
-//                                    metrics:nil
-//                                    views:views];
-//
-//    [NSLayoutConstraint activateConstraints:horizontalConstraints];
-//    [NSLayoutConstraint activateConstraints:verticalConstraints];
 }
 
 #pragma mark - Actions
