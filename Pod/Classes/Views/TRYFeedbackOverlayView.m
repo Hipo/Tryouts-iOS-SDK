@@ -54,20 +54,36 @@
                                                         @"panelView"   : _panelView,
                                                         @"closeButton" : closeButton }];
 
+    NSArray *shieldViewHorizontalConstraints = [self constraintsWithFormatString:@"H:|-(-10)-[shieldView]-(-10)-|"
+                                                                        andViews:views];
+
+    NSArray *shieldViewVerticalConstraints = [self constraintsWithFormatString:@"V:|-(-10)-[shieldView]-(-10)-|"
+                                                                        andViews:views];
+
+    NSArray *panelViewHorizontalConstraints = [self constraintsWithFormatString:@"H:|-20-[panelView]-20-|"
+                                                                        andViews:views];
+
+    NSArray *panelViewVerticalConstraints = [self constraintsWithFormatString:@"V:|-20-[panelView]-20-|"
+                                                                      andViews:views];
+
     NSArray *closeButtonHorizontalConstraints = [self constraintsWithFormatString:@"H:[closeButton]-10-|"
                                                                          andViews:views];
 
     NSArray *closeButtonVerticalConstraints = [self constraintsWithFormatString:@"V:|-10-[closeButton]"
                                                                        andViews:views];
 
+    [NSLayoutConstraint activateConstraints:panelViewHorizontalConstraints];
+    [NSLayoutConstraint activateConstraints:panelViewVerticalConstraints];
+    [NSLayoutConstraint activateConstraints:shieldViewHorizontalConstraints];
+    [NSLayoutConstraint activateConstraints:shieldViewVerticalConstraints];
     [NSLayoutConstraint activateConstraints:closeButtonHorizontalConstraints];
     [NSLayoutConstraint activateConstraints:closeButtonVerticalConstraints];
-
-    [self.layer setBorderWidth:1.0];
 }
 
 - (void)configureShieldView {
     _shieldView = [UIView new];
+
+    _shieldView.translatesAutoresizingMaskIntoConstraints = NO;
 
     [_shieldView setBackgroundColor:[[UIColor blackColor] colorWithAlphaComponent:0.7]];
 
@@ -75,10 +91,14 @@
                                        initWithTarget:self
                                        action:@selector(didTriggerShieldTapRecognizer:)]];
     [self addSubview:_shieldView];
+
+    [_shieldView.layer setBorderWidth:1.0];
 }
 
 - (void)configurePanelView {
     _panelView = [UIView new];
+
+    _panelView.translatesAutoresizingMaskIntoConstraints = NO;
 
     [_panelView setBackgroundColor:[UIColor whiteColor]];
     [_panelView.layer setCornerRadius:4.0];
@@ -90,7 +110,7 @@
 - (UIButton *)configureCloseButton {
     UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
-    [closeButton setTranslatesAutoresizingMaskIntoConstraints:NO];
+    closeButton.translatesAutoresizingMaskIntoConstraints = NO;
 
     [closeButton setImage:[UIImage imageNamed:@"bt-close"]
                  forState:UIControlStateNormal];
@@ -99,7 +119,7 @@
                     action:@selector(didTapCloseButton:)
           forControlEvents:UIControlEventTouchUpInside];
 
-    [self addSubview:closeButton];
+    [_panelView addSubview:closeButton];
 
     return closeButton;
 }

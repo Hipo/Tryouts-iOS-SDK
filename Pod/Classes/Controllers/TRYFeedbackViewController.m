@@ -29,7 +29,7 @@
 
 - (void)configureView {
     self.view.backgroundColor = [UIColor clearColor];
-    
+
 
     TRYFeedbackOverlayView *feedBackOverlayView = [[TRYFeedbackOverlayView alloc]
                                                    initWithFrame:self.view.bounds];
