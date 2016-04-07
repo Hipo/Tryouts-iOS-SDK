@@ -39,6 +39,34 @@
     [self setAutoresizingMask:(UIViewAutoresizingFlexibleWidth |
                                UIViewAutoresizingFlexibleHeight)];
 
+    // Shield view
+    [self configureShieldView];
+
+    // Panel view
+    [self configurePanelView];
+
+    // Close button
+    UIButton *closeButton = [self configureCloseButton];
+
+    // Auto layout constraints
+    NSMutableDictionary *views = [[NSMutableDictionary alloc]
+                                  initWithDictionary:@{ @"shieldView"  : _shieldView,
+                                                        @"panelView"   : _panelView,
+                                                        @"closeButton" : closeButton }];
+
+    NSArray *closeButtonHorizontalConstraints = [self constraintsWithFormatString:@"H:[closeButton]-10-|"
+                                                                         andViews:views];
+
+    NSArray *closeButtonVerticalConstraints = [self constraintsWithFormatString:@"V:|-10-[closeButton]"
+                                                                       andViews:views];
+
+    [NSLayoutConstraint activateConstraints:closeButtonHorizontalConstraints];
+    [NSLayoutConstraint activateConstraints:closeButtonVerticalConstraints];
+
+    [self.layer setBorderWidth:1.0];
+}
+
+- (void)configureShieldView {
     _shieldView = [UIView new];
 
     [_shieldView setBackgroundColor:[[UIColor blackColor] colorWithAlphaComponent:0.7]];
@@ -47,10 +75,9 @@
                                        initWithTarget:self
                                        action:@selector(didTriggerShieldTapRecognizer:)]];
     [self addSubview:_shieldView];
+}
 
-
-
-
+- (void)configurePanelView {
     _panelView = [UIView new];
 
     [_panelView setBackgroundColor:[UIColor whiteColor]];
@@ -58,13 +85,9 @@
     [_panelView.layer setMasksToBounds:YES];
 
     [self addSubview:_panelView];
-
-    [self.layer setBorderWidth:1.0];
-
-    [self configureCloseButton];
 }
 
-- (void)configureCloseButton {
+- (UIButton *)configureCloseButton {
     UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
     [closeButton setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -76,25 +99,9 @@
                     action:@selector(didTapCloseButton:)
           forControlEvents:UIControlEventTouchUpInside];
 
-    NSMutableDictionary *views = [[NSMutableDictionary alloc]
-                                  initWithDictionary:@{ @"closeButton":closeButton }];
-
     [self addSubview:closeButton];
 
-    NSArray *horizontalConstraints = [NSLayoutConstraint
-                                      constraintsWithVisualFormat:@"H:[closeButton]-10-|"
-                                      options:NSLayoutFormatAlignAllTop
-                                      metrics:nil
-                                      views:views];
-
-    NSArray *verticalConstraints = [NSLayoutConstraint
-                                    constraintsWithVisualFormat:@"V:|-10-[closeButton]"
-                                    options:NSLayoutFormatAlignAllRight
-                                    metrics:nil
-                                    views:views];
-
-    [NSLayoutConstraint activateConstraints:horizontalConstraints];
-    [NSLayoutConstraint activateConstraints:verticalConstraints];
+    return closeButton;
 }
 
 #pragma mark - Actions
@@ -105,6 +112,17 @@
 
 - (void)didTriggerShieldTapRecognizer:(UITapGestureRecognizer *)tapRecognizer {
 
+}
+
+#pragma mark - Helper Methods
+
+- (NSArray *)constraintsWithFormatString:(NSString *)formatString
+                                andViews:(NSArray *)views {
+
+    return [NSLayoutConstraint constraintsWithVisualFormat:formatString
+                                                   options:NSLayoutFormatAlignAllTop
+                                                   metrics:nil
+                                                     views:views];
 }
 
 @end
