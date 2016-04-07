@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol TRYFeedbackOverlayViewDelegate;
+
+
 @interface TRYFeedbackOverlayView : UIView
+
+@property (nonatomic, weak) id<TRYFeedbackOverlayViewDelegate> delegate;
+
+@end
+
+
+@protocol TRYFeedbackOverlayViewDelegate <NSObject>
+@required
+- (void)feedbackOverlayViewDidTapCloseButton:(TRYFeedbackOverlayView *)feedbackOverlayView;
 
 @end

@@ -9,6 +9,10 @@
 #import "TRYFeedbackViewController.h"
 #import "TRYFeedbackOverlayView.h"
 
+@interface TRYFeedbackOverlayView () <TRYFeedbackOverlayViewDelegate>
+
+@end
+
 @implementation TRYFeedbackViewController
 
 - (void)viewDidLoad {
@@ -22,6 +26,7 @@
     TRYFeedbackOverlayView *feedBackOverlayView = [TRYFeedbackOverlayView new];
 
     feedBackOverlayView.translatesAutoresizingMaskIntoConstraints = NO;
+    feedBackOverlayView.delegate = self;
 
     NSMutableDictionary *views = [[NSMutableDictionary alloc]
                                   initWithDictionary:@{ @"feedBackView":feedBackOverlayView }];
@@ -50,6 +55,10 @@
 
 - (void)didTapBackground:(id)sender {
 
+}
+
+- (void)feedbackOverlayViewDidTapCloseButton:(TRYFeedbackOverlayView *)feedbackOverlayView {
+    NSLog(@"CLOSE TAPPED");
 }
 
 @end

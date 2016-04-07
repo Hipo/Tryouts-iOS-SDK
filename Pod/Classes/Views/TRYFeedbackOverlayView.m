@@ -62,7 +62,7 @@
 #pragma mark - Actions
 
 - (void)didTapCloseButton:(id)sender {
-    NSLog(@"TAPPED");
+    [_delegate feedbackOverlayViewDidTapCloseButton:self];
 }
 
 @end
