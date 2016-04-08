@@ -58,13 +58,13 @@
                                                                         andViews:views];
 
     NSArray *shieldViewVerticalConstraints = [self constraintsWithFormatString:@"V:|-(-10)-[shieldView]-(-10)-|"
-                                                                        andViews:views];
-
-    NSArray *panelViewHorizontalConstraints = [self constraintsWithFormatString:@"H:|-20-[panelView]-20-|"
-                                                                        andViews:views];
-
-    NSArray *panelViewVerticalConstraints = [self constraintsWithFormatString:@"V:|-20-[panelView]-20-|"
                                                                       andViews:views];
+
+    NSArray *panelViewHorizontalConstraints = [self constraintsWithFormatString:@"H:[panelView(300)]"
+                                                                       andViews:views];
+
+    NSArray *panelViewVerticalConstraints = [self constraintsWithFormatString:@"V:[panelView(350)]"
+                                                                     andViews:views];
 
     NSArray *closeButtonHorizontalConstraints = [self constraintsWithFormatString:@"H:[closeButton]-10-|"
                                                                          andViews:views];
@@ -78,6 +78,28 @@
     [NSLayoutConstraint activateConstraints:shieldViewVerticalConstraints];
     [NSLayoutConstraint activateConstraints:closeButtonHorizontalConstraints];
     [NSLayoutConstraint activateConstraints:closeButtonVerticalConstraints];
+
+
+    NSLayoutConstraint *panelViewCenterHorizontallyConstraint = [NSLayoutConstraint
+                                                                 constraintWithItem:_panelView
+                                                                 attribute:NSLayoutAttributeCenterX
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                 toItem:_panelView.superview
+                                                                 attribute:NSLayoutAttributeCenterX
+                                                                 multiplier:1
+                                                                 constant:0];
+
+    NSLayoutConstraint *panelViewCenterVerticallyConstraint = [NSLayoutConstraint
+                                                               constraintWithItem:_panelView
+                                                               attribute:NSLayoutAttributeCenterY
+                                                               relatedBy:NSLayoutRelationEqual
+                                                               toItem:_panelView.superview
+                                                               attribute:NSLayoutAttributeCenterY
+                                                               multiplier:1
+                                                               constant:0];
+
+    [NSLayoutConstraint activateConstraints:@[panelViewCenterHorizontallyConstraint,
+                                              panelViewCenterVerticallyConstraint]];
 }
 
 - (void)configureShieldView {
