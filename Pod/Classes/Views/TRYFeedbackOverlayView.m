@@ -107,14 +107,12 @@
 
     _shieldView.translatesAutoresizingMaskIntoConstraints = NO;
 
-    [_shieldView setBackgroundColor:[[UIColor blackColor] colorWithAlphaComponent:0.7]];
+    [_shieldView setBackgroundColor:[UIColor clearColor]];
 
     [_shieldView addGestureRecognizer:[[UITapGestureRecognizer alloc]
                                        initWithTarget:self
                                        action:@selector(didTriggerShieldTapRecognizer:)]];
     [self addSubview:_shieldView];
-
-    [_shieldView.layer setBorderWidth:1.0];
 }
 
 - (void)configurePanelView {
