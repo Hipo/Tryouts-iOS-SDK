@@ -11,7 +11,7 @@
 @interface TRYFeedbackOverlayView()
 
 @property (nonatomic, strong) UIView *shieldView;
-@property (nonatomic, strong) UIView *panelView;
+@property (nonatomic, strong) UIImageView *panelView;
 @property (nonatomic, strong) NSLayoutConstraint *panelViewConstraint;
 
 @end
@@ -66,10 +66,10 @@
     NSArray *panelViewVerticalConstraints = [self constraintsWithFormatString:@"V:[panelView(350)]"
                                                                      andViews:views];
 
-    NSArray *closeButtonHorizontalConstraints = [self constraintsWithFormatString:@"H:[closeButton]-10-|"
+    NSArray *closeButtonHorizontalConstraints = [self constraintsWithFormatString:@"H:[closeButton(15)]-15-|"
                                                                          andViews:views];
 
-    NSArray *closeButtonVerticalConstraints = [self constraintsWithFormatString:@"V:|-10-[closeButton]"
+    NSArray *closeButtonVerticalConstraints = [self constraintsWithFormatString:@"V:|-10-[closeButton(15)]"
                                                                        andViews:views];
 
     [NSLayoutConstraint activateConstraints:panelViewHorizontalConstraints];
@@ -116,13 +116,13 @@
 }
 
 - (void)configurePanelView {
-    _panelView = [UIView new];
+    _panelView = [UIImageView new];
 
     _panelView.translatesAutoresizingMaskIntoConstraints = NO;
 
-    [_panelView setBackgroundColor:[UIColor whiteColor]];
-    [_panelView.layer setCornerRadius:4.0];
-    [_panelView.layer setMasksToBounds:YES];
+    [_panelView setImage:[[UIImage imageNamed:@"bg-feedback"]
+                          resizableImageWithCapInsets:UIEdgeInsetsMake(10.0, 15.0, 20.0, 15.0)
+                          resizingMode:UIImageResizingModeStretch]];
 
     [self addSubview:_panelView];
 }
@@ -140,6 +140,8 @@
           forControlEvents:UIControlEventTouchUpInside];
 
     [_panelView addSubview:closeButton];
+
+    [closeButton.layer setBorderWidth:1.0];
 
     return closeButton;
 }

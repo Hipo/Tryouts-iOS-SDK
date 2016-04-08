@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    [self.view setBackgroundColor:[UIColor redColor]];
+    [self.view setBackgroundColor:[UIColor whiteColor]];
 
     
     UIButton *feedbackButton = [UIButton buttonWithType:UIButtonTypeCustom];
