@@ -54,12 +54,14 @@
                                                         @"panelView"   : _panelView,
                                                         @"closeButton" : closeButton }];
 
+    // Auto layout constraints - Shield view
     NSArray *shieldViewHorizontalConstraints = [self constraintsWithFormatString:@"H:|-(-10)-[shieldView]-(-10)-|"
                                                                         andViews:views];
 
     NSArray *shieldViewVerticalConstraints = [self constraintsWithFormatString:@"V:|-(-10)-[shieldView]-(-10)-|"
                                                                       andViews:views];
 
+    // Auto layout constraints - Panel view
     NSArray *panelViewHorizontalConstraints = [self constraintsWithFormatString:@"H:[panelView(300)]"
                                                                        andViews:views];
 
@@ -84,19 +86,21 @@
                                                                multiplier:1.0
                                                                constant:20.0];
 
+
+    // Auto layout constraints - Close button
     NSArray *closeButtonHorizontalConstraints = [self constraintsWithFormatString:@"H:[closeButton(20)]-15-|"
                                                                          andViews:views];
 
     NSArray *closeButtonVerticalConstraints = [self constraintsWithFormatString:@"V:|-10-[closeButton(20)]"
                                                                        andViews:views];
 
+    // Activating constraints
     [NSLayoutConstraint activateConstraints:panelViewHorizontalConstraints];
     [NSLayoutConstraint activateConstraints:panelViewVerticalConstraints];
     [NSLayoutConstraint activateConstraints:shieldViewHorizontalConstraints];
     [NSLayoutConstraint activateConstraints:shieldViewVerticalConstraints];
     [NSLayoutConstraint activateConstraints:closeButtonHorizontalConstraints];
     [NSLayoutConstraint activateConstraints:closeButtonVerticalConstraints];
-
     [NSLayoutConstraint activateConstraints:@[panelViewCenterHorizontallyConstraint,
                                               panelViewCenterVerticallyConstraint]];
 }
