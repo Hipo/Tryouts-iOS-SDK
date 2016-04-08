@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) UIView *shieldView;
 @property (nonatomic, strong) UIImageView *panelView;
+@property (nonatomic, strong) UIImageView *usernameBackgroundView;
 @property (nonatomic, strong) NSLayoutConstraint *panelViewConstraint;
 
 @end
@@ -48,11 +49,19 @@
     // Close button
     UIButton *closeButton = [self configureCloseButton];
 
+    // Username field
+    [self configureUsernameBackgroundView];
+
+    UITextField *usernameField = [self configureUsernameField];
+
+
     // Auto layout constraints
     NSMutableDictionary *views = [[NSMutableDictionary alloc]
-                                  initWithDictionary:@{ @"shieldView"  : _shieldView,
-                                                        @"panelView"   : _panelView,
-                                                        @"closeButton" : closeButton }];
+                                  initWithDictionary:@{ @"shieldView"         : _shieldView,
+                                                        @"panelView"          : _panelView,
+                                                        @"closeButton"        : closeButton,
+                                                        @"usernameBackground" : _usernameBackgroundView,
+                                                        @"usernameField"      : usernameField }];
 
     // Auto layout constraints - Shield view
     NSArray *shieldViewHorizontalConstraints = [self constraintsWithFormatString:@"H:|-(-10)-[shieldView]-(-10)-|"
@@ -70,21 +79,21 @@
 
     NSLayoutConstraint *panelViewCenterHorizontallyConstraint = [NSLayoutConstraint
                                                                  constraintWithItem:_panelView
-                                                                 attribute:NSLayoutAttributeCenterX
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                 toItem:_panelView.superview
-                                                                 attribute:NSLayoutAttributeCenterX
-                                                                 multiplier:1.0
-                                                                 constant:0.0];
+                                                                          attribute:NSLayoutAttributeCenterX
+                                                                          relatedBy:NSLayoutRelationEqual
+                                                                             toItem:_panelView.superview
+                                                                          attribute:NSLayoutAttributeCenterX
+                                                                         multiplier:1.0
+                                                                           constant:0.0];
 
     NSLayoutConstraint *panelViewCenterVerticallyConstraint = [NSLayoutConstraint
                                                                constraintWithItem:_panelView
-                                                               attribute:NSLayoutAttributeCenterY
-                                                               relatedBy:NSLayoutRelationEqual
-                                                               toItem:_panelView.superview
-                                                               attribute:NSLayoutAttributeCenterY
-                                                               multiplier:1.0
-                                                               constant:20.0];
+                                                                        attribute:NSLayoutAttributeCenterY
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:_panelView.superview
+                                                                        attribute:NSLayoutAttributeCenterY
+                                                                       multiplier:1.0
+                                                                         constant:20.0];
 
 
     // Auto layout constraints - Close button
@@ -93,6 +102,21 @@
 
     NSArray *closeButtonVerticalConstraints = [self constraintsWithFormatString:@"V:|-10-[closeButton(20)]"
                                                                        andViews:views];
+
+    // Auto layout constraints - Username field
+    NSArray *usernameBackgroundHorizontalConstraints = [self constraintsWithFormatString:@"H:|-35-[usernameBackground]-35-|"
+                                                                                andViews:views];
+
+    NSArray *usernameBackgroundVerticalConstraints = [self constraintsWithFormatString:@"V:|-40-[usernameBackground]"
+                                                                              andViews:views];
+
+
+    // Auto layout constraints - Username field
+    NSArray *usernameFieldHorizontalConstraints = [self constraintsWithFormatString:@"H:|-5-[usernameField]-5-|"
+                                                                           andViews:views];
+
+    NSArray *usernameFieldVerticalConstraints = [self constraintsWithFormatString:@"V:|-5-[usernameField]-5-|"
+                                                                         andViews:views];
 
     // Activating constraints
     [NSLayoutConstraint activateConstraints:panelViewHorizontalConstraints];
@@ -103,6 +127,11 @@
     [NSLayoutConstraint activateConstraints:closeButtonVerticalConstraints];
     [NSLayoutConstraint activateConstraints:@[panelViewCenterHorizontallyConstraint,
                                               panelViewCenterVerticallyConstraint]];
+
+    [NSLayoutConstraint activateConstraints:usernameBackgroundHorizontalConstraints];
+    [NSLayoutConstraint activateConstraints:usernameBackgroundVerticalConstraints];
+    [NSLayoutConstraint activateConstraints:usernameFieldHorizontalConstraints];
+    [NSLayoutConstraint activateConstraints:usernameFieldVerticalConstraints];
 }
 
 - (void)configureShieldView {
@@ -146,6 +175,32 @@
     [_panelView addSubview:closeButton];
 
     return closeButton;
+}
+
+- (void)configureUsernameBackgroundView {
+    _usernameBackgroundView = [[UIImageView alloc]
+                               initWithImage:[[UIImage imageNamed:@"bg-rounded-blue"]
+                                              resizableImageWithCapInsets:UIEdgeInsetsMake(15.0, 15.0, 15.0, 15.0)
+                                              resizingMode:UIImageResizingModeStretch]];
+
+    _usernameBackgroundView.translatesAutoresizingMaskIntoConstraints = NO;
+    _usernameBackgroundView.userInteractionEnabled = YES;
+
+    [_panelView addSubview:_usernameBackgroundView];
+}
+
+- (UITextField *)configureUsernameField {
+    UITextField *usernameField = [UITextField new];
+
+    usernameField.translatesAutoresizingMaskIntoConstraints = NO;
+    usernameField.placeholder = NSLocalizedString(@"USERNAME", nil);
+    usernameField.textAlignment = NSTextAlignmentCenter;
+    usernameField.font = [UIFont systemFontOfSize:10.0
+                                           weight:UIFontWeightRegular];
+
+    [_usernameBackgroundView addSubview:usernameField];
+
+    return usernameField;
 }
 
 #pragma mark - Actions
