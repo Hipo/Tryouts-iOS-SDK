@@ -66,10 +66,28 @@
     NSArray *panelViewVerticalConstraints = [self constraintsWithFormatString:@"V:[panelView(350)]"
                                                                      andViews:views];
 
-    NSArray *closeButtonHorizontalConstraints = [self constraintsWithFormatString:@"H:[closeButton(15)]-15-|"
+    NSLayoutConstraint *panelViewCenterHorizontallyConstraint = [NSLayoutConstraint
+                                                                 constraintWithItem:_panelView
+                                                                 attribute:NSLayoutAttributeCenterX
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                 toItem:_panelView.superview
+                                                                 attribute:NSLayoutAttributeCenterX
+                                                                 multiplier:1.0
+                                                                 constant:0.0];
+
+    NSLayoutConstraint *panelViewCenterVerticallyConstraint = [NSLayoutConstraint
+                                                               constraintWithItem:_panelView
+                                                               attribute:NSLayoutAttributeCenterY
+                                                               relatedBy:NSLayoutRelationEqual
+                                                               toItem:_panelView.superview
+                                                               attribute:NSLayoutAttributeCenterY
+                                                               multiplier:1.0
+                                                               constant:20.0];
+
+    NSArray *closeButtonHorizontalConstraints = [self constraintsWithFormatString:@"H:[closeButton(20)]-15-|"
                                                                          andViews:views];
 
-    NSArray *closeButtonVerticalConstraints = [self constraintsWithFormatString:@"V:|-10-[closeButton(15)]"
+    NSArray *closeButtonVerticalConstraints = [self constraintsWithFormatString:@"V:|-10-[closeButton(20)]"
                                                                        andViews:views];
 
     [NSLayoutConstraint activateConstraints:panelViewHorizontalConstraints];
@@ -79,25 +97,6 @@
     [NSLayoutConstraint activateConstraints:closeButtonHorizontalConstraints];
     [NSLayoutConstraint activateConstraints:closeButtonVerticalConstraints];
 
-
-    NSLayoutConstraint *panelViewCenterHorizontallyConstraint = [NSLayoutConstraint
-                                                                 constraintWithItem:_panelView
-                                                                 attribute:NSLayoutAttributeCenterX
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                 toItem:_panelView.superview
-                                                                 attribute:NSLayoutAttributeCenterX
-                                                                 multiplier:1
-                                                                 constant:0];
-
-    NSLayoutConstraint *panelViewCenterVerticallyConstraint = [NSLayoutConstraint
-                                                               constraintWithItem:_panelView
-                                                               attribute:NSLayoutAttributeCenterY
-                                                               relatedBy:NSLayoutRelationEqual
-                                                               toItem:_panelView.superview
-                                                               attribute:NSLayoutAttributeCenterY
-                                                               multiplier:1
-                                                               constant:0];
-
     [NSLayoutConstraint activateConstraints:@[panelViewCenterHorizontallyConstraint,
                                               panelViewCenterVerticallyConstraint]];
 }
@@ -106,8 +105,7 @@
     _shieldView = [UIView new];
 
     _shieldView.translatesAutoresizingMaskIntoConstraints = NO;
-
-    [_shieldView setBackgroundColor:[UIColor clearColor]];
+    _shieldView.backgroundColor = [UIColor clearColor];
 
     [_shieldView addGestureRecognizer:[[UITapGestureRecognizer alloc]
                                        initWithTarget:self
@@ -119,18 +117,20 @@
     _panelView = [UIImageView new];
 
     _panelView.translatesAutoresizingMaskIntoConstraints = NO;
+    _panelView.userInteractionEnabled = YES;
 
     [_panelView setImage:[[UIImage imageNamed:@"bg-feedback"]
                           resizableImageWithCapInsets:UIEdgeInsetsMake(10.0, 15.0, 20.0, 15.0)
                           resizingMode:UIImageResizingModeStretch]];
 
-    [self addSubview:_panelView];
+    [_shieldView addSubview:_panelView];
 }
 
 - (UIButton *)configureCloseButton {
     UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
     closeButton.translatesAutoresizingMaskIntoConstraints = NO;
+    closeButton.imageEdgeInsets = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0);
 
     [closeButton setImage:[UIImage imageNamed:@"bt-close"]
                  forState:UIControlStateNormal];
@@ -140,8 +140,6 @@
           forControlEvents:UIControlEventTouchUpInside];
 
     [_panelView addSubview:closeButton];
-
-    [closeButton.layer setBorderWidth:1.0];
 
     return closeButton;
 }
