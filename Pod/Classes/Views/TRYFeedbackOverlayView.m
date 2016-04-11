@@ -396,7 +396,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     submitButton.translatesAutoresizingMaskIntoConstraints = NO;
 
     [submitButton setBackgroundImage:[[self imageWithName:@"bg-rounded-green"]
-                                      resizableImageWithCapInsets:UIEdgeInsetsMake(15.0, 15.0, 15.0, 15.0)
+                                      resizableImageWithCapInsets:UIEdgeInsetsMake(20.0, 20.0, 20.0, 20.0)
                                       resizingMode:UIImageResizingModeStretch]
                             forState:UIControlStateNormal];
 
