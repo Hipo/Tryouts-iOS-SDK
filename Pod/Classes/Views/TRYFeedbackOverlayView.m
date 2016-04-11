@@ -152,7 +152,7 @@
     _panelView.translatesAutoresizingMaskIntoConstraints = NO;
     _panelView.userInteractionEnabled = YES;
 
-    [_panelView setImage:[[UIImage imageNamed:@"bg-feedback"]
+    [_panelView setImage:[[self imageWithName:@"bg-feedback"]
                           resizableImageWithCapInsets:UIEdgeInsetsMake(10.0, 15.0, 20.0, 15.0)
                           resizingMode:UIImageResizingModeStretch]];
 
