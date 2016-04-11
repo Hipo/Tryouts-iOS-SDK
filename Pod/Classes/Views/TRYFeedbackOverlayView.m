@@ -165,7 +165,7 @@
     closeButton.translatesAutoresizingMaskIntoConstraints = NO;
     closeButton.imageEdgeInsets = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0);
 
-    [closeButton setImage:[UIImage imageNamed:@"bt-close"]
+    [closeButton setImage:[self imageWithName:@"bt-close"]
                  forState:UIControlStateNormal];
 
     [closeButton addTarget:self
