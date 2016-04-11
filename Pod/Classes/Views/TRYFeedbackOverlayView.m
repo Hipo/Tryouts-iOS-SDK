@@ -18,39 +18,45 @@ static CGFloat  const kDefaultVerticalOffsetValue = 0.0;
 static CGFloat  const kDefaultHorizontalOffsetValue = 0.0;
 
 // PANEL VIEW
-static NSString const *kPanelViewWidthKey = @"PANELVIEW_WIDTH";
-static NSString const *kPanelViewHeightKey = @"PANELVIEW_HEIGHT";
+static NSString const *kPanelViewWidthKey = @"PANEL_VIEW_WIDTH";
+static NSString const *kPanelViewHeightKey = @"PANEL_VIEW_HEIGHT";
 static CGFloat  const kPanelViewWidthValue = 300.0;
 static CGFloat  const kPanelViewHeightValue = 350.0;
 
 // CLOSE BUTTON
-static NSString const *kCloseButtonWidthKey = @"CLOSEBUTTON_WIDTH";
-static NSString const *kCloseButtonHeightKey = @"CLOSEBUTTON_HEIGHT";
+static NSString const *kCloseButtonWidthKey = @"CLOSE_BUTTON_WIDTH";
+static NSString const *kCloseButtonHeightKey = @"CLOSE_BUTTON_HEIGHT";
 static CGFloat  const kCloseButtonWidthValue = 20.0;
 static CGFloat  const kCloseButtonHeightValue = 20.0;
 
-static NSString const *kCloseButtonTopOffsetKey = @"CLOSEBUTTON_TOP";
-static NSString const *kCloseButtonRightOffsetKey = @"CLOSEBUTTON_RIGHT";
+static NSString const *kCloseButtonTopOffsetKey = @"CLOSE_BUTTON_TOP";
+static NSString const *kCloseButtonRightOffsetKey = @"CLOSE_BUTTON_RIGHT";
 static CGFloat  const kCloseButtonTopOffsetValue = 10.0;
 static CGFloat  const kCloseButtonRightOffsetValue = 15.0;
 
 // TRYOUTS ICON
-static NSString const *kTryoutsIconTopOffsetKey = @"TRYOUTSICON_TOP";
-static NSString const *kTryoutsIconWidthKey = @"TRYOUTSICON_WIDTH";
-static NSString const *kTryoutsIconHeightKey = @"TRYOUTSICON_HEIGHT";
+static NSString const *kTryoutsIconTopOffsetKey = @"TRYOUTS_ICON_TOP";
+static NSString const *kTryoutsIconWidthKey = @"TRYOUTS_ICON_WIDTH";
+static NSString const *kTryoutsIconHeightKey = @"TRYOUTS_ICON_HEIGHT";
 static CGFloat  const kTryoutsIconTopOffsetValue = -33.0;
 static CGFloat  const kTryoutsIconHeightValue = 66.0;
 static CGFloat  const kTryoutsIconWidthValue = 79.0;
 
 // USERNAME BACKGROUND
-static NSString const *kUsernameBackgroundHorizontalOffsetKey = @"USERNAMEBACKG_HORIZONTAL";
+static NSString const *kUsernameBackgroundHorizontalOffsetKey = @"USERNAME_BACKG_HORIZONTAL";
 static CGFloat  const kUsernameBackgroundHorizontalOffsetValue = 35.0;
 
 // USERNAME FIELD
-static NSString const *kUsernameFieldHorizontalOffsetKey = @"USERNAMEFIELD_HORIZONTAL";
-static NSString const *kUsernameFieldVerticalOffsetKey = @"USERNAMEFIELD_VERTICAL";
+static NSString const *kUsernameFieldHorizontalOffsetKey = @"USERNAME_FIELD_HORIZONTAL";
+static NSString const *kUsernameFieldVerticalOffsetKey = @"USERNAME_FIELD_VERTICAL";
 static CGFloat  const kUsernameFieldHorizontalOffsetValue = 5.0;
 static CGFloat  const kUsernameFieldVerticalOffsetValue = 5.0;
+
+// MESSAGE VIEW
+static NSString const *kMessageViewBackgroundHorizontalOffsetKey = @"MESSAGE_VIEW_BACKG_HORIZONTAL";
+static NSString const *kMessageViewBackgroundTopOffsetKey = @"MESSAGE_VIEW_BACKG_TOP";
+static CGFloat  const kMessageViewBackgroundHorizontalOffsetValue = 35.0;
+static CGFloat  const kMessageViewBackgroundTopOffsetValue = 30.0;
 
 
 @interface TRYFeedbackOverlayView()
@@ -58,6 +64,7 @@ static CGFloat  const kUsernameFieldVerticalOffsetValue = 5.0;
 @property (nonatomic, strong) UIView *shieldView;
 @property (nonatomic, strong) UIImageView *panelView;
 @property (nonatomic, strong) UIImageView *usernameBackgroundView;
+@property (nonatomic, strong) UIImageView *messageBackgroundView;
 @property (nonatomic, strong) NSLayoutConstraint *panelViewConstraint;
 
 @end
@@ -94,12 +101,19 @@ static CGFloat  const kUsernameFieldVerticalOffsetValue = 5.0;
     // Close button
     UIButton *closeButton = [self configureCloseButton];
 
+    // Tryouts icon
     UIImageView *tryoutsIconView = [self configureTryoutsIconView];
 
-    // Username field
+    // Username field background
     [self configureUsernameBackgroundView];
 
+    // Username field
     UITextField *usernameField = [self configureUsernameField];
+
+    // Message view background
+    [self configureMessageBackgroundView];
+
+    // Message view
 
 
     // Auto layout constraints
@@ -109,23 +123,32 @@ static CGFloat  const kUsernameFieldVerticalOffsetValue = 5.0;
                                                         @"closeButton"        : closeButton,
                                                         @"usernameBackground" : _usernameBackgroundView,
                                                         @"tryoutsIcon"        : tryoutsIconView,
-                                                        @"usernameField"      : usernameField }];
+                                                        @"usernameField"      : usernameField,
+                                                        @"messageBackground"  : _messageBackgroundView }];
 
     NSDictionary *defaultMetrics =
-    @{ kDefaultHorizontalOffsetKey            : @(kDefaultHorizontalOffsetValue),
-       kDefaultVerticalOffsetKey              : @(kDefaultVerticalOffsetValue),
-       kPanelViewWidthKey                     : @(kPanelViewWidthValue),
-       kPanelViewHeightKey                    : @(kPanelViewHeightValue),
-       kCloseButtonWidthKey                   : @(kCloseButtonWidthValue),
-       kCloseButtonHeightKey                  : @(kCloseButtonHeightValue),
-       kCloseButtonRightOffsetKey             : @(kCloseButtonRightOffsetValue),
-       kCloseButtonTopOffsetKey               : @(kCloseButtonTopOffsetValue),
-       kTryoutsIconTopOffsetKey               : @(kTryoutsIconTopOffsetValue),
-       kUsernameBackgroundHorizontalOffsetKey : @(kUsernameBackgroundHorizontalOffsetValue),
-       kTryoutsIconWidthKey                   : @(kTryoutsIconWidthValue),
-       kTryoutsIconHeightKey                  : @(kTryoutsIconHeightValue),
-       kUsernameFieldHorizontalOffsetKey      : @(kUsernameFieldHorizontalOffsetValue),
-       kUsernameFieldVerticalOffsetKey        : @(kUsernameFieldVerticalOffsetValue) };
+    @{ kDefaultHorizontalOffsetKey               : @(kDefaultHorizontalOffsetValue),
+       kDefaultVerticalOffsetKey                 : @(kDefaultVerticalOffsetValue),
+       kPanelViewWidthKey                        : @(kPanelViewWidthValue),
+       kPanelViewHeightKey                       : @(kPanelViewHeightValue),
+       kCloseButtonWidthKey                      : @(kCloseButtonWidthValue),
+       kCloseButtonHeightKey                     : @(kCloseButtonHeightValue),
+       kCloseButtonRightOffsetKey                : @(kCloseButtonRightOffsetValue),
+       kCloseButtonTopOffsetKey                  : @(kCloseButtonTopOffsetValue),
+       kTryoutsIconTopOffsetKey                  : @(kTryoutsIconTopOffsetValue),
+       kUsernameBackgroundHorizontalOffsetKey    : @(kUsernameBackgroundHorizontalOffsetValue),
+       kTryoutsIconWidthKey                      : @(kTryoutsIconWidthValue),
+       kTryoutsIconHeightKey                     : @(kTryoutsIconHeightValue),
+       kUsernameFieldHorizontalOffsetKey         : @(kUsernameFieldHorizontalOffsetValue),
+       kUsernameFieldVerticalOffsetKey           : @(kUsernameFieldVerticalOffsetValue),
+       kMessageViewBackgroundHorizontalOffsetKey : @(kMessageViewBackgroundHorizontalOffsetValue),
+       kMessageViewBackgroundTopOffsetKey        : @(kMessageViewBackgroundTopOffsetValue) };
+
+    //static NSString const *kMessageViewBackgroundHorizontalOffsetKey = @"MESSAGE_VIEW_BACKG_HORIZONTAL";
+    //static NSString const *kMessageViewBackgroundTopOffsetKey = @"MESSAGE_VIEW_BACKG_TOP";
+    //static CGFloat  const kMessageViewBackgroundHorizontalOffsetValue = 35.0;
+    //static CGFloat  const kMessageViewBackgroundTopOffsetValue = 30.0;
+
 
 
     // Auto layout constraints - Shield view
@@ -143,13 +166,13 @@ static CGFloat  const kUsernameFieldVerticalOffsetValue = 5.0;
 
     // Auto layout constraints - Panel view
     NSArray *panelViewHorizontalConstraints =
-    [NSLayoutConstraint constraintsWithVisualFormat:@"H:[panelView(PANELVIEW_WIDTH)]"
+    [NSLayoutConstraint constraintsWithVisualFormat:@"H:[panelView(PANEL_VIEW_WIDTH)]"
                                             options:NSLayoutFormatAlignAllTop
                                             metrics:defaultMetrics
                                               views:views];
 
     NSArray *panelViewVerticalConstraints =
-    [NSLayoutConstraint constraintsWithVisualFormat:@"V:[panelView(PANELVIEW_HEIGHT)]"
+    [NSLayoutConstraint constraintsWithVisualFormat:@"V:[panelView(PANEL_VIEW_HEIGHT)]"
                               options:NSLayoutFormatAlignAllTop
                                             metrics:defaultMetrics
                                               views:views];
@@ -162,28 +185,22 @@ static CGFloat  const kUsernameFieldVerticalOffsetValue = 5.0;
 
     // Auto layout constraints - Close button
     NSArray *closeButtonHorizontalConstraints =
-    [NSLayoutConstraint constraintsWithVisualFormat:@"H:[closeButton(CLOSEBUTTON_WIDTH)]-CLOSEBUTTON_RIGHT-|"
+    [NSLayoutConstraint constraintsWithVisualFormat:@"H:[closeButton(CLOSE_BUTTON_WIDTH)]-CLOSE_BUTTON_RIGHT-|"
                                             options:NSLayoutFormatAlignAllTop
                                             metrics:defaultMetrics
                                               views:views];
 
     NSArray *closeButtonVerticalConstraints =
-    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-CLOSEBUTTON_TOP-[closeButton(CLOSEBUTTON_HEIGHT)]"
+    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-CLOSE_BUTTON_TOP-[closeButton(CLOSE_BUTTON_HEIGHT)]"
                                             options:NSLayoutFormatAlignAllTop
                                             metrics:defaultMetrics
                                               views:views];
 
 
-    // Auto layout constraints - Username field
+    // Auto layout constraints - Username field background
     NSArray *usernameBackgroundHorizontalConstraints =
-    [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-USERNAMEBACKG_HORIZONTAL-[usernameBackground]-USERNAMEBACKG_HORIZONTAL-|"
+    [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-USERNAME_BACKG_HORIZONTAL-[usernameBackground]-USERNAME_BACKG_HORIZONTAL-|"
                                             options:NSLayoutFormatAlignAllTop
-                                            metrics:defaultMetrics
-                                              views:views];
-
-    NSArray *tryoutsIconUsernameBackgroundVerticalConstraints =
-    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-TRYOUTSICON_TOP-[tryoutsIcon(TRYOUTSICON_HEIGHT)]-DEFAULT_VERTICAL-[usernameBackground]"
-                                            options:NSLayoutFormatAlignAllCenterX
                                             metrics:defaultMetrics
                                               views:views];
 
@@ -192,7 +209,7 @@ static CGFloat  const kUsernameFieldVerticalOffsetValue = 5.0;
     [self centerHorizontallyConstraintForView:tryoutsIconView];
 
     NSArray *tryoutsIconHorizontalConstraints =
-    [NSLayoutConstraint constraintsWithVisualFormat:@"H:[tryoutsIcon(TRYOUTSICON_WIDTH)]"
+    [NSLayoutConstraint constraintsWithVisualFormat:@"H:[tryoutsIcon(TRYOUTS_ICON_WIDTH)]"
                                             options:NSLayoutFormatAlignAllTop
                                             metrics:defaultMetrics
                                               views:views];
@@ -200,16 +217,33 @@ static CGFloat  const kUsernameFieldVerticalOffsetValue = 5.0;
 
     // Auto layout constraints - Username field
     NSArray *usernameFieldHorizontalConstraints =
-    [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-USERNAMEFIELD_HORIZONTAL-[usernameField]-USERNAMEFIELD_HORIZONTAL-|"
+    [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-USERNAME_FIELD_HORIZONTAL-[usernameField]-USERNAME_FIELD_HORIZONTAL-|"
                                             options:NSLayoutFormatAlignAllTop
                                             metrics:defaultMetrics
                                               views:views];
 
     NSArray *usernameFieldVerticalConstraints =
-    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-USERNAMEFIELD_VERTICAL-[usernameField]-USERNAMEFIELD_VERTICAL-|"
+    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-USERNAME_FIELD_VERTICAL-[usernameField]-USERNAME_FIELD_VERTICAL-|"
                               options:NSLayoutFormatAlignAllTop
                                             metrics:defaultMetrics
                                               views:views];
+
+
+    NSArray *allViewsVerticalConstraints =
+    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-TRYOUTS_ICON_TOP-[tryoutsIcon(TRYOUTS_ICON_HEIGHT)]-DEFAULT_VERTICAL-[usernameBackground]-MESSAGE_VIEW_BACKG_TOP-[messageBackground]"
+                                            options:NSLayoutFormatAlignAllCenterX
+                                            metrics:defaultMetrics
+                                              views:views];
+
+    // Auto layout constraints - Message view background
+    NSArray *messageBackgroundHorizontalConstraints =
+    [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-MESSAGE_VIEW_BACKG_HORIZONTAL-[messageBackground]-MESSAGE_VIEW_BACKG_HORIZONTAL-|"
+                                            options:NSLayoutFormatAlignAllTop
+                                            metrics:defaultMetrics
+                                              views:views];
+
+    // Auto layout constraints - Message view
+
 
     // Activating constraints
     [NSLayoutConstraint activateConstraints:panelViewHorizontalConstraints];
@@ -225,9 +259,10 @@ static CGFloat  const kUsernameFieldVerticalOffsetValue = 5.0;
                                               tryoutsIconCenterHorizontallyConstraint]];
 
     [NSLayoutConstraint activateConstraints:usernameBackgroundHorizontalConstraints];
-    [NSLayoutConstraint activateConstraints:tryoutsIconUsernameBackgroundVerticalConstraints];
     [NSLayoutConstraint activateConstraints:usernameFieldHorizontalConstraints];
     [NSLayoutConstraint activateConstraints:usernameFieldVerticalConstraints];
+    [NSLayoutConstraint activateConstraints:messageBackgroundHorizontalConstraints];
+    [NSLayoutConstraint activateConstraints:allViewsVerticalConstraints];
 }
 
 - (void)configureShieldView {
@@ -308,6 +343,18 @@ static CGFloat  const kUsernameFieldVerticalOffsetValue = 5.0;
     [_usernameBackgroundView addSubview:usernameField];
 
     return usernameField;
+}
+
+- (void)configureMessageBackgroundView {
+    _messageBackgroundView = [[UIImageView alloc]
+                              initWithImage:[[self imageWithName:@"bg-rounded-orange"]
+                                             resizableImageWithCapInsets:UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0)
+                                             resizingMode:UIImageResizingModeStretch]];
+
+    _messageBackgroundView.translatesAutoresizingMaskIntoConstraints = NO;
+    _messageBackgroundView.userInteractionEnabled = YES;
+
+    [_panelView addSubview:_messageBackgroundView];
 }
 
 #pragma mark - Actions
