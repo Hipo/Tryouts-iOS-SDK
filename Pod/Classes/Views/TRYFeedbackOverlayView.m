@@ -206,6 +206,8 @@
 #pragma mark - Actions
 
 - (void)didTapCloseButton:(id)sender {
+    [self endEditing:YES];
+    
     [_delegate feedbackOverlayViewDidTapCloseButton:self];
 }
 
