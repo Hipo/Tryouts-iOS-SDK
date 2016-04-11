@@ -352,7 +352,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 - (void)configureUsernameBackgroundView {
     _usernameBackgroundView = [[UIImageView alloc]
                                initWithImage:[[self imageWithName:@"bg-rounded-blue"]
-                                              resizableImageWithCapInsets:UIEdgeInsetsMake(15.0, 15.0, 15.0, 15.0)
+                                              resizableImageWithCapInsets:UIEdgeInsetsMake(18.0, 18.0, 18.0, 18.0)
                                               resizingMode:UIImageResizingModeStretch]];
 
     _usernameBackgroundView.translatesAutoresizingMaskIntoConstraints = NO;
