@@ -179,7 +179,7 @@
 
 - (void)configureUsernameBackgroundView {
     _usernameBackgroundView = [[UIImageView alloc]
-                               initWithImage:[[UIImage imageNamed:@"bg-rounded-blue"]
+                               initWithImage:[[self imageWithName:@"bg-rounded-blue"]
                                               resizableImageWithCapInsets:UIEdgeInsetsMake(15.0, 15.0, 15.0, 15.0)
                                               resizingMode:UIImageResizingModeStretch]];
 
@@ -222,6 +222,23 @@
                                                    options:NSLayoutFormatAlignAllTop
                                                    metrics:nil
                                                      views:views];
+}
+
+- (UIImage *)imageWithName:(NSString *)imageName {
+    NSBundle *topBundle = [NSBundle bundleForClass:[self class]];
+    NSURL *url = [topBundle URLForResource:@"Tryouts" withExtension:@"bundle"];
+    NSBundle *bundle;
+
+    if (url != nil) {
+        bundle = [NSBundle bundleWithURL:url];
+    } else {
+        bundle = topBundle;
+    }
+
+    NSString *imagePath = [bundle pathForResource:imageName ofType:@"png"];
+    UIImage *image = [[UIImage alloc] initWithContentsOfFile:imagePath];
+
+    return image;
 }
 
 @end
