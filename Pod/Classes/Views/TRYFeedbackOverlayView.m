@@ -8,6 +8,51 @@
 
 #import "TRYFeedbackOverlayView.h"
 
+
+/* METRICS */
+
+// DEFAULT
+static NSString const *kDefaultVerticalOffsetKey = @"DEFAULT_VERTICAL";
+static NSString const *kDefaultHorizontalOffsetKey = @"DEFAULT_HORIZONTAL";
+static CGFloat  const kDefaultVerticalOffsetValue = 0.0;
+static CGFloat  const kDefaultHorizontalOffsetValue = 0.0;
+
+// PANEL VIEW
+static NSString const *kPanelViewWidthKey = @"PANELVIEW_WIDTH";
+static NSString const *kPanelViewHeightKey = @"PANELVIEW_HEIGHT";
+static CGFloat  const kPanelViewWidthValue = 300.0;
+static CGFloat  const kPanelViewHeightValue = 350.0;
+
+// CLOSE BUTTON
+static NSString const *kCloseButtonWidthKey = @"CLOSEBUTTON_WIDTH";
+static NSString const *kCloseButtonHeightKey = @"CLOSEBUTTON_HEIGHT";
+static CGFloat  const kCloseButtonWidthValue = 20.0;
+static CGFloat  const kCloseButtonHeightValue = 20.0;
+
+static NSString const *kCloseButtonTopOffsetKey = @"CLOSEBUTTON_TOP";
+static NSString const *kCloseButtonRightOffsetKey = @"CLOSEBUTTON_RIGHT";
+static CGFloat  const kCloseButtonTopOffsetValue = 10.0;
+static CGFloat  const kCloseButtonRightOffsetValue = 15.0;
+
+// TRYOUTS ICON
+static NSString const *kTryoutsIconTopOffsetKey = @"TRYOUTSICON_TOP";
+static NSString const *kTryoutsIconWidthKey = @"TRYOUTSICON_WIDTH";
+static NSString const *kTryoutsIconHeightKey = @"TRYOUTSICON_HEIGHT";
+static CGFloat  const kTryoutsIconTopOffsetValue = -33.0;
+static CGFloat  const kTryoutsIconHeightValue = 66.0;
+static CGFloat  const kTryoutsIconWidthValue = 79.0;
+
+// USERNAME BACKGROUND
+static NSString const *kUsernameBackgroundHorizontalOffsetKey = @"USERNAMEBACKG_HORIZONTAL";
+static CGFloat  const kUsernameBackgroundHorizontalOffsetValue = 35.0;
+
+// USERNAME FIELD
+static NSString const *kUsernameFieldHorizontalOffsetKey = @"USERNAMEFIELD_HORIZONTAL";
+static NSString const *kUsernameFieldVerticalOffsetKey = @"USERNAMEFIELD_VERTICAL";
+static CGFloat  const kUsernameFieldHorizontalOffsetValue = 5.0;
+static CGFloat  const kUsernameFieldVerticalOffsetValue = 5.0;
+
+
 @interface TRYFeedbackOverlayView()
 
 @property (nonatomic, strong) UIView *shieldView;
@@ -67,65 +112,76 @@
                                                         @"usernameField"      : usernameField }];
 
     // Auto layout constraints - Shield view
-    NSArray *shieldViewHorizontalConstraints = [self constraintsWithFormatString:@"H:|-0-[shieldView]-0-|"
-                                                                         options:NSLayoutFormatAlignAllTop
-                                                                        andViews:views];
+    NSArray *shieldViewHorizontalConstraints =
+    [self constraintsWithFormatString:@"H:|-DEFAULT_HORIZONTAL-[shieldView]-DEFAULT_HORIZONTAL-|"
+                              options:NSLayoutFormatAlignAllTop
+                             andViews:views];
 
-    NSArray *shieldViewVerticalConstraints = [self constraintsWithFormatString:@"V:|-0-[shieldView]-0-|"
-                                                                       options:NSLayoutFormatAlignAllTop
-                                                                      andViews:views];
+    NSArray *shieldViewVerticalConstraints =
+    [self constraintsWithFormatString:@"V:|-DEFAULT_VERTICAL-[shieldView]-DEFAULT_VERTICAL-|"
+                              options:NSLayoutFormatAlignAllTop
+                             andViews:views];
 
     // Auto layout constraints - Panel view
-    NSArray *panelViewHorizontalConstraints = [self constraintsWithFormatString:@"H:[panelView(300)]"
-                                                                        options:NSLayoutFormatAlignAllTop
-                                                                       andViews:views];
+    NSArray *panelViewHorizontalConstraints =
+    [self constraintsWithFormatString:@"H:[panelView(PANELVIEW_WIDTH)]"
+                              options:NSLayoutFormatAlignAllTop
+                             andViews:views];
 
-    NSArray *panelViewVerticalConstraints = [self constraintsWithFormatString:@"V:[panelView(350)]"
-                                                                      options:NSLayoutFormatAlignAllTop
-                                                                     andViews:views];
+    NSArray *panelViewVerticalConstraints =
+    [self constraintsWithFormatString:@"V:[panelView(PANELVIEW_HEIGHT)]"
+                              options:NSLayoutFormatAlignAllTop
+                             andViews:views];
 
-    NSLayoutConstraint *panelViewCenterHorizontallyConstraint = [self centerHorizontallyConstraintForView:
-                                                                 _panelView];
+    NSLayoutConstraint *panelViewCenterHorizontallyConstraint =
+    [self centerHorizontallyConstraintForView:_panelView];
 
-    NSLayoutConstraint *panelViewCenterVerticallyConstraint = [self centerVerticallyConstraintForView:
-                                                               _panelView];
+    NSLayoutConstraint *panelViewCenterVerticallyConstraint =
+    [self centerVerticallyConstraintForView:_panelView];
 
     // Auto layout constraints - Close button
-    NSArray *closeButtonHorizontalConstraints = [self constraintsWithFormatString:@"H:[closeButton(20)]-15-|"
-                                                                          options:NSLayoutFormatAlignAllTop
-                                                                         andViews:views];
+    NSArray *closeButtonHorizontalConstraints =
+    [self constraintsWithFormatString:@"H:[closeButton(CLOSEBUTTON_WIDTH)]-CLOSEBUTTON_RIGHT-|"
+                              options:NSLayoutFormatAlignAllTop
+                             andViews:views];
 
-    NSArray *closeButtonVerticalConstraints = [self constraintsWithFormatString:@"V:|-10-[closeButton(20)]"
-                                                                        options:NSLayoutFormatAlignAllTop
-                                                                       andViews:views];
+    NSArray *closeButtonVerticalConstraints =
+    [self constraintsWithFormatString:@"V:|-CLOSEBUTTON_TOP-[closeButton(CLOSEBUTTON_HEIGHT)]"
+                              options:NSLayoutFormatAlignAllTop
+                             andViews:views];
 
 
     // Auto layout constraints - Username field
-    NSArray *usernameBackgroundHorizontalConstraints = [self constraintsWithFormatString:@"H:|-35-[usernameBackground]-35-|"
-                                                                                 options:NSLayoutFormatAlignAllTop
-                                                                                andViews:views];
+    NSArray *usernameBackgroundHorizontalConstraints =
+    [self constraintsWithFormatString:@"H:|-USERNAMEBACKG_HORIZONTAL-[usernameBackground]-USERNAMEBACKG_HORIZONTAL-|"
+                              options:NSLayoutFormatAlignAllTop
+                             andViews:views];
 
-    NSArray *tryoutsIconUsernameBackgroundVerticalConstraints = [self constraintsWithFormatString:@"V:|-(-33)-[tryoutsIcon(66)]-0-[usernameBackground]"
-                                                                               options:NSLayoutFormatAlignAllCenterX
-                                                                              andViews:views];
+    NSArray *tryoutsIconUsernameBackgroundVerticalConstraints =
+    [self constraintsWithFormatString:@"V:|-TRYOUTSICON_TOP-[tryoutsIcon(TRYOUTSICON_HEIGHT)]-DEFAULT_VERTICAL-[usernameBackground]"
+                              options:NSLayoutFormatAlignAllCenterX
+                             andViews:views];
 
     // Auto layout constraints - Tryouts icon
-    NSLayoutConstraint *tryoutsIconCenterHorizontallyConstraint = [self centerHorizontallyConstraintForView:
-                                                                   tryoutsIconView];
+    NSLayoutConstraint *tryoutsIconCenterHorizontallyConstraint =
+    [self centerHorizontallyConstraintForView:tryoutsIconView];
 
-    NSArray *tryoutsIconHorizontalConstraints = [self constraintsWithFormatString:@"H:[tryoutsIcon(79)]"
-                                                                          options:NSLayoutFormatAlignAllTop
-                                                                       andViews:views];
+    NSArray *tryoutsIconHorizontalConstraints =
+    [self constraintsWithFormatString:@"H:[tryoutsIcon(TRYOUTSICON_WIDTH)]"
+                              options:NSLayoutFormatAlignAllTop
+                             andViews:views];
 
 
     // Auto layout constraints - Username field
-    NSArray *usernameFieldHorizontalConstraints = [self constraintsWithFormatString:@"H:|-5-[usernameField]-5-|"
-                                                                            options:NSLayoutFormatAlignAllTop
-                                                                           andViews:views];
+    NSArray *usernameFieldHorizontalConstraints =
+    [self constraintsWithFormatString:@"H:|-USERNAMEFIELD_HORIZONTAL-[usernameField]-USERNAMEFIELD_HORIZONTAL-|"
+                              options:NSLayoutFormatAlignAllTop
+                             andViews:views];
 
-    NSArray *usernameFieldVerticalConstraints = [self constraintsWithFormatString:@"V:|-5-[usernameField]-5-|"
-                                                                          options:NSLayoutFormatAlignAllTop
-                                                                         andViews:views];
+    NSArray *usernameFieldVerticalConstraints =
+    [self constraintsWithFormatString:@"V:|-USERNAMEFIELD_VERTICAL-[usernameField]-USERNAMEFIELD_VERTICAL-|"
+                              options:NSLayoutFormatAlignAllTop
+                             andViews:views];
 
     // Activating constraints
     [NSLayoutConstraint activateConstraints:panelViewHorizontalConstraints];
@@ -244,9 +300,25 @@
                                  options:(NSLayoutFormatOptions *)options
                                 andViews:(NSArray *)views {
 
+    NSDictionary *defaultMetrics =
+    @{ kDefaultHorizontalOffsetKey            : @(kDefaultHorizontalOffsetValue),
+       kDefaultVerticalOffsetKey              : @(kDefaultVerticalOffsetValue),
+       kPanelViewWidthKey                     : @(kPanelViewWidthValue),
+       kPanelViewHeightKey                    : @(kPanelViewHeightValue),
+       kCloseButtonWidthKey                   : @(kCloseButtonWidthValue),
+       kCloseButtonHeightKey                  : @(kCloseButtonHeightValue),
+       kCloseButtonRightOffsetKey             : @(kCloseButtonRightOffsetValue),
+       kCloseButtonTopOffsetKey               : @(kCloseButtonTopOffsetValue),
+       kTryoutsIconTopOffsetKey               : @(kTryoutsIconTopOffsetValue),
+       kUsernameBackgroundHorizontalOffsetKey : @(kUsernameBackgroundHorizontalOffsetValue),
+       kTryoutsIconWidthKey                   : @(kTryoutsIconWidthValue),
+       kTryoutsIconHeightKey                  : @(kTryoutsIconHeightValue),
+       kUsernameFieldHorizontalOffsetKey      : @(kUsernameFieldHorizontalOffsetValue),
+       kUsernameFieldVerticalOffsetKey        : @(kUsernameFieldVerticalOffsetValue) };
+
     return [NSLayoutConstraint constraintsWithVisualFormat:formatString
                                                    options:options
-                                                   metrics:nil
+                                                   metrics:defaultMetrics
                                                      views:views];
 }
 
@@ -272,7 +344,6 @@
                                                                constant:20.0];
     return panelViewCenterVerticallyConstraint;
 }
-
 
 - (UIImage *)imageWithName:(NSString *)imageName {
     NSBundle *topBundle = [NSBundle bundleForClass:[self class]];
