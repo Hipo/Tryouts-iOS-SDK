@@ -52,11 +52,19 @@ static NSString const *kUsernameFieldVerticalOffsetKey = @"USERNAME_FIELD_VERTIC
 static CGFloat  const kUsernameFieldHorizontalOffsetValue = 5.0;
 static CGFloat  const kUsernameFieldVerticalOffsetValue = 5.0;
 
-// MESSAGE VIEW
+// MESSAGE VIEW BACKGROUND
 static NSString const *kMessageViewBackgroundHorizontalOffsetKey = @"MESSAGE_VIEW_BACKG_HORIZONTAL";
 static NSString const *kMessageViewBackgroundTopOffsetKey = @"MESSAGE_VIEW_BACKG_TOP";
 static CGFloat  const kMessageViewBackgroundHorizontalOffsetValue = 35.0;
 static CGFloat  const kMessageViewBackgroundTopOffsetValue = 30.0;
+
+// MESSAGE VIEW
+
+// SUBMIT BUTTON
+static NSString const *kSubmitButtonHorizontalOffsetKey = @"SUBMIT_BUTTON_HORIZONTAL";
+static NSString const *kSubmitButtonTopOffsetKey = @"SUBMIT_BUTTON_TOP";
+static CGFloat  const kSubmitButtonHorizontalOffsetValue = 35.0;
+static CGFloat  const kSubmitButtonTopOffsetValue = 30.0;
 
 
 @interface TRYFeedbackOverlayView()
@@ -115,6 +123,8 @@ static CGFloat  const kMessageViewBackgroundTopOffsetValue = 30.0;
 
     // Message view
 
+    // Submit button
+    UIButton *submitButton = [self configureSubmitButton];
 
     // Auto layout constraints
     NSMutableDictionary *views = [[NSMutableDictionary alloc]
@@ -124,7 +134,8 @@ static CGFloat  const kMessageViewBackgroundTopOffsetValue = 30.0;
                                                         @"usernameBackground" : _usernameBackgroundView,
                                                         @"tryoutsIcon"        : tryoutsIconView,
                                                         @"usernameField"      : usernameField,
-                                                        @"messageBackground"  : _messageBackgroundView }];
+                                                        @"messageBackground"  : _messageBackgroundView,
+                                                        @"submitButton"       : submitButton }];
 
     NSDictionary *defaultMetrics =
     @{ kDefaultHorizontalOffsetKey               : @(kDefaultHorizontalOffsetValue),
@@ -142,12 +153,14 @@ static CGFloat  const kMessageViewBackgroundTopOffsetValue = 30.0;
        kUsernameFieldHorizontalOffsetKey         : @(kUsernameFieldHorizontalOffsetValue),
        kUsernameFieldVerticalOffsetKey           : @(kUsernameFieldVerticalOffsetValue),
        kMessageViewBackgroundHorizontalOffsetKey : @(kMessageViewBackgroundHorizontalOffsetValue),
-       kMessageViewBackgroundTopOffsetKey        : @(kMessageViewBackgroundTopOffsetValue) };
+       kMessageViewBackgroundTopOffsetKey        : @(kMessageViewBackgroundTopOffsetValue),
+       kSubmitButtonHorizontalOffsetKey          : @(kSubmitButtonHorizontalOffsetValue),
+       kSubmitButtonTopOffsetKey                 : @(kSubmitButtonTopOffsetValue) };
 
-    //static NSString const *kMessageViewBackgroundHorizontalOffsetKey = @"MESSAGE_VIEW_BACKG_HORIZONTAL";
-    //static NSString const *kMessageViewBackgroundTopOffsetKey = @"MESSAGE_VIEW_BACKG_TOP";
-    //static CGFloat  const kMessageViewBackgroundHorizontalOffsetValue = 35.0;
-    //static CGFloat  const kMessageViewBackgroundTopOffsetValue = 30.0;
+//    static NSString const *kSubmitButtonHorizontalOffsetKey = @"SUBMIT_BUTTON_HORIZONTAL";
+//    static NSString const *kSubmitButtonTopOffsetKey = @"SUBMIT_BUTTON_TOP";
+//    static CGFloat  const kSubmitButtonHorizontalOffsetValue = 35.0;
+//    static CGFloat  const kSubmitButtonTopOffsetValue = 30.0;
 
 
 
@@ -228,13 +241,6 @@ static CGFloat  const kMessageViewBackgroundTopOffsetValue = 30.0;
                                             metrics:defaultMetrics
                                               views:views];
 
-
-    NSArray *allViewsVerticalConstraints =
-    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-TRYOUTS_ICON_TOP-[tryoutsIcon(TRYOUTS_ICON_HEIGHT)]-DEFAULT_VERTICAL-[usernameBackground]-MESSAGE_VIEW_BACKG_TOP-[messageBackground]"
-                                            options:NSLayoutFormatAlignAllCenterX
-                                            metrics:defaultMetrics
-                                              views:views];
-
     // Auto layout constraints - Message view background
     NSArray *messageBackgroundHorizontalConstraints =
     [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-MESSAGE_VIEW_BACKG_HORIZONTAL-[messageBackground]-MESSAGE_VIEW_BACKG_HORIZONTAL-|"
@@ -243,6 +249,20 @@ static CGFloat  const kMessageViewBackgroundTopOffsetValue = 30.0;
                                               views:views];
 
     // Auto layout constraints - Message view
+
+    // Auto layout constraints - Submit Button
+    NSArray *submitButtonHorizontalConstraints =
+    [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-SUBMIT_BUTTON_HORIZONTAL-[submitButton]-SUBMIT_BUTTON_HORIZONTAL-|"
+                                            options:NSLayoutFormatAlignAllTop
+                                            metrics:defaultMetrics
+                                              views:views];
+
+    // Auto layout constraints - Multiple views
+    NSArray *allViewsVerticalConstraints =
+    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-TRYOUTS_ICON_TOP-[tryoutsIcon(TRYOUTS_ICON_HEIGHT)]-DEFAULT_VERTICAL-[usernameBackground]-MESSAGE_VIEW_BACKG_TOP-[messageBackground]-SUBMIT_BUTTON_TOP-[submitButton]"
+                                            options:NSLayoutFormatAlignAllCenterX
+                                            metrics:defaultMetrics
+                                              views:views];
 
 
     // Activating constraints
@@ -262,6 +282,7 @@ static CGFloat  const kMessageViewBackgroundTopOffsetValue = 30.0;
     [NSLayoutConstraint activateConstraints:usernameFieldHorizontalConstraints];
     [NSLayoutConstraint activateConstraints:usernameFieldVerticalConstraints];
     [NSLayoutConstraint activateConstraints:messageBackgroundHorizontalConstraints];
+    [NSLayoutConstraint activateConstraints:submitButtonHorizontalConstraints];
     [NSLayoutConstraint activateConstraints:allViewsVerticalConstraints];
 }
 
@@ -355,6 +376,24 @@ static CGFloat  const kMessageViewBackgroundTopOffsetValue = 30.0;
     _messageBackgroundView.userInteractionEnabled = YES;
 
     [_panelView addSubview:_messageBackgroundView];
+}
+
+- (UIButton *)configureSubmitButton {
+    UIButton *submitButton = [UIButton buttonWithType:UIButtonTypeCustom];
+
+    submitButton.translatesAutoresizingMaskIntoConstraints = NO;
+
+    [submitButton setBackgroundImage:[[self imageWithName:@"bg-rounded-green"]
+                                      resizableImageWithCapInsets:UIEdgeInsetsMake(15.0, 15.0, 15.0, 15.0)
+                                      resizingMode:UIImageResizingModeStretch]
+                            forState:UIControlStateNormal];
+
+    [submitButton setTitle:@"SUBMIT"
+                  forState:UIControlStateNormal];
+
+    [_panelView addSubview:submitButton];
+    
+    return submitButton;
 }
 
 #pragma mark - Actions
