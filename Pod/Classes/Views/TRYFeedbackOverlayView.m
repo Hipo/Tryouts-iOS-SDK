@@ -12,25 +12,27 @@
 /* METRICS */
 
 // DEFAULT
-static NSString const *kDefaultVerticalOffsetKey = @"DEFAULT_VERTICAL";
-static NSString const *kDefaultHorizontalOffsetKey = @"DEFAULT_HORIZONTAL";
-static CGFloat  const kDefaultVerticalOffsetValue = 0.0;
-static CGFloat  const kDefaultHorizontalOffsetValue = 0.0;
+static NSString const *kZeroVerticalOffsetKey = @"ZERO_VERTICAL";
+static NSString const *kZeroHorizontalOffsetKey = @"ZERO_HORIZONTAL";
+
+static CGFloat  const kZeroVerticalOffsetValue = 0.0;
+static CGFloat  const kZeroHorizontalOffsetValue = 0.0;
 
 // PANEL VIEW
 static NSString const *kPanelViewWidthKey = @"PANEL_VIEW_WIDTH";
 static NSString const *kPanelViewHeightKey = @"PANEL_VIEW_HEIGHT";
-static CGFloat  const kPanelViewWidthValue = 300.0;
-static CGFloat  const kPanelViewHeightValue = 350.0;
+
+static CGFloat  const kPanelViewWidthValue = 290.0;
+static CGFloat  const kPanelViewHeightValue = 313.0;
 
 // CLOSE BUTTON
 static NSString const *kCloseButtonWidthKey = @"CLOSE_BUTTON_WIDTH";
 static NSString const *kCloseButtonHeightKey = @"CLOSE_BUTTON_HEIGHT";
-static CGFloat  const kCloseButtonWidthValue = 20.0;
-static CGFloat  const kCloseButtonHeightValue = 20.0;
-
 static NSString const *kCloseButtonTopOffsetKey = @"CLOSE_BUTTON_TOP";
 static NSString const *kCloseButtonRightOffsetKey = @"CLOSE_BUTTON_RIGHT";
+
+static CGFloat  const kCloseButtonWidthValue = 20.0;
+static CGFloat  const kCloseButtonHeightValue = 20.0;
 static CGFloat  const kCloseButtonTopOffsetValue = 10.0;
 static CGFloat  const kCloseButtonRightOffsetValue = 15.0;
 
@@ -38,9 +40,10 @@ static CGFloat  const kCloseButtonRightOffsetValue = 15.0;
 static NSString const *kTryoutsIconTopOffsetKey = @"TRYOUTS_ICON_TOP";
 static NSString const *kTryoutsIconWidthKey = @"TRYOUTS_ICON_WIDTH";
 static NSString const *kTryoutsIconHeightKey = @"TRYOUTS_ICON_HEIGHT";
+
 static CGFloat  const kTryoutsIconTopOffsetValue = -33.0;
-static CGFloat  const kTryoutsIconHeightValue = 66.0;
-static CGFloat  const kTryoutsIconWidthValue = 79.0;
+static CGFloat  const kTryoutsIconWidthValue = 90.0;
+static CGFloat  const kTryoutsIconHeightValue = 85.0;
 
 // USERNAME BACKGROUND
 static NSString const *kUsernameBackgroundHorizontalOffsetKey = @"USERNAME_BACKG_HORIZONTAL";
@@ -49,22 +52,29 @@ static CGFloat  const kUsernameBackgroundHorizontalOffsetValue = 35.0;
 // USERNAME FIELD
 static NSString const *kUsernameFieldHorizontalOffsetKey = @"USERNAME_FIELD_HORIZONTAL";
 static NSString const *kUsernameFieldVerticalOffsetKey = @"USERNAME_FIELD_VERTICAL";
+
 static CGFloat  const kUsernameFieldHorizontalOffsetValue = 5.0;
 static CGFloat  const kUsernameFieldVerticalOffsetValue = 5.0;
 
 // MESSAGE VIEW BACKGROUND
 static NSString const *kMessageViewBackgroundHorizontalOffsetKey = @"MESSAGE_VIEW_BACKG_HORIZONTAL";
 static NSString const *kMessageViewBackgroundTopOffsetKey = @"MESSAGE_VIEW_BACKG_TOP";
+
 static CGFloat  const kMessageViewBackgroundHorizontalOffsetValue = 35.0;
-static CGFloat  const kMessageViewBackgroundTopOffsetValue = 30.0;
+static CGFloat  const kMessageViewBackgroundTopOffsetValue = 20.0;
 
 // MESSAGE VIEW
 
 // SUBMIT BUTTON
 static NSString const *kSubmitButtonHorizontalOffsetKey = @"SUBMIT_BUTTON_HORIZONTAL";
 static NSString const *kSubmitButtonTopOffsetKey = @"SUBMIT_BUTTON_TOP";
+static NSString const *kSubmitButtonBottomOffsetKey = @"SUBMIT_BUTTON_BOTTOM";
+static NSString const *kSubmitButtonHeightKey = @"SUBMIT_BUTTON_HEIGHT";
+
 static CGFloat  const kSubmitButtonHorizontalOffsetValue = 35.0;
-static CGFloat  const kSubmitButtonTopOffsetValue = 30.0;
+static CGFloat  const kSubmitButtonTopOffsetValue = 20.0;
+static CGFloat  const kSubmitButtonBottomOffsetValue = 20.0;
+static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 
 @interface TRYFeedbackOverlayView()
@@ -138,8 +148,8 @@ static CGFloat  const kSubmitButtonTopOffsetValue = 30.0;
                                                         @"submitButton"       : submitButton }];
 
     NSDictionary *defaultMetrics =
-    @{ kDefaultHorizontalOffsetKey               : @(kDefaultHorizontalOffsetValue),
-       kDefaultVerticalOffsetKey                 : @(kDefaultVerticalOffsetValue),
+    @{ kZeroHorizontalOffsetKey                  : @(kZeroHorizontalOffsetValue),
+       kZeroVerticalOffsetKey                    : @(kZeroVerticalOffsetValue),
        kPanelViewWidthKey                        : @(kPanelViewWidthValue),
        kPanelViewHeightKey                       : @(kPanelViewHeightValue),
        kCloseButtonWidthKey                      : @(kCloseButtonWidthValue),
@@ -155,24 +165,20 @@ static CGFloat  const kSubmitButtonTopOffsetValue = 30.0;
        kMessageViewBackgroundHorizontalOffsetKey : @(kMessageViewBackgroundHorizontalOffsetValue),
        kMessageViewBackgroundTopOffsetKey        : @(kMessageViewBackgroundTopOffsetValue),
        kSubmitButtonHorizontalOffsetKey          : @(kSubmitButtonHorizontalOffsetValue),
-       kSubmitButtonTopOffsetKey                 : @(kSubmitButtonTopOffsetValue) };
-
-//    static NSString const *kSubmitButtonHorizontalOffsetKey = @"SUBMIT_BUTTON_HORIZONTAL";
-//    static NSString const *kSubmitButtonTopOffsetKey = @"SUBMIT_BUTTON_TOP";
-//    static CGFloat  const kSubmitButtonHorizontalOffsetValue = 35.0;
-//    static CGFloat  const kSubmitButtonTopOffsetValue = 30.0;
-
+       kSubmitButtonTopOffsetKey                 : @(kSubmitButtonTopOffsetValue),
+       kSubmitButtonBottomOffsetKey              : @(kSubmitButtonBottomOffsetValue),
+       kSubmitButtonHeightKey                    : @(kSubmitButtonHeightValue) };
 
 
     // Auto layout constraints - Shield view
     NSArray *shieldViewHorizontalConstraints =
-    [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-DEFAULT_HORIZONTAL-[shieldView]-DEFAULT_HORIZONTAL-|"
+    [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-ZERO_HORIZONTAL-[shieldView]-ZERO_HORIZONTAL-|"
                                             options:NSLayoutFormatAlignAllTop
                                             metrics:defaultMetrics
                                               views:views];
 
     NSArray *shieldViewVerticalConstraints =
-    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-DEFAULT_VERTICAL-[shieldView]-DEFAULT_VERTICAL-|"
+    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-ZERO_VERTICAL-[shieldView]-ZERO_VERTICAL-|"
                                             options:NSLayoutFormatAlignAllTop
                                             metrics:defaultMetrics
                                               views:views];
@@ -259,11 +265,10 @@ static CGFloat  const kSubmitButtonTopOffsetValue = 30.0;
 
     // Auto layout constraints - Multiple views
     NSArray *allViewsVerticalConstraints =
-    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-TRYOUTS_ICON_TOP-[tryoutsIcon(TRYOUTS_ICON_HEIGHT)]-DEFAULT_VERTICAL-[usernameBackground]-MESSAGE_VIEW_BACKG_TOP-[messageBackground]-SUBMIT_BUTTON_TOP-[submitButton]"
+    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-TRYOUTS_ICON_TOP-[tryoutsIcon(TRYOUTS_ICON_HEIGHT)]-ZERO_VERTICAL-[usernameBackground]-MESSAGE_VIEW_BACKG_TOP-[messageBackground]-SUBMIT_BUTTON_TOP-[submitButton(SUBMIT_BUTTON_HEIGHT)]-SUBMIT_BUTTON_BOTTOM-|"
                                             options:NSLayoutFormatAlignAllCenterX
                                             metrics:defaultMetrics
                                               views:views];
-
 
     // Activating constraints
     [NSLayoutConstraint activateConstraints:panelViewHorizontalConstraints];
@@ -305,7 +310,7 @@ static CGFloat  const kSubmitButtonTopOffsetValue = 30.0;
     _panelView.userInteractionEnabled = YES;
 
     [_panelView setImage:[[self imageWithName:@"bg-feedback"]
-                          resizableImageWithCapInsets:UIEdgeInsetsMake(10.0, 15.0, 20.0, 15.0)
+                          resizableImageWithCapInsets:UIEdgeInsetsMake(15.0, 20.0, 25.0, 20.0)
                           resizingMode:UIImageResizingModeStretch]];
 
     [_shieldView addSubview:_panelView];
@@ -375,6 +380,9 @@ static CGFloat  const kSubmitButtonTopOffsetValue = 30.0;
     _messageBackgroundView.translatesAutoresizingMaskIntoConstraints = NO;
     _messageBackgroundView.userInteractionEnabled = YES;
 
+    [_messageBackgroundView setContentCompressionResistancePriority:UILayoutPriorityRequired
+                                                            forAxis:UILayoutConstraintAxisVertical];
+
     [_panelView addSubview:_messageBackgroundView];
 }
 
@@ -390,6 +398,9 @@ static CGFloat  const kSubmitButtonTopOffsetValue = 30.0;
 
     [submitButton setTitle:@"SUBMIT"
                   forState:UIControlStateNormal];
+
+    [submitButton setContentHuggingPriority:UILayoutPriorityRequired
+                                    forAxis:UILayoutConstraintAxisVertical];
 
     [_panelView addSubview:submitButton];
     
