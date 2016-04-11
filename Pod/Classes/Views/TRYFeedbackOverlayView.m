@@ -49,6 +49,9 @@ static CGFloat  const kTryoutsIconHeightValue = 85.0;
 static NSString const *kUsernameBackgroundHorizontalOffsetKey = @"USERNAME_BACKG_HORIZONTAL";
 static CGFloat  const kUsernameBackgroundHorizontalOffsetValue = 35.0;
 
+static NSString const *kUsernameBackgroundHeightKey = @"USERNAME_BACKG_HEIGHT";
+static CGFloat  const kUsernameBackgroundHeightValue = 36.0;
+
 // USERNAME FIELD
 static NSString const *kUsernameFieldHorizontalOffsetKey = @"USERNAME_FIELD_HORIZONTAL";
 static NSString const *kUsernameFieldVerticalOffsetKey = @"USERNAME_FIELD_VERTICAL";
@@ -73,7 +76,7 @@ static NSString const *kSubmitButtonHeightKey = @"SUBMIT_BUTTON_HEIGHT";
 
 static CGFloat  const kSubmitButtonHorizontalOffsetValue = 35.0;
 static CGFloat  const kSubmitButtonTopOffsetValue = 20.0;
-static CGFloat  const kSubmitButtonBottomOffsetValue = 20.0;
+static CGFloat  const kSubmitButtonBottomOffsetValue = 30.0;
 static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 
@@ -158,6 +161,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
        kCloseButtonTopOffsetKey                  : @(kCloseButtonTopOffsetValue),
        kTryoutsIconTopOffsetKey                  : @(kTryoutsIconTopOffsetValue),
        kUsernameBackgroundHorizontalOffsetKey    : @(kUsernameBackgroundHorizontalOffsetValue),
+       kUsernameBackgroundHeightKey              : @(kUsernameBackgroundHeightValue),
        kTryoutsIconWidthKey                      : @(kTryoutsIconWidthValue),
        kTryoutsIconHeightKey                     : @(kTryoutsIconHeightValue),
        kUsernameFieldHorizontalOffsetKey         : @(kUsernameFieldHorizontalOffsetValue),
@@ -265,7 +269,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
     // Auto layout constraints - Multiple views
     NSArray *allViewsVerticalConstraints =
-    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-TRYOUTS_ICON_TOP-[tryoutsIcon(TRYOUTS_ICON_HEIGHT)]-ZERO_VERTICAL-[usernameBackground]-MESSAGE_VIEW_BACKG_TOP-[messageBackground]-SUBMIT_BUTTON_TOP-[submitButton(SUBMIT_BUTTON_HEIGHT)]-SUBMIT_BUTTON_BOTTOM-|"
+    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-TRYOUTS_ICON_TOP-[tryoutsIcon(TRYOUTS_ICON_HEIGHT)]-ZERO_VERTICAL-[usernameBackground(USERNAME_BACKG_HEIGHT)]-MESSAGE_VIEW_BACKG_TOP-[messageBackground]-SUBMIT_BUTTON_TOP-[submitButton(SUBMIT_BUTTON_HEIGHT)]-SUBMIT_BUTTON_BOTTOM-|"
                                             options:NSLayoutFormatAlignAllCenterX
                                             metrics:defaultMetrics
                                               views:views];
