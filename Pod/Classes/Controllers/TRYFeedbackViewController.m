@@ -65,7 +65,6 @@
 #pragma mark - Screen shot
 
 - (UIImage *)screenShotOfWindow {
-    // Create graphics context with screen size
     CGRect screenRect = [[UIScreen mainScreen] bounds];
 
     UIGraphicsBeginImageContext(screenRect.size);
@@ -75,14 +74,11 @@
     [[UIColor blackColor] set];
     CGContextFillRect(currentContex, screenRect);
 
-    // Referance to current window
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
 
-    // Transfering content into the context
     [window.layer renderInContext:currentContex];
 
     UIImage *screenshotImage = UIGraphicsGetImageFromCurrentImageContext();
-
     UIGraphicsEndImageContext();
 
     return screenshotImage;

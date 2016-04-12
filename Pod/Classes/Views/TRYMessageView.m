@@ -46,7 +46,7 @@ static CGFloat  const kPlaceholderTopOffsetValue = 8.0;
 
     _placehodlerLabel.translatesAutoresizingMaskIntoConstraints = NO;
     _placehodlerLabel.text = @"Feedback...";
-    _placehodlerLabel.textColor = [UIColor lightGrayColor];
+    _placehodlerLabel.textColor = [[UIColor grayColor] colorWithAlphaComponent:0.6];
     _placehodlerLabel.font = [UIFont systemFontOfSize:10.0
                                                weight:UIFontWeightRegular];
     [self addSubview:_placehodlerLabel];

@@ -398,7 +398,16 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     _usernameField = [UITextField new];
 
     _usernameField.translatesAutoresizingMaskIntoConstraints = NO;
-    _usernameField.placeholder = NSLocalizedString(@"USERNAME", nil);
+    NSDictionary *placeholderAttributes = @{ NSForegroundColorAttributeName:[[UIColor grayColor]
+                                                                             colorWithAlphaComponent:0.6],
+                                             NSFontAttributeName:[UIFont
+                                                                  systemFontOfSize:10.0
+                                                                  weight:UIFontWeightRegular]};
+
+    _usernameField.attributedPlaceholder = [[NSAttributedString alloc]
+                                            initWithString:NSLocalizedString(@"USERNAME", nil)
+                                            attributes:placeholderAttributes];
+
     _usernameField.textAlignment = NSTextAlignmentCenter;
     _usernameField.font = [UIFont systemFontOfSize:10.0
                                            weight:UIFontWeightRegular];
