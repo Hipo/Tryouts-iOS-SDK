@@ -23,7 +23,7 @@
 
     [self.view setBackgroundColor:[UIColor whiteColor]];
 
-    
+
     UIButton *feedbackButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
     feedbackButton.translatesAutoresizingMaskIntoConstraints = NO;
@@ -31,6 +31,7 @@
     [feedbackButton setTitle:NSLocalizedString(@"Feedback", nil)
                     forState:UIControlStateNormal];
 
+    [feedbackButton setTranslatesAutoresizingMaskIntoConstraints:NO];
     [feedbackButton setTitleColor:[UIColor blueColor]
                          forState:UIControlStateNormal];
 
