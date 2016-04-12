@@ -7,7 +7,7 @@
 //
 
 #import "TRYFeedbackOverlayView.h"
-
+#import "TRYMessageView.h"
 
 /* METRICS */
 
@@ -85,7 +85,7 @@ static CGFloat  const kSubmitButtonBottomOffsetValue = 30.0;
 static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 
-@interface TRYFeedbackOverlayView() <UITextViewDelegate>
+@interface TRYFeedbackOverlayView()
 
 @property (nonatomic, strong) UIView *shieldView;
 @property (nonatomic, strong) UIImageView *panelView;
@@ -112,8 +112,6 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 #pragma mark - Layout
 
 - (void)configureLayout {
-    //        [self setAlpha:0.0];
-    //        [self setHidden:YES];
     [self setBackgroundColor:[UIColor clearColor]];
     [self setAutoresizingMask:(UIViewAutoresizingFlexibleWidth |
                                UIViewAutoresizingFlexibleHeight)];
@@ -140,7 +138,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [self configureMessageBackgroundView];
 
     // Message view
-    UITextView *messageView = [self configureMessageView];
+    TRYMessageView *messageView = [self configureMessageView];
 
     // Submit button
     UIButton *submitButton = [self configureSubmitButton];
@@ -424,12 +422,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 }
 
 - (UITextView *)configureMessageView {
-    UITextView *messageView = [UITextView new];
-
-    messageView.translatesAutoresizingMaskIntoConstraints = NO;
-    messageView.delegate = self;
-    messageView.font = [UIFont systemFontOfSize:10.0
-                                         weight:UIFontWeightRegular];
+    TRYMessageView *messageView = [TRYMessageView new];
 
     [_messageBackgroundView addSubview:messageView];
 
@@ -467,15 +460,6 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 - (void)didTriggerShieldTapRecognizer:(UITapGestureRecognizer *)tapRecognizer {
 
-}
-
-#pragma mark - Text view delegate
-
-- (void)textViewDidChange:(UITextView *)textView {
-    if([textView.text length] == 0) {
-        textView.text = NSLocalizedString(@"Feedback...", nil);
-        textView.textColor = [UIColor lightGrayColor];
-    }
 }
 
 #pragma mark - Helper Methods
