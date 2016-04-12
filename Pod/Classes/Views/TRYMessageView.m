@@ -29,9 +29,9 @@ static CGFloat  const kPlaceholderTopOffsetValue = 8.0;
 
     if (self) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
+        self.delegate = self;
         self.font = [UIFont systemFontOfSize:10.0
                                       weight:UIFontWeightRegular];
-        self.delegate = self;
 
         [self configurePlaceholder];
     }

@@ -21,5 +21,6 @@
 @protocol TRYFeedbackOverlayViewDelegate <NSObject>
 @required
 - (void)feedbackOverlayViewDidTapCloseButton:(TRYFeedbackOverlayView *)feedbackOverlayView;
+- (void)feedbackOverlayViewDidTapSubmitButton:(TRYFeedbackOverlayView *)feedbackOverlayView;
 
 @end

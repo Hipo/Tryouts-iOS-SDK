@@ -90,7 +90,9 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 @property (nonatomic, strong) UIView *shieldView;
 @property (nonatomic, strong) UIImageView *panelView;
 @property (nonatomic, strong) UIImageView *usernameBackgroundView;
+@property (nonatomic, strong) UITextField *usernameField;
 @property (nonatomic, strong) UIImageView *messageBackgroundView;
+@property (nonatomic, strong) UITextView *messageView;
 @property (nonatomic, strong) NSLayoutConstraint *panelViewConstraint;
 
 @end
@@ -132,13 +134,13 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [self configureUsernameBackgroundView];
 
     // Username field
-    UITextField *usernameField = [self configureUsernameField];
+    [self configureUsernameField];
 
     // Message view background
     [self configureMessageBackgroundView];
 
     // Message view
-    TRYMessageView *messageView = [self configureMessageView];
+    [self configureMessageView];
 
     // Submit button
     UIButton *submitButton = [self configureSubmitButton];
@@ -150,10 +152,10 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                                         @"closeButton"        : closeButton,
                                                         @"usernameBackground" : _usernameBackgroundView,
                                                         @"tryoutsIcon"        : tryoutsIconView,
-                                                        @"usernameField"      : usernameField,
+                                                        @"usernameField"      : _usernameField,
                                                         @"messageBackground"  : _messageBackgroundView,
                                                         @"submitButton"       : submitButton,
-                                                        @"messageView"        : messageView }];
+                                                        @"messageView"        : _messageView }];
 
     NSDictionary *defaultMetrics =
     @{ kZeroHorizontalOffsetKey                  : @(kZeroHorizontalOffsetValue),
@@ -392,18 +394,16 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [_panelView addSubview:_usernameBackgroundView];
 }
 
-- (UITextField *)configureUsernameField {
-    UITextField *usernameField = [UITextField new];
+- (void)configureUsernameField {
+    _usernameField = [UITextField new];
 
-    usernameField.translatesAutoresizingMaskIntoConstraints = NO;
-    usernameField.placeholder = NSLocalizedString(@"USERNAME", nil);
-    usernameField.textAlignment = NSTextAlignmentCenter;
-    usernameField.font = [UIFont systemFontOfSize:10.0
+    _usernameField.translatesAutoresizingMaskIntoConstraints = NO;
+    _usernameField.placeholder = NSLocalizedString(@"USERNAME", nil);
+    _usernameField.textAlignment = NSTextAlignmentCenter;
+    _usernameField.font = [UIFont systemFontOfSize:10.0
                                            weight:UIFontWeightRegular];
 
-    [_usernameBackgroundView addSubview:usernameField];
-
-    return usernameField;
+    [_usernameBackgroundView addSubview:_usernameField];
 }
 
 - (void)configureMessageBackgroundView {
@@ -421,12 +421,10 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [_panelView addSubview:_messageBackgroundView];
 }
 
-- (UITextView *)configureMessageView {
-    TRYMessageView *messageView = [TRYMessageView new];
+- (void)configureMessageView {
+    _messageView = [TRYMessageView new];
 
-    [_messageBackgroundView addSubview:messageView];
-
-    return messageView;
+    [_messageBackgroundView addSubview:_messageView];
 }
 
 - (UIButton *)configureSubmitButton {
@@ -441,6 +439,10 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
     [submitButton setTitle:@"SUBMIT"
                   forState:UIControlStateNormal];
+    
+    [submitButton addTarget:self
+                     action:@selector(didTapSubmitButton:)
+           forControlEvents:UIControlEventTouchUpInside];
 
     [submitButton setContentHuggingPriority:UILayoutPriorityRequired
                                     forAxis:UILayoutConstraintAxisVertical];
@@ -456,6 +458,13 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [self endEditing:YES];
     
     [_delegate feedbackOverlayViewDidTapCloseButton:self];
+}
+
+- (void)didTapSubmitButton:(id)sender {
+    NSLog(@"USERNAME: %@", _usernameField.text);
+    NSLog(@"FEEDBACK: %@", _messageView.text);
+
+    [_delegate feedbackOverlayViewDidTapSubmitButton:self];
 }
 
 - (void)didTriggerShieldTapRecognizer:(UITapGestureRecognizer *)tapRecognizer {

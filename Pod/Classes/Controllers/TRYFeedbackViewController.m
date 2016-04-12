@@ -50,4 +50,8 @@
     }];
 }
 
+- (void)feedbackOverlayViewDidTapSubmitButton:(TRYFeedbackOverlayView *)feedbackOverlayView {
+    NSLog(@"Triggered");
+}
+
 @end
