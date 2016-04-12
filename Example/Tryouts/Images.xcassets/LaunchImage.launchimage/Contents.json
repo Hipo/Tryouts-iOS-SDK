@@ -28,7 +28,7 @@
       "scale" : "2x"
     },
     {
-      "extent" : "full-screen",
+      "orientation" : "portrait",
       "idiom" : "iphone",
       "filename" : "iPhonePortrait@2x.png",
       "extent" : "full-screen",
