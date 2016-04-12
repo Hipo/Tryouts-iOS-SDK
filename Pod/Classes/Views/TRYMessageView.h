@@ -10,4 +10,6 @@
 
 @interface TRYMessageView : UITextView
 
+- (void)showPlaceholder:(BOOL)show;
+
 @end

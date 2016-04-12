@@ -16,7 +16,7 @@ static CGFloat  const kPlaceholderLeftOffsetValue = 5.0;
 static CGFloat  const kPlaceholderTopOffsetValue = 8.0;
 
 
-@interface TRYMessageView () < UITextViewDelegate >
+@interface TRYMessageView ()
 
 @property (nonatomic, strong) UILabel *placehodlerLabel;
 
@@ -29,7 +29,6 @@ static CGFloat  const kPlaceholderTopOffsetValue = 8.0;
 
     if (self) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
-        self.delegate = self;
         self.font = [UIFont systemFontOfSize:10.0
                                       weight:UIFontWeightRegular];
 
@@ -75,14 +74,8 @@ static CGFloat  const kPlaceholderTopOffsetValue = 8.0;
     [NSLayoutConstraint activateConstraints:placeholderTopConstraints];
 }
 
-#pragma mark - Text view delegate
-
-- (void)textViewDidChange:(UITextView *)textView {
-    _placehodlerLabel.hidden = (textView.text.length);
-}
-
-- (void)textViewDidEndEditing:(UITextView *)textView {
-    _placehodlerLabel.hidden = (textView.text.length);
+- (void)showPlaceholder:(BOOL)show {
+    _placehodlerLabel.hidden = !show;
 }
 
 @end

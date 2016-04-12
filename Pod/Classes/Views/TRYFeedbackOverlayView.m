@@ -85,14 +85,14 @@ static CGFloat  const kSubmitButtonBottomOffsetValue = 30.0;
 static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 
-@interface TRYFeedbackOverlayView()
+@interface TRYFeedbackOverlayView() < UITextViewDelegate >
 
 @property (nonatomic, strong) UIScrollView *shieldView;
 @property (nonatomic, strong) UIImageView *panelView;
 @property (nonatomic, strong) UIImageView *usernameBackgroundView;
 @property (nonatomic, strong) UITextField *usernameField;
 @property (nonatomic, strong) UIImageView *messageBackgroundView;
-@property (nonatomic, strong) UITextView *messageView;
+@property (nonatomic, strong) TRYMessageView *messageView;
 @property (nonatomic, strong) NSLayoutConstraint *panelViewConstraint;
 
 - (void)configureLayout;
@@ -454,6 +454,8 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 - (void)configureMessageView {
     _messageView = [TRYMessageView new];
 
+    _messageView.delegate = self;
+
     [_messageBackgroundView addSubview:_messageView];
 }
 
@@ -499,6 +501,16 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 - (void)didTriggerShieldTapRecognizer:(UITapGestureRecognizer *)tapRecognizer {
 
+}
+
+#pragma mark - Text view delegate
+
+- (void)textViewDidChange:(UITextView *)textView {
+    [_messageView showPlaceholder:!(textView.text.length)];
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    [_messageView showPlaceholder:!(textView.text.length)];
 }
 
 #pragma mark - Helper Methods
