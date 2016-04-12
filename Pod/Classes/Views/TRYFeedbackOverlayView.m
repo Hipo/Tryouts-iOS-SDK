@@ -87,7 +87,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 @interface TRYFeedbackOverlayView()
 
-@property (nonatomic, strong) UIView *shieldView;
+@property (nonatomic, strong) UIScrollView *shieldView;
 @property (nonatomic, strong) UIImageView *panelView;
 @property (nonatomic, strong) UIImageView *usernameBackgroundView;
 @property (nonatomic, strong) UITextField *usernameField;
@@ -349,10 +349,11 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 }
 
 - (void)configureShieldView {
-    _shieldView = [UIView new];
+    _shieldView = [UIScrollView new];
 
     _shieldView.translatesAutoresizingMaskIntoConstraints = NO;
     _shieldView.backgroundColor = [UIColor clearColor];
+    _shieldView.alwaysBounceVertical = YES;
 
     [_shieldView addGestureRecognizer:[[UITapGestureRecognizer alloc]
                                        initWithTarget:self
