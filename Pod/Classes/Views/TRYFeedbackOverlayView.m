@@ -67,6 +67,11 @@ static CGFloat  const kMessageViewBackgroundHorizontalOffsetValue = 35.0;
 static CGFloat  const kMessageViewBackgroundTopOffsetValue = 20.0;
 
 // MESSAGE VIEW
+static NSString const *kMessageViewHorizontalOffsetKey = @"MESSAGE_VIEW_HORIZONTAL";
+static NSString const *kMessageViewVerticalOffsetKey = @"MESSAGE_VIEW_VERTICAL";
+
+static CGFloat  const kMessageViewHorizontalOffsetValue = 5.0;
+static CGFloat  const kMessageViewVerticalOffsetValue = 5.0;
 
 // SUBMIT BUTTON
 static NSString const *kSubmitButtonHorizontalOffsetKey = @"SUBMIT_BUTTON_HORIZONTAL";
@@ -80,7 +85,7 @@ static CGFloat  const kSubmitButtonBottomOffsetValue = 30.0;
 static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 
-@interface TRYFeedbackOverlayView()
+@interface TRYFeedbackOverlayView() <UITextViewDelegate>
 
 @property (nonatomic, strong) UIView *shieldView;
 @property (nonatomic, strong) UIImageView *panelView;
@@ -135,6 +140,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [self configureMessageBackgroundView];
 
     // Message view
+    UITextView *messageView = [self configureMessageView];
 
     // Submit button
     UIButton *submitButton = [self configureSubmitButton];
@@ -148,7 +154,8 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                                         @"tryoutsIcon"        : tryoutsIconView,
                                                         @"usernameField"      : usernameField,
                                                         @"messageBackground"  : _messageBackgroundView,
-                                                        @"submitButton"       : submitButton }];
+                                                        @"submitButton"       : submitButton,
+                                                        @"messageView"        : messageView }];
 
     NSDictionary *defaultMetrics =
     @{ kZeroHorizontalOffsetKey                  : @(kZeroHorizontalOffsetValue),
@@ -168,6 +175,8 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
        kUsernameFieldVerticalOffsetKey           : @(kUsernameFieldVerticalOffsetValue),
        kMessageViewBackgroundHorizontalOffsetKey : @(kMessageViewBackgroundHorizontalOffsetValue),
        kMessageViewBackgroundTopOffsetKey        : @(kMessageViewBackgroundTopOffsetValue),
+       kMessageViewHorizontalOffsetKey           : @(kMessageViewHorizontalOffsetValue),
+       kMessageViewVerticalOffsetKey             : @(kMessageViewVerticalOffsetValue),
        kSubmitButtonHorizontalOffsetKey          : @(kSubmitButtonHorizontalOffsetValue),
        kSubmitButtonTopOffsetKey                 : @(kSubmitButtonTopOffsetValue),
        kSubmitButtonBottomOffsetKey              : @(kSubmitButtonBottomOffsetValue),
@@ -259,6 +268,17 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                               views:views];
 
     // Auto layout constraints - Message view
+    NSArray *messageViewHorizontalConstraints =
+    [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-MESSAGE_VIEW_HORIZONTAL-[messageView]-MESSAGE_VIEW_HORIZONTAL-|"
+                                            options:NSLayoutFormatAlignAllTop
+                                            metrics:defaultMetrics
+                                              views:views];
+
+    NSArray *messageViewVerticalConstraints =
+    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-MESSAGE_VIEW_VERTICAL-[messageView]-MESSAGE_VIEW_VERTICAL-|"
+                                            options:NSLayoutFormatAlignAllTop
+                                            metrics:defaultMetrics
+                                              views:views];
 
     // Auto layout constraints - Submit Button
     NSArray *submitButtonHorizontalConstraints =
@@ -291,6 +311,8 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [NSLayoutConstraint activateConstraints:usernameFieldHorizontalConstraints];
     [NSLayoutConstraint activateConstraints:usernameFieldVerticalConstraints];
     [NSLayoutConstraint activateConstraints:messageBackgroundHorizontalConstraints];
+    [NSLayoutConstraint activateConstraints:messageViewHorizontalConstraints];
+    [NSLayoutConstraint activateConstraints:messageViewVerticalConstraints];
     [NSLayoutConstraint activateConstraints:submitButtonHorizontalConstraints];
     [NSLayoutConstraint activateConstraints:allViewsVerticalConstraints];
 }
@@ -390,6 +412,19 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [_panelView addSubview:_messageBackgroundView];
 }
 
+- (UITextView *)configureMessageView {
+    UITextView *messageView = [UITextView new];
+
+    messageView.translatesAutoresizingMaskIntoConstraints = NO;
+    messageView.delegate = self;
+    messageView.font = [UIFont systemFontOfSize:10.0
+                                         weight:UIFontWeightRegular];
+
+    [_messageBackgroundView addSubview:messageView];
+
+    return messageView;
+}
+
 - (UIButton *)configureSubmitButton {
     UIButton *submitButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
@@ -421,6 +456,15 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 - (void)didTriggerShieldTapRecognizer:(UITapGestureRecognizer *)tapRecognizer {
 
+}
+
+#pragma mark - Text view delegate
+
+- (void)textViewDidChange:(UITextView *)textView {
+    if([textView.text length] == 0) {
+        textView.text = NSLocalizedString(@"Feedback...", nil);
+        textView.textColor = [UIColor lightGrayColor];
+    }
 }
 
 #pragma mark - Helper Methods
