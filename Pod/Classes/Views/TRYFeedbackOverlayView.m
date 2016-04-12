@@ -95,6 +95,26 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 @property (nonatomic, strong) UITextView *messageView;
 @property (nonatomic, strong) NSLayoutConstraint *panelViewConstraint;
 
+- (void)configureLayout;
+- (void)configureShieldView;
+- (void)configurePanelView;
+- (UIButton *)configureCloseButton;
+- (UIImageView *)configureTryoutsIconView;
+- (void)configureUsernameBackgroundView;
+- (void)configureUsernameField;
+- (void)configureMessageBackgroundView;
+- (void)configureMessageView;
+- (UIButton *)configureSubmitButton;
+
+- (void)didTapCloseButton:(id)sender;
+- (void)didTapSubmitButton:(id)sender;
+- (void)didTriggerShieldTapRecognizer:(UITapGestureRecognizer *)tapRecognizer;
+
+- (void)registerForKeyboardNotifications;
+
+- (NSLayoutConstraint *)centerHorizontallyConstraintForView:(UIView *)view;
+- (NSLayoutConstraint *)centerVerticallyConstraintForView:(UIView *)view
+                                             withConstant:(CGFloat)constant;
 @end
 
 @implementation TRYFeedbackOverlayView
