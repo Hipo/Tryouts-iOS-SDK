@@ -26,16 +26,13 @@
     
     UIButton *feedbackButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
-    [feedbackButton setFrame:CGRectMake((self.view.bounds.size.width / 2) - 50,
-                                        self.view.bounds.size.height / 2,
-                                        100,
-                                        25.0)];
+    feedbackButton.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [feedbackButton setTitle:NSLocalizedString(@"Feedback", nil)
+                    forState:UIControlStateNormal];
 
     [feedbackButton setTitleColor:[UIColor blueColor]
                          forState:UIControlStateNormal];
-
-    [feedbackButton setTitle:NSLocalizedString(@"Feedback", nil)
-                    forState:UIControlStateNormal];
 
     [feedbackButton setTitleColor:[[UIColor blueColor] colorWithAlphaComponent:0.5]
                          forState:UIControlStateHighlighted];
@@ -45,6 +42,28 @@
              forControlEvents:UIControlEventTouchUpInside];
 
     [self.view addSubview:feedbackButton];
+
+    NSLayoutConstraint *feedbackButtonCenterHorizontallyConstraint = [NSLayoutConstraint
+                                                                      constraintWithItem:feedbackButton
+                                                                      attribute:NSLayoutAttributeCenterX
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                      toItem:feedbackButton.superview
+                                                                      attribute:NSLayoutAttributeCenterX
+                                                                      multiplier:1.0
+                                                                      constant:0.0];
+
+    NSLayoutConstraint *feedbackButtonCenterVerticallyConstraint = [NSLayoutConstraint
+                                                                    constraintWithItem:feedbackButton
+                                                                    attribute:NSLayoutAttributeCenterY
+                                                                    relatedBy:NSLayoutRelationEqual
+                                                                    toItem:feedbackButton.superview
+                                                                    attribute:NSLayoutAttributeCenterY
+                                                                    multiplier:1.0
+                                                                    constant:0.0];
+
+
+    [NSLayoutConstraint activateConstraints:@[feedbackButtonCenterHorizontallyConstraint,
+                                              feedbackButtonCenterVerticallyConstraint]];
 }
 
 #pragma mark - Actions
