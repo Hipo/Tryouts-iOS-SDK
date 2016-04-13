@@ -93,7 +93,8 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 @property (nonatomic, strong) UITextField *usernameField;
 @property (nonatomic, strong) UIImageView *messageBackgroundView;
 @property (nonatomic, strong) TRYMessageView *messageView;
-@property (nonatomic, strong) NSLayoutConstraint *panelViewConstraint;
+
+@property (nonatomic, strong) NSLayoutConstraint *shieldViewBottomConstraint;
 
 - (void)configureLayout;
 - (void)configureShieldView;
@@ -111,6 +112,8 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 - (void)didTriggerShieldTapRecognizer:(UITapGestureRecognizer *)tapRecognizer;
 
 - (void)registerForKeyboardNotifications;
+- (void)didReceiveKeyboardWillShowNotification:(NSNotification *)notification;
+- (void)didReceiveKeyboardWillHideNotification:(NSNotification *)notification;
 
 - (NSLayoutConstraint *)centerHorizontallyConstraintForView:(UIView *)view;
 - (NSLayoutConstraint *)centerVerticallyConstraintForView:(UIView *)view
@@ -126,9 +129,15 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
     if (self) {
         [self configureLayout];
+
+        [self registerForKeyboardNotifications];
     }
 
     return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 #pragma mark - Layout
@@ -211,10 +220,21 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                               views:views];
 
     NSArray *shieldViewVerticalConstraints =
-    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-ZERO_VERTICAL-[shieldView]-ZERO_VERTICAL-|"
+    [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-ZERO_VERTICAL-[shieldView]"
                                             options:NSLayoutFormatAlignAllTop
                                             metrics:defaultMetrics
                                               views:views];
+
+    _shieldViewBottomConstraint = [NSLayoutConstraint
+                                   constraintWithItem:_shieldView
+                                            attribute:NSLayoutAttributeBottom
+                                            relatedBy:NSLayoutRelationEqual
+                                               toItem:_shieldView.superview
+                                            attribute:NSLayoutAttributeBottom
+                                           multiplier:1.0
+                                             constant:0.0];
+
+    [self addConstraint:_shieldViewBottomConstraint];
 
     // Auto layout constraints - Panel view
     NSArray *panelViewHorizontalConstraints =
@@ -511,6 +531,54 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 - (void)textViewDidEndEditing:(UITextView *)textView {
     [_messageView showPlaceholder:!(textView.text.length)];
+}
+
+#pragma mark - Keyboard
+
+- (void)registerForKeyboardNotifications {
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+
+    [nc addObserver:self
+           selector:@selector(didReceiveKeyboardWillHideNotification:)
+               name:UIKeyboardWillHideNotification
+             object:nil];
+
+    [nc addObserver:self
+           selector:@selector(didReceiveKeyboardWillShowNotification:)
+               name:UIKeyboardWillShowNotification
+             object:nil];
+}
+
+- (void)didReceiveKeyboardWillShowNotification:(NSNotification *)notification {
+    CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    UIEdgeInsets insets = _shieldView.contentInset;
+
+//    insets.bottom = keyboardFrame.size.height + _bottomInputView.frame.size.height + 12.0;
+
+    insets.bottom = keyboardFrame.size.height;
+    _shieldView.contentInset = insets;
+
+    [_shieldViewBottomConstraint setConstant:-keyboardFrame.size.height];
+
+    [UIView animateWithDuration:0.2
+                     animations:^{
+                         [self layoutIfNeeded];
+                     }];
+}
+
+- (void)didReceiveKeyboardWillHideNotification:(NSNotification *)notification {
+    UIEdgeInsets insets = _shieldView.contentInset;
+
+//    insets.bottom = _bottomInputView.frame.size.height + 12.0;
+
+    _shieldView.contentInset = insets;
+
+    [_shieldViewBottomConstraint setConstant:0.0];
+
+    [UIView animateWithDuration:0.2
+                     animations:^{
+                         [self layoutIfNeeded];
+                     }];
 }
 
 #pragma mark - Helper Methods
