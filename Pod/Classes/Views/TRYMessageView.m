@@ -18,7 +18,7 @@ static CGFloat  const kPlaceholderTopOffsetValue = 8.0;
 
 @interface TRYMessageView ()
 
-@property (nonatomic, strong) UILabel *placehodlerLabel;
+@property (nonatomic, strong) UILabel *placeholderLabel;
 
 @end
 
@@ -41,17 +41,17 @@ static CGFloat  const kPlaceholderTopOffsetValue = 8.0;
 #pragma mark - Layout
 
 - (void)configurePlaceholder {
-    _placehodlerLabel = [UILabel new];
+    _placeholderLabel = [UILabel new];
 
-    _placehodlerLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _placehodlerLabel.text = @"Feedback...";
-    _placehodlerLabel.textColor = [[UIColor grayColor] colorWithAlphaComponent:0.6];
-    _placehodlerLabel.font = [UIFont systemFontOfSize:10.0
+    _placeholderLabel.translatesAutoresizingMaskIntoConstraints = NO;
+    _placeholderLabel.text = @"Feedback...";
+    _placeholderLabel.textColor = [[UIColor grayColor] colorWithAlphaComponent:0.6];
+    _placeholderLabel.font = [UIFont systemFontOfSize:10.0
                                                weight:UIFontWeightRegular];
-    [self addSubview:_placehodlerLabel];
+    [self addSubview:_placeholderLabel];
 
     NSMutableDictionary *views = [[NSMutableDictionary alloc]
-                                  initWithDictionary:@{ @"placeholder" : _placehodlerLabel }];
+                                  initWithDictionary:@{ @"placeholder" : _placeholderLabel }];
 
     NSDictionary *defaultMetrics = @{ kPlaceholderLeftOffsetKey : @(kPlaceholderLeftOffsetValue),
                                       kPlaceholderTopOffsetKey  : @(kPlaceholderTopOffsetValue) };
@@ -75,7 +75,7 @@ static CGFloat  const kPlaceholderTopOffsetValue = 8.0;
 }
 
 - (void)showPlaceholder:(BOOL)show {
-    _placehodlerLabel.hidden = !show;
+    _placeholderLabel.hidden = !show;
 }
 
 @end
