@@ -85,9 +85,10 @@ static CGFloat  const kSubmitButtonBottomOffsetValue = 30.0;
 static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 
-@interface TRYFeedbackOverlayView() < UITextViewDelegate >
+@interface TRYFeedbackOverlayView() < UITextViewDelegate, UIScrollViewDelegate >
 
 @property (nonatomic, strong) UIScrollView *shieldView;
+@property (nonatomic, strong) UIView *shieldContentView;
 @property (nonatomic, strong) UIImageView *panelView;
 @property (nonatomic, strong) UIImageView *usernameBackgroundView;
 @property (nonatomic, strong) UITextField *usernameField;
@@ -150,6 +151,9 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     // Shield view
     [self configureShieldView];
 
+    // Shield content view
+    [self configureShieldContentView];
+
     // Panel view
     [self configurePanelView];
 
@@ -176,7 +180,9 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
     // Auto layout constraints
     NSMutableDictionary *views = [[NSMutableDictionary alloc]
-                                  initWithDictionary:@{ @"shieldView"         : _shieldView,
+                                  initWithDictionary:@{
+                                                       @"shieldView"         : _shieldView,
+                                                        @"shieldContentView"  : _shieldContentView,
                                                         @"panelView"          : _panelView,
                                                         @"closeButton"        : closeButton,
                                                         @"usernameBackground" : _usernameBackgroundView,
@@ -184,7 +190,8 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                                         @"usernameField"      : _usernameField,
                                                         @"messageBackground"  : _messageBackgroundView,
                                                         @"submitButton"       : submitButton,
-                                                        @"messageView"        : _messageView }];
+                                                        @"messageView"        : _messageView
+                                                       }];
 
     NSDictionary *defaultMetrics =
     @{ kZeroHorizontalOffsetKey                  : @(kZeroHorizontalOffsetValue),
@@ -212,19 +219,52 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
        kSubmitButtonHeightKey                    : @(kSubmitButtonHeightValue) };
 
 
-    // Auto layout constraints - Shield view - horizontal
+    // Auto layout constraints - Shield view - Horizontal
     [self addConstraints:[NSLayoutConstraint
                           constraintsWithVisualFormat:@"H:|-ZERO_HORIZONTAL-[shieldView]-ZERO_HORIZONTAL-|"
-                                              options:NSLayoutFormatAlignAllTop
+                                              options:0
                                               metrics:defaultMetrics
                                                 views:views]];
 
-    // Auto layout constraints - Shield view - vertical
+    // Auto layout constraints - Shield view - Vertical
     [self addConstraints:[NSLayoutConstraint
-                          constraintsWithVisualFormat:@"V:|-ZERO_VERTICAL-[shieldView]"
-                                              options:NSLayoutFormatAlignAllTop
+                          constraintsWithVisualFormat:@"V:|-ZERO_VERTICAL-[shieldView]-ZERO_VERTICAL-|"
+                                              options:0
                                               metrics:defaultMetrics
                                                 views:views]];
+
+//    // Auto layout constraints - Shield Content view - Horizontal
+//    [self addConstraints:[NSLayoutConstraint
+//                          constraintsWithVisualFormat:@"H:|-ZERO_HORIZONTAL-[shieldContentView]-ZERO_HORIZONTAL-|"
+//                                              options:0
+//                                              metrics:defaultMetrics
+//                                                views:views]];
+
+    // Auto layout constraints - Shield Content view - Vertical
+    [self addConstraints:[NSLayoutConstraint
+                          constraintsWithVisualFormat:@"V:|-ZERO_VERTICAL-[shieldContentView]-ZERO_VERTICAL-|"
+                                              options:0
+                                              metrics:defaultMetrics
+                                                views:views]];
+
+    [self addConstraint:[NSLayoutConstraint
+                         constraintWithItem:_shieldContentView
+                         attribute:NSLayoutAttributeHeight
+                         relatedBy:NSLayoutRelationEqual
+                         toItem:_shieldContentView.superview
+                         attribute:NSLayoutAttributeHeight
+                         multiplier:1.0
+                         constant:0.0]];
+
+    [self addConstraint:[NSLayoutConstraint
+                         constraintWithItem:_shieldContentView
+                         attribute:NSLayoutAttributeWidth
+                         relatedBy:NSLayoutRelationEqual
+                         toItem:_shieldContentView.superview
+                         attribute:NSLayoutAttributeWidth
+                         multiplier:1.0
+                         constant:0.0]];
+
 
     _shieldViewBottomConstraint = [NSLayoutConstraint
                                    constraintWithItem:_shieldView
@@ -240,19 +280,20 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     // Auto layout constraints - Panel view - Set width
     [self addConstraints:[NSLayoutConstraint
                           constraintsWithVisualFormat:@"H:[panelView(PANEL_VIEW_WIDTH)]"
-                                              options:NSLayoutFormatAlignAllTop
+                                              options:0
                                               metrics:defaultMetrics
                                                 views:views]];
 
     // Auto layout constraints - Panel view - Set height
     [self addConstraints:[NSLayoutConstraint
                           constraintsWithVisualFormat:@"V:[panelView(PANEL_VIEW_HEIGHT)]"
-                                              options:NSLayoutFormatAlignAllTop
+                                              options:0
                                               metrics:defaultMetrics
                                                 views:views]];
 
     // Auto layout constraints - Panel view - Center Horizontal
     [self addConstraint:[self centerHorizontallyConstraintForView:_panelView]];
+
     // Auto layout constraints - Panel view - Center Vertical
     [self addConstraint:[self centerVerticallyConstraintForView:_panelView
                                                    withConstant:20.0]];
@@ -261,7 +302,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [self addConstraints:[NSLayoutConstraint
                           constraintsWithVisualFormat:
                           @"H:[closeButton(CLOSE_BUTTON_WIDTH)]-CLOSE_BUTTON_RIGHT-|"
-                                              options:NSLayoutFormatAlignAllTop
+                                              options:0
                                               metrics:defaultMetrics
                                                 views:views]];
 
@@ -269,7 +310,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [self addConstraints:[NSLayoutConstraint
                           constraintsWithVisualFormat:
                           @"V:|-CLOSE_BUTTON_TOP-[closeButton(CLOSE_BUTTON_HEIGHT)]"
-                                              options:NSLayoutFormatAlignAllTop
+                                              options:0
                                               metrics:defaultMetrics
                                                 views:views]];
 
@@ -277,7 +318,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [self addConstraints:[NSLayoutConstraint
                           constraintsWithVisualFormat:
                           @"H:|-USERNAME_BACKG_HORIZONTAL-[usernameBackground]-USERNAME_BACKG_HORIZONTAL-|"
-                                              options:NSLayoutFormatAlignAllTop
+                                              options:0
                                               metrics:defaultMetrics
                                                 views:views]];
 
@@ -287,7 +328,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     // Auto layout constraints - Tryouts icon - Set width
     [self addConstraints:[NSLayoutConstraint
                           constraintsWithVisualFormat:@"H:[tryoutsIcon(TRYOUTS_ICON_WIDTH)]"
-                                              options:NSLayoutFormatAlignAllTop
+                                              options:0
                                               metrics:defaultMetrics
                                                 views:views]];
 
@@ -296,7 +337,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [self addConstraints:[NSLayoutConstraint
                           constraintsWithVisualFormat:
                           @"H:|-USERNAME_FIELD_HORIZONTAL-[usernameField]-USERNAME_FIELD_HORIZONTAL-|"
-                                              options:NSLayoutFormatAlignAllTop
+                                              options:0
                                               metrics:defaultMetrics
                                                 views:views]];
 
@@ -304,7 +345,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [self addConstraints:[NSLayoutConstraint
                          constraintsWithVisualFormat:
                          @"V:|-USERNAME_FIELD_VERTICAL-[usernameField]-USERNAME_FIELD_VERTICAL-|"
-                                             options:NSLayoutFormatAlignAllTop
+                                             options:0
                                              metrics:defaultMetrics
                                                views:views]];
 
@@ -312,7 +353,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [self addConstraints:[NSLayoutConstraint
                           constraintsWithVisualFormat:
                           @"H:|-MESSAGE_VIEW_BACKG_HORIZONTAL-[messageBackground]-MESSAGE_VIEW_BACKG_HORIZONTAL-|"
-                                              options:NSLayoutFormatAlignAllTop
+                                              options:0
                                               metrics:defaultMetrics
                                                 views:views]];
 
@@ -320,7 +361,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [self addConstraints:[NSLayoutConstraint
                           constraintsWithVisualFormat:
                           @"H:|-MESSAGE_VIEW_HORIZONTAL-[messageView]-MESSAGE_VIEW_HORIZONTAL-|"
-                                              options:NSLayoutFormatAlignAllTop
+                                              options:0
                                               metrics:defaultMetrics
                                                 views:views]];
 
@@ -328,7 +369,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [self addConstraints:[NSLayoutConstraint
                           constraintsWithVisualFormat:
                           @"V:|-MESSAGE_VIEW_VERTICAL-[messageView]-MESSAGE_VIEW_VERTICAL-|"
-                                              options:NSLayoutFormatAlignAllTop
+                                              options:0
                                               metrics:defaultMetrics
                                                 views:views]];
 
@@ -336,7 +377,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [self addConstraints:[NSLayoutConstraint
                           constraintsWithVisualFormat:
                           @"H:|-SUBMIT_BUTTON_HORIZONTAL-[submitButton]-SUBMIT_BUTTON_HORIZONTAL-|"
-                                              options:NSLayoutFormatAlignAllTop
+                                              options:0
                                               metrics:defaultMetrics
                                                 views:views]];
 
@@ -344,7 +385,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [self addConstraints:
     [NSLayoutConstraint constraintsWithVisualFormat:
      @"V:|-TRYOUTS_ICON_TOP-[tryoutsIcon(TRYOUTS_ICON_HEIGHT)]-ZERO_VERTICAL-[usernameBackground(USERNAME_BACKG_HEIGHT)]-MESSAGE_VIEW_BACKG_TOP-[messageBackground]-SUBMIT_BUTTON_TOP-[submitButton(SUBMIT_BUTTON_HEIGHT)]-SUBMIT_BUTTON_BOTTOM-|"
-                                            options:NSLayoutFormatAlignAllCenterX
+                                            options:0
                                             metrics:defaultMetrics
                                               views:views]];
 }
@@ -353,13 +394,24 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     _shieldView = [UIScrollView new];
 
     _shieldView.translatesAutoresizingMaskIntoConstraints = NO;
-    _shieldView.backgroundColor = [UIColor clearColor];
+    _shieldView.backgroundColor = [UIColor yellowColor];
     _shieldView.alwaysBounceVertical = YES;
+
+    _shieldView.delegate = self;
 
     [_shieldView addGestureRecognizer:[[UITapGestureRecognizer alloc]
                                        initWithTarget:self
                                        action:@selector(didTriggerShieldTapRecognizer:)]];
     [self addSubview:_shieldView];
+}
+
+- (void)configureShieldContentView {
+    _shieldContentView = [UIView new];
+
+    _shieldContentView.translatesAutoresizingMaskIntoConstraints = NO;
+    _shieldContentView.backgroundColor = [UIColor redColor];
+
+    [_shieldView addSubview:_shieldContentView];
 }
 
 - (void)configurePanelView {
@@ -372,7 +424,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                           resizableImageWithCapInsets:UIEdgeInsetsMake(15.0, 20.0, 25.0, 20.0)
                           resizingMode:UIImageResizingModeStretch]];
 
-    [_shieldView addSubview:_panelView];
+    [_shieldContentView addSubview:_panelView];
 }
 
 - (UIButton *)configureCloseButton {
@@ -534,32 +586,29 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     UIEdgeInsets insets = _shieldView.contentInset;
 
-//    insets.bottom = keyboardFrame.size.height + _bottomInputView.frame.size.height + 12.0;
-
     insets.bottom = keyboardFrame.size.height;
     _shieldView.contentInset = insets;
 
-    [_shieldViewBottomConstraint setConstant:-keyboardFrame.size.height];
+//    [_shieldViewBottomConstraint setConstant:-keyboardFrame.size.height];
 
-    [UIView animateWithDuration:0.2
-                     animations:^{
-                         [self layoutIfNeeded];
-                     }];
+//    [UIView animateWithDuration:0.2
+//                     animations:^{
+//                         [self layoutIfNeeded];
+//                     }];
 }
 
 - (void)didReceiveKeyboardWillHideNotification:(NSNotification *)notification {
     UIEdgeInsets insets = _shieldView.contentInset;
 
-//    insets.bottom = _bottomInputView.frame.size.height + 12.0;
-
+    insets.bottom = 0.0;
     _shieldView.contentInset = insets;
 
-    [_shieldViewBottomConstraint setConstant:0.0];
-
-    [UIView animateWithDuration:0.2
-                     animations:^{
-                         [self layoutIfNeeded];
-                     }];
+//    [_shieldViewBottomConstraint setConstant:0.0];
+//
+//    [UIView animateWithDuration:0.2
+//                     animations:^{
+//                         [self layoutIfNeeded];
+//                     }];
 }
 
 #pragma mark - Helper Methods
@@ -604,6 +653,10 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     UIImage *image = [[UIImage alloc] initWithContentsOfFile:imagePath];
 
     return image;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    NSLog(@"");
 }
 
 @end
