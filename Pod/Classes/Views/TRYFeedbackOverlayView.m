@@ -247,23 +247,25 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                               metrics:defaultMetrics
                                                 views:views]];
 
+    // Auto layout constraints - Shield Content view - Height
     [self addConstraint:[NSLayoutConstraint
                          constraintWithItem:_shieldContentView
-                         attribute:NSLayoutAttributeHeight
-                         relatedBy:NSLayoutRelationEqual
-                         toItem:_shieldContentView.superview
-                         attribute:NSLayoutAttributeHeight
-                         multiplier:1.0
-                         constant:0.0]];
+                                  attribute:NSLayoutAttributeHeight
+                                  relatedBy:NSLayoutRelationEqual
+                                     toItem:_shieldContentView.superview
+                                  attribute:NSLayoutAttributeHeight
+                                 multiplier:1.0
+                                   constant:0.0]];
 
+    // Auto layout constraints - Shield Content view - Width
     [self addConstraint:[NSLayoutConstraint
                          constraintWithItem:_shieldContentView
-                         attribute:NSLayoutAttributeWidth
-                         relatedBy:NSLayoutRelationEqual
-                         toItem:_shieldContentView.superview
-                         attribute:NSLayoutAttributeWidth
-                         multiplier:1.0
-                         constant:0.0]];
+                                  attribute:NSLayoutAttributeWidth
+                                  relatedBy:NSLayoutRelationEqual
+                                     toItem:_shieldContentView.superview
+                                  attribute:NSLayoutAttributeWidth
+                                 multiplier:1.0
+                                   constant:0.0]];
 
 
     _shieldViewBottomConstraint = [NSLayoutConstraint
