@@ -73,7 +73,7 @@
     }
 }
 
-#pragma mark - Screen shot
+#pragma mark - Screenshot
 
 - (UIImage *)screenShotOfWindow {
     CGRect screenRect = [[UIScreen mainScreen] bounds];

@@ -10,8 +10,11 @@
 
 #import "TRYAppRelease.h"
 #import "TRYFeedbackViewController.h"
+#import "TRYFeedback.h"
 
 static NSString * const TRYAPIVersionCheckURL = @"https://api.tryouts.io/v1/applications/%@/";
+static NSString * const TRYAPIFeedbackSendURL = @"https://api-staging.tryouts.io/v1/applications/%@/feedback/";
+
 static NSTimeInterval const TRYAPIUpdateCheckInterval = 15.0 * 60.0;
 
 
@@ -36,6 +39,7 @@ static NSTimeInterval const TRYAPIUpdateCheckInterval = 15.0 * 60.0;
 
 - (void)fetchLatestVersion;
 - (void)compareWithRelease:(TRYAppRelease *)release;
+- (void)sendFeedback:(TRYFeedback *)feedback;
 
 @end
 
@@ -224,7 +228,62 @@ static Tryouts *_sharedManager = nil;
 #pragma mark - Feedback delegate
 
 - (void)feedbackViewControllerDidFinishWithFeedback:(TRYFeedback *)feedback {
-    NSLog(@"Feedback: %@", feedback);
+    [self sendFeedback:feedback];
+}
+
+- (void)sendFeedback:(TRYFeedback *)feedback {
+    NSURL *requestURL = [NSURL URLWithString:[NSString stringWithFormat:
+                                              TRYAPIFeedbackSendURL, _appIdentifier]];
+
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestURL];
+
+    NSDictionary *params = @{ @"user_name"       : feedback.username,
+                              @"release_version" : _appShortVersion,
+                              @"message"         : feedback.message,
+                              @"screenshot"      : feedback.screenshot };
+
+    NSError *error;
+    NSData *jsonParams = [NSJSONSerialization dataWithJSONObject:params options:0 error:&error];
+
+    if (error != nil) {
+        NSLog(@"Error when parsing post body parameters");
+
+        return;
+    }
+
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[NSString stringWithFormat:@"%@:%@", _APIKey, _APISecret] forHTTPHeaderField:@"Authorization"];
+    [request setHTTPBody:jsonParams];
+
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDataTask *task = [session
+                                  dataTaskWithRequest:request
+                                  completionHandler:^(NSData * _Nullable data,
+                                                      NSURLResponse * _Nullable response,
+                                                      NSError * _Nullable error) {
+
+                                      NSInteger statusCode = 0;
+
+                                      if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
+                                          statusCode = [(NSHTTPURLResponse *)response statusCode];
+                                      }
+
+                                      if (error == nil && data != nil
+                                          && (statusCode == 200 || statusCode == 201)) {
+                                          NSDictionary *responseData = [NSJSONSerialization
+                                                                        JSONObjectWithData:data
+                                                                        options:0
+                                                                        error:nil];
+
+                                          NSLog(@"%@", responseData);
+                                      } else {
+                                          // Response with error
+
+                                      }
+                                  }];
+
+    [task resume];
 }
 
 @end

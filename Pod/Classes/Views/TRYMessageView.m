@@ -56,22 +56,17 @@ static CGFloat  const kPlaceholderTopOffsetValue = 8.0;
     NSDictionary *defaultMetrics = @{ kPlaceholderLeftOffsetKey : @(kPlaceholderLeftOffsetValue),
                                       kPlaceholderTopOffsetKey  : @(kPlaceholderTopOffsetValue) };
 
-    NSArray
-    *placeholderLeftConstraints = [NSLayoutConstraint
-                                   constraintsWithVisualFormat:@"H:|-PLACEHOLDER_LEFT-[placeholder]"
-                                                       options:NSLayoutFormatAlignAllTop
-                                                       metrics:defaultMetrics
-                                                         views:views];
+    [self addConstraints:[NSLayoutConstraint
+                          constraintsWithVisualFormat:@"H:|-PLACEHOLDER_LEFT-[placeholder]"
+                                              options:NSLayoutFormatAlignAllTop
+                                              metrics:defaultMetrics
+                                                views:views]];
 
-    NSArray
-    *placeholderTopConstraints = [NSLayoutConstraint
-                                  constraintsWithVisualFormat:@"V:|-PLACEHOLDER_TOP-[placeholder]"
-                                                      options:NSLayoutFormatAlignAllTop
-                                                      metrics:defaultMetrics
-                                                        views:views];
-
-    [NSLayoutConstraint activateConstraints:placeholderLeftConstraints];
-    [NSLayoutConstraint activateConstraints:placeholderTopConstraints];
+    [self addConstraints:[NSLayoutConstraint
+                          constraintsWithVisualFormat:@"V:|-PLACEHOLDER_TOP-[placeholder]"
+                                              options:NSLayoutFormatAlignAllTop
+                                              metrics:defaultMetrics
+                                                views:views]];
 }
 
 - (void)showPlaceholder:(BOOL)show {
