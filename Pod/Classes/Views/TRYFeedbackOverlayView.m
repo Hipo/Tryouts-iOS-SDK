@@ -233,12 +233,16 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                               metrics:defaultMetrics
                                                 views:views]];
 
-//    // Auto layout constraints - Shield Content view - Horizontal
-//    [self addConstraints:[NSLayoutConstraint
-//                          constraintsWithVisualFormat:@"H:|-ZERO_HORIZONTAL-[shieldContentView]-ZERO_HORIZONTAL-|"
-//                                              options:0
-//                                              metrics:defaultMetrics
-//                                                views:views]];
+    _shieldViewBottomConstraint = [NSLayoutConstraint
+                                   constraintWithItem:_shieldView
+                                            attribute:NSLayoutAttributeBottom
+                                            relatedBy:NSLayoutRelationEqual
+                                               toItem:_shieldView.superview
+                                            attribute:NSLayoutAttributeBottom
+                                           multiplier:1.0
+                                             constant:0.0];
+
+    [self addConstraint:_shieldViewBottomConstraint];
 
     // Auto layout constraints - Shield Content view - Vertical
     [self addConstraints:[NSLayoutConstraint
@@ -266,18 +270,6 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                   attribute:NSLayoutAttributeWidth
                                  multiplier:1.0
                                    constant:0.0]];
-
-
-    _shieldViewBottomConstraint = [NSLayoutConstraint
-                                   constraintWithItem:_shieldView
-                                            attribute:NSLayoutAttributeBottom
-                                            relatedBy:NSLayoutRelationEqual
-                                               toItem:_shieldView.superview
-                                            attribute:NSLayoutAttributeBottom
-                                           multiplier:1.0
-                                             constant:0.0];
-
-    [self addConstraint:_shieldViewBottomConstraint];
 
     // Auto layout constraints - Panel view - Set width
     [self addConstraints:[NSLayoutConstraint
