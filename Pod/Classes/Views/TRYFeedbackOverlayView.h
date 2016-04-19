@@ -8,12 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@class TRYMessageView;
 @protocol TRYFeedbackOverlayViewDelegate;
 
 
 @interface TRYFeedbackOverlayView : UIView
 
 @property (nonatomic, weak) id<TRYFeedbackOverlayViewDelegate> delegate;
+
+@property (nonatomic, strong, readonly) UITextField *usernameField;
+@property (nonatomic, strong, readonly) TRYMessageView *messageView;
 
 @end
 

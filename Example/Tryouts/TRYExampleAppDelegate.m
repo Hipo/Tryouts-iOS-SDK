@@ -8,11 +8,11 @@
 
 #import <Tryouts/Tryouts.h>
 
-#import "TRYAppDelegate.h"
+#import "TRYExampleAppDelegate.h"
 
-#import "TRYViewController.h"
+#import "TRYExampleViewController.h"
 
-@implementation TRYAppDelegate
+@implementation TRYExampleAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
@@ -23,7 +23,7 @@
     UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
     UINavigationController *navController = [[UINavigationController alloc]
-                                             initWithRootViewController:[[TRYViewController alloc] init]];
+                                             initWithRootViewController:[[TRYExampleViewController alloc] init]];
 
     [window setRootViewController:navController];
     [window makeKeyAndVisible];

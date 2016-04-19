@@ -1,5 +1,5 @@
 //
-//  TRYAppDelegate.h
+//  TRYViewController.h
 //  Tryouts
 //
 //  Created by Taylan Pince on 09/27/2015.
@@ -8,9 +8,6 @@
 
 @import UIKit;
 
-
-@interface TRYAppDelegate : UIResponder <UIApplicationDelegate>
-
-@property (strong, nonatomic) UIWindow *window;
+@interface TRYExampleViewController : UIViewController
 
 @end

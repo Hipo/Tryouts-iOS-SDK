@@ -91,9 +91,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 @property (nonatomic, strong) UIView *shieldContentView;
 @property (nonatomic, strong) UIImageView *panelView;
 @property (nonatomic, strong) UIImageView *usernameBackgroundView;
-@property (nonatomic, strong) UITextField *usernameField;
 @property (nonatomic, strong) UIImageView *messageBackgroundView;
-@property (nonatomic, strong) TRYMessageView *messageView;
 
 @property (nonatomic, strong) NSLayoutConstraint *shieldViewBottomConstraint;
 

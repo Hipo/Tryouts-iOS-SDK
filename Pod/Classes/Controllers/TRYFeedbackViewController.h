@@ -8,16 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
+@class TRYFeedback;
 @protocol TRYFeedbackViewControllerDelegate;
 
 
 @interface TRYFeedbackViewController : UIViewController
+
 @property (nonatomic, weak) id<TRYFeedbackViewControllerDelegate> delegate;
+
 @end
 
 
 @protocol TRYFeedbackViewControllerDelegate <NSObject>
 @required
-- (void)feedbackViewControllerDismissed:(TRYFeedbackViewController *)feedbackViewController;
+//- (void)feedbackViewControllerDismissed:(TRYFeedbackViewController *)feedbackViewController;
+- (void)feedbackViewControllerDidFinishWithFeedback:(TRYFeedback *)feedback;
 
 @end

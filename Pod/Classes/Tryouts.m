@@ -15,7 +15,7 @@ static NSString * const TRYAPIVersionCheckURL = @"https://api.tryouts.io/v1/appl
 static NSTimeInterval const TRYAPIUpdateCheckInterval = 15.0 * 60.0;
 
 
-@interface Tryouts () <UIAlertViewDelegate>
+@interface Tryouts () <UIAlertViewDelegate, TRYFeedbackViewControllerDelegate>
 
 @property (nonatomic, strong) NSString *appIdentifier;
 @property (nonatomic, strong) NSString *APIKey;
@@ -208,18 +208,23 @@ static Tryouts *_sharedManager = nil;
 
 #pragma mark - Feedback
 
-
 + (void)presentFeedBackViewControllerFromViewController:(UIViewController *)viewController
                                                animated:(BOOL)animated {
 
     TRYFeedbackViewController *controller = [[TRYFeedbackViewController alloc] init];
 
     controller.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-    controller.delegate = viewController;
+    controller.delegate = _sharedManager;
 
-    [viewController presentViewController:controller animated:animated completion:nil];
+    [viewController presentViewController:controller
+                                 animated:animated
+                               completion:nil];
 }
 
+#pragma mark - Feedback delegate
 
+- (void)feedbackViewControllerDidFinishWithFeedback:(TRYFeedback *)feedback {
+    NSLog(@"Feedback: %@", feedback);
+}
 
 @end

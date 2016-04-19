@@ -8,10 +8,12 @@
 
 #import "TRYFeedbackViewController.h"
 #import "TRYFeedbackOverlayView.h"
+#import "TRYFeedback.h"
+#import "TRYMessageView.h"
 
 @interface TRYFeedbackViewController () <TRYFeedbackOverlayViewDelegate>
 
-@property (nonatomic, strong) NSString *encodedScreenshot;
+@property (nonatomic, strong) TRYFeedback *feedback;
 
 - (UIImage *)screenShotOfWindow;
 - (NSString *)encodedStringOfScreenshot;
@@ -26,8 +28,11 @@
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc]
                                      initWithTarget:self
                                              action:@selector(didTapBackground:)]];
+    if (!_feedback) {
+        _feedback = [TRYFeedback new];
+    }
 
-    _encodedScreenshot = [self encodedStringOfScreenshot];
+    _feedback.screenshot = [self encodedStringOfScreenshot];
 
     [self configureView];
 }
@@ -53,13 +58,18 @@
 }
 
 - (void)feedbackOverlayViewDidTapCloseButton:(TRYFeedbackOverlayView *)feedbackOverlayView {
-    [self dismissViewControllerAnimated:YES completion:^{
-        [_delegate feedbackViewControllerDismissed:self];
-    }];
+//    [self dismissViewControllerAnimated:YES completion:^{
+//        [_delegate feedbackViewControllerDismissed:self];
+//    }];
 }
 
 - (void)feedbackOverlayViewDidTapSubmitButton:(TRYFeedbackOverlayView *)feedbackOverlayView {
-    NSLog(@"Triggered");
+    _feedback.username = feedbackOverlayView.usernameField.text;
+    _feedback.message = feedbackOverlayView.messageView.text;
+
+    if ([_delegate respondsToSelector:@selector(feedbackViewControllerDidFinishWithFeedback:)]) {
+        [_delegate feedbackViewControllerDidFinishWithFeedback:_feedback];
+    }
 }
 
 #pragma mark - Screen shot
