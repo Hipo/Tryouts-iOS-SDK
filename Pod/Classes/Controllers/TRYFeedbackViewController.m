@@ -61,6 +61,7 @@
 //    [self dismissViewControllerAnimated:YES completion:^{
 //        [_delegate feedbackViewControllerDismissed:self];
 //    }];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)feedbackOverlayViewDidTapSubmitButton:(TRYFeedbackOverlayView *)feedbackOverlayView {
