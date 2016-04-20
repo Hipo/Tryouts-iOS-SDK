@@ -256,12 +256,24 @@ static Tryouts *_sharedManager = nil;
     [request setValue:[NSString stringWithFormat:@"%@:%@", _APIKey, _APISecret] forHTTPHeaderField:@"Authorization"];
     [request setHTTPBody:jsonParams];
 
+    // DEBUG
+    NSLog(@"Url           : %@", requestURL);
+    NSLog(@"Authorization : %@", [request valueForHTTPHeaderField:@"Content-Type"]);
+    NSLog(@"Authorization : %@", [request valueForHTTPHeaderField:@"Authorization"]);
+    NSLog(@"Body Data     : %@", params);
+
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session
                                   dataTaskWithRequest:request
                                   completionHandler:^(NSData * _Nullable data,
                                                       NSURLResponse * _Nullable response,
                                                       NSError * _Nullable error) {
+
+                                      // DEBUG
+                                      NSLog(@"%@", [NSJSONSerialization
+                                                    JSONObjectWithData:data
+                                                    options:0
+                                                    error:nil]);
 
                                       NSInteger statusCode = 0;
 

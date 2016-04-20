@@ -16,9 +16,9 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    [Tryouts initializeWithAppIdentifier:@"RiAP2VpK"
-                                  APIKey:@"5fd41c19b826fa10d659c0615a611576"
-                                  secret:@"e6c428c4c191cb31777e7776a13fbb98a541b0ba"];
+    [Tryouts initializeWithAppIdentifier:@"QOCWOqT0"
+                                  APIKey:@"5fa26ce4c439a879c047f34b10f64f99"
+                                  secret:@"3498ac2fed57069b388868aefd7b3099715043b0"];
 
     UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 

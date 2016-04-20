@@ -71,6 +71,8 @@
     if ([_delegate respondsToSelector:@selector(feedbackViewControllerDidFinishWithFeedback:)]) {
         [_delegate feedbackViewControllerDidFinishWithFeedback:_feedback];
     }
+
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Screenshot
