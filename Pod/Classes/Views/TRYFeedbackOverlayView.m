@@ -580,13 +580,6 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
     insets.bottom = keyboardFrame.size.height;
     _shieldView.contentInset = insets;
-
-//    [_shieldViewBottomConstraint setConstant:-keyboardFrame.size.height];
-
-//    [UIView animateWithDuration:0.2
-//                     animations:^{
-//                         [self layoutIfNeeded];
-//                     }];
 }
 
 - (void)didReceiveKeyboardWillHideNotification:(NSNotification *)notification {
@@ -594,40 +587,30 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
     insets.bottom = 0.0;
     _shieldView.contentInset = insets;
-
-//    [_shieldViewBottomConstraint setConstant:0.0];
-//
-//    [UIView animateWithDuration:0.2
-//                     animations:^{
-//                         [self layoutIfNeeded];
-//                     }];
 }
 
 #pragma mark - Helper Methods
 
 - (NSLayoutConstraint *)centerHorizontallyConstraintForView:(UIView *)view {
-    NSLayoutConstraint *centerHorizontallyConstraint = [NSLayoutConstraint
-                                                        constraintWithItem:view
-                                                        attribute:NSLayoutAttributeCenterX
-                                                        relatedBy:NSLayoutRelationEqual
-                                                        toItem:view.superview
-                                                        attribute:NSLayoutAttributeCenterX
-                                                        multiplier:1.0
-                                                        constant:0.0];
-    return centerHorizontallyConstraint;
+    
+    return [NSLayoutConstraint constraintWithItem:view
+                                        attribute:NSLayoutAttributeCenterX
+                                        relatedBy:NSLayoutRelationEqual
+                                           toItem:view.superview
+                                        attribute:NSLayoutAttributeCenterX
+                                       multiplier:1.0
+                                         constant:0.0];
 }
 - (NSLayoutConstraint *)centerVerticallyConstraintForView:(UIView *)view
                                              withConstant:(CGFloat)constant {
 
-    NSLayoutConstraint *panelViewCenterVerticallyConstraint = [NSLayoutConstraint
-                                                               constraintWithItem:view
-                                                               attribute:NSLayoutAttributeCenterY
-                                                               relatedBy:NSLayoutRelationEqual
-                                                               toItem:view.superview
-                                                               attribute:NSLayoutAttributeCenterY
-                                                               multiplier:1.0
-                                                               constant:constant];
-    return panelViewCenterVerticallyConstraint;
+    return [NSLayoutConstraint constraintWithItem:view
+                                        attribute:NSLayoutAttributeCenterY
+                                        relatedBy:NSLayoutRelationEqual
+                                           toItem:view.superview
+                                        attribute:NSLayoutAttributeCenterY
+                                       multiplier:1.0
+                                         constant:constant];
 }
 
 - (UIImage *)imageWithName:(NSString *)imageName {
@@ -645,10 +628,6 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     UIImage *image = [[UIImage alloc] initWithContentsOfFile:imagePath];
 
     return image;
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    NSLog(@"");
 }
 
 @end

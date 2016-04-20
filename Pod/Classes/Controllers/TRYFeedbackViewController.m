@@ -58,9 +58,6 @@
 }
 
 - (void)feedbackOverlayViewDidTapCloseButton:(TRYFeedbackOverlayView *)feedbackOverlayView {
-//    [self dismissViewControllerAnimated:YES completion:^{
-//        [_delegate feedbackViewControllerDismissed:self];
-//    }];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

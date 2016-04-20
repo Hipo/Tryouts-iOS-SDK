@@ -21,7 +21,6 @@
 
 @protocol TRYFeedbackViewControllerDelegate <NSObject>
 @required
-//- (void)feedbackViewControllerDismissed:(TRYFeedbackViewController *)feedbackViewController;
 - (void)feedbackViewControllerDidFinishWithFeedback:(TRYFeedback *)feedback;
 
 @end
