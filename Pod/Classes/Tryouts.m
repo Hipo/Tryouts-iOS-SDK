@@ -275,11 +275,8 @@ static Tryouts *_sharedManager = nil;
                                                                         JSONObjectWithData:data
                                                                         options:0
                                                                         error:nil];
-
-                                          NSLog(@"%@", responseData);
                                       } else {
                                           // Response with error
-
                                       }
                                   }];
 
