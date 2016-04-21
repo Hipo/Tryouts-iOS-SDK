@@ -15,8 +15,8 @@
 
 @property (nonatomic, strong) TRYFeedback *feedback;
 
-- (UIImage *)screenShotOfWindow;
-- (NSString *)encodedStringOfScreenshot;
+- (UIImage *)imageWithScreenshotOfActiveWindow;
+- (NSString *)stringWithEncodedScreenshotImageOfActiveWindow;
 
 @end
 
@@ -32,7 +32,7 @@
         _feedback = [TRYFeedback new];
     }
 
-    _feedback.screenshot = [self encodedStringOfScreenshot];
+    _feedback.screenshot = [self stringWithEncodedScreenshotImageOfActiveWindow];
 
     [self configureView];
 }
@@ -41,8 +41,6 @@
 
 - (void)configureView {
     self.view.backgroundColor = [UIColor clearColor];
-
-    [self screenShotOfWindow];
 
     TRYFeedbackOverlayView *feedBackOverlayView = [[TRYFeedbackOverlayView alloc]
                                                    initWithFrame:self.view.bounds];
@@ -74,28 +72,19 @@
 
 #pragma mark - Screenshot
 
-- (UIImage *)screenShotOfWindow {
-    CGRect screenRect = [[UIScreen mainScreen] bounds];
+- (UIImage *)imageWithScreenshotOfActiveWindow {
+    UIView *screenshotView = [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:NO];
 
-    UIGraphicsBeginImageContext(screenRect.size);
-
-    CGContextRef currentContex = UIGraphicsGetCurrentContext();
-
-    [[UIColor blackColor] set];
-    CGContextFillRect(currentContex, screenRect);
-
-    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-
-    [window.layer renderInContext:currentContex];
-
+    UIGraphicsBeginImageContextWithOptions(screenshotView.bounds.size, screenshotView.opaque, 0.0);
+    [screenshotView drawViewHierarchyInRect:screenshotView.bounds afterScreenUpdates:YES];
     UIImage *screenshotImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
     return screenshotImage;
 }
 
-- (NSString *)encodedStringOfScreenshot {
-    UIImage *screenshotImage = [self screenShotOfWindow];
+- (NSString *)stringWithEncodedScreenshotImageOfActiveWindow {
+    UIImage *screenshotImage = [self imageWithScreenshotOfActiveWindow];
 
     NSData *imageData = UIImageJPEGRepresentation(screenshotImage, 1.0);
 

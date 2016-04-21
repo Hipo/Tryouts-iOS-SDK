@@ -13,7 +13,7 @@
 #import "TRYFeedback.h"
 
 static NSString * const TRYAPIVersionCheckURL = @"https://api.tryouts.io/v1/applications/%@/";
-static NSString * const TRYAPIFeedbackSendURL = @"https://api-staging.tryouts.io/v1/applications/%@/feedback/";
+static NSString * const TRYAPIFeedbackSendURL = @"https://api-staging.tryouts.io/v1/applications/%@/feedback/"; // TODO: will be changed into production's url
 
 static NSTimeInterval const TRYAPIUpdateCheckInterval = 15.0 * 60.0;
 
@@ -212,8 +212,8 @@ static Tryouts *_sharedManager = nil;
 
 #pragma mark - Feedback
 
-+ (void)presentFeedBackViewControllerFromViewController:(UIViewController *)viewController
-                                               animated:(BOOL)animated {
++ (void)presentFeedBackControllerFromViewController:(UIViewController *)viewController
+                                           animated:(BOOL)animated {
 
     TRYFeedbackViewController *controller = [[TRYFeedbackViewController alloc] init];
 

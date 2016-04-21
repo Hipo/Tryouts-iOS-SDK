@@ -178,8 +178,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
     // Auto layout constraints
     NSMutableDictionary *views = [[NSMutableDictionary alloc]
-                                  initWithDictionary:@{
-                                                       @"shieldView"         : _shieldView,
+                                  initWithDictionary:@{ @"shieldView"         : _shieldView,
                                                         @"shieldContentView"  : _shieldContentView,
                                                         @"panelView"          : _panelView,
                                                         @"closeButton"        : closeButton,
@@ -188,9 +187,8 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                                         @"usernameField"      : _usernameField,
                                                         @"messageBackground"  : _messageBackgroundView,
                                                         @"submitButton"       : submitButton,
-                                                        @"messageView"        : _messageView
-                                                       }];
-
+                                                        @"messageView"        : _messageView }];
+    
     NSDictionary *defaultMetrics =
     @{ kZeroHorizontalOffsetKey                  : @(kZeroHorizontalOffsetValue),
        kZeroVerticalOffsetKey                    : @(kZeroVerticalOffsetValue),
@@ -373,7 +371,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                               metrics:defaultMetrics
                                                 views:views]];
 
-    // Auto layout constraints - Multiple views
+    // Auto layout constraints - Multiple views - Vertical
     [self addConstraints:
     [NSLayoutConstraint constraintsWithVisualFormat:
      @"V:|-TRYOUTS_ICON_TOP-[tryoutsIcon(TRYOUTS_ICON_HEIGHT)]-ZERO_VERTICAL-[usernameBackground(USERNAME_BACKG_HEIGHT)]-MESSAGE_VIEW_BACKG_TOP-[messageBackground]-SUBMIT_BUTTON_TOP-[submitButton(SUBMIT_BUTTON_HEIGHT)]-SUBMIT_BUTTON_BOTTOM-|"
@@ -514,7 +512,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                       resizingMode:UIImageResizingModeStretch]
                             forState:UIControlStateNormal];
 
-    [submitButton setTitle:@"SUBMIT"
+    [submitButton setTitle:NSLocalizedString(@"SUBMIT", nil)
                   forState:UIControlStateNormal];
     
     [submitButton addTarget:self
