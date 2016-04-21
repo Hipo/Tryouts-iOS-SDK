@@ -9,6 +9,9 @@
 #import "TRYFeedbackOverlayView.h"
 #import "TRYMessageView.h"
 
+// NSUserDefaults
+static NSString const *kNSUserDefaulsUsernameKey = @"kNSUserDefaulsUsernameKey";
+
 /* METRICS */
 
 // DEFAULT
@@ -466,7 +469,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                                                              colorWithAlphaComponent:0.6],
                                              NSFontAttributeName:[UIFont
                                                                   systemFontOfSize:10.0
-                                                                  weight:UIFontWeightRegular]};
+                                                                  weight:UIFontWeightRegular] };
 
     _usernameField.attributedPlaceholder = [[NSAttributedString alloc]
                                             initWithString:NSLocalizedString(@"Your name", nil)
@@ -475,6 +478,9 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     _usernameField.textAlignment = NSTextAlignmentCenter;
     _usernameField.font = [UIFont systemFontOfSize:10.0
                                            weight:UIFontWeightRegular];
+
+    _usernameField.text = [[NSUserDefaults standardUserDefaults]
+                           stringForKey:kNSUserDefaulsUsernameKey];
 
     [_usernameBackgroundView addSubview:_usernameField];
 }
@@ -538,6 +544,15 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 - (void)didTapSubmitButton:(id)sender {
     NSLog(@"USERNAME: %@", _usernameField.text);
     NSLog(@"FEEDBACK: %@", _messageView.text);
+
+    if (_usernameField.text.length < 1
+        || _messageView.text.length < 1) {
+
+        return;
+    }
+
+    [[NSUserDefaults standardUserDefaults] setObject:_usernameField.text
+                                              forKey:kNSUserDefaulsUsernameKey];
 
     [_delegate feedbackOverlayViewDidTapSubmitButton:self];
 }
