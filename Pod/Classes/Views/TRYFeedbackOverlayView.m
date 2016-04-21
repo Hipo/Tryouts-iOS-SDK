@@ -469,7 +469,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                                                   weight:UIFontWeightRegular]};
 
     _usernameField.attributedPlaceholder = [[NSAttributedString alloc]
-                                            initWithString:NSLocalizedString(@"USERNAME", nil)
+                                            initWithString:NSLocalizedString(@"Your name", nil)
                                             attributes:placeholderAttributes];
 
     _usernameField.textAlignment = NSTextAlignmentCenter;
