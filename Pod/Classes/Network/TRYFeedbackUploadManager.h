@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+@class TRYFeedbackUploadTask;
+
 @interface TRYFeedbackUploadManager : NSObject
 
 + (TRYFeedbackUploadManager *)sharedManager;
 
-- (void)addTask;
+- (void)addFeedbackIntoTasks:(TRYFeedbackUploadTask *)feedback;
 
 @end

@@ -12,9 +12,10 @@
 #import "TRYFeedbackViewController.h"
 #import "TRYFeedback.h"
 #import "TRYFeedbackUploadManager.h"
+#import "TRYFeedbackUploadTask.h"
 
 static NSString * const TRYAPIVersionCheckURL = @"https://api.tryouts.io/v1/applications/%@/";
-static NSString * const TRYAPIFeedbackSendURL = @"https://api-staging.tryouts.io/v1/applications/%@/feedback/"; // TODO: will be changed into production's url
+//static NSString * const TRYAPIFeedbackSendURL = @"https://api-staging.tryouts.io/v1/applications/%@/feedback/"; // TODO: will be changed into production's url
 
 static NSTimeInterval const TRYAPIUpdateCheckInterval = 15.0 * 60.0;
 
@@ -229,11 +230,22 @@ static Tryouts *_sharedManager = nil;
 #pragma mark - Feedback delegate
 
 - (void)feedbackViewControllerDidFinishWithFeedback:(TRYFeedback *)feedback {
-    [self sendFeedback:feedback];
+    if (feedback == nil) {
+        return;
+    }
+
+    TRYFeedbackUploadTask *uploadTask = [[TRYFeedbackUploadTask alloc]
+                                         initFeedbackUploadTaskWithFeedback:feedback
+                                         releaseVersion:_appVersion
+                                         appIdentifier:_appIdentifier
+                                         apiKey:_APIKey
+                                         apiSecret:_APISecret];
+    
+    [[TRYFeedbackUploadManager sharedManager] addFeedbackIntoTasks:uploadTask];
 }
 
-- (void)sendFeedback:(TRYFeedback *)feedback {
-    [[TRYFeedbackUploadManager sharedManager] addTask];
+//- (void)sendFeedback:(TRYFeedback *)feedback {
+
 //    NSURL *requestURL = [NSURL URLWithString:[NSString stringWithFormat:
 //                                              TRYAPIFeedbackSendURL, _appIdentifier]];
 //
@@ -283,6 +295,6 @@ static Tryouts *_sharedManager = nil;
 //                                  }];
 //
 //    [task resume];
-}
+//}
 
 @end
