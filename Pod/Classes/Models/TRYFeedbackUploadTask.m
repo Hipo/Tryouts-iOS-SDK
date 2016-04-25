@@ -54,6 +54,14 @@
                        dictionaryWithDictionary:@{ @"date"    : _creationDate,
                                                    @"task_id" : @(_taskIdentifier) }];
 
+    if (_username != nil) {
+        [serializedTask setValue:_username forKey:@"username"];
+    }
+
+    if (_releaseVersion != nil) {
+        [serializedTask setValue:_releaseVersion forKey:@"release_version"];
+    }
+
     if (_storagePath != nil) {
         [serializedTask setValue:_storagePath forKey:@"path"];
     }
