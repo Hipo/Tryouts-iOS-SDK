@@ -10,10 +10,9 @@
 #import "TRYFeedbackUploadTask.h"
 
 static NSString * const kStorageDirectoryName            = @"kStorageDirectoryName";
-static NSString * const kTasksKey                        = @"kTasksKey";
+static NSString * const kNSUserDefaultTasksKey           = @"kNSUserDefaultTasksKey";
 static NSString * const kBackgroundSessionIdentifier     = @"kBackgroundSessionIdentifier";
-static NSString * const TRYFeedbackUploadManagerTasksKey = @"MOMUploadManagerTasks";
-static NSString * const TRYAPIFeedbackSendURL            = @"https://api-staging.tryouts.io/v1/applications/%@/feedback/"; // TODO: will be changed into production's url
+static NSString * const kAPIFeedbackSendURL              = @"https://api-staging.tryouts.io/v1/applications/%@/feedback/"; // TODO: will be changed into production's url
 
 
 @interface TRYFeedbackUploadManager () <NSURLSessionTaskDelegate,
@@ -64,7 +63,8 @@ static NSString * const TRYAPIFeedbackSendURL            = @"https://api-staging
         }
 
         // Get saved tasks into _uploadTasks
-        NSArray *savedTasks = [[NSUserDefaults standardUserDefaults] objectForKey:kTasksKey];
+        NSArray *savedTasks = [[NSUserDefaults standardUserDefaults]
+                               objectForKey:kNSUserDefaultTasksKey];
 
         for (NSDictionary *savedTask in savedTasks) {
             [_uploadTasks addObject:[[TRYFeedbackUploadTask alloc]
@@ -121,7 +121,7 @@ static NSString * const TRYAPIFeedbackSendURL            = @"https://api-staging
 
     // Configure request
     NSURL *requestURL = [NSURL URLWithString:[NSString stringWithFormat:
-                                              TRYAPIFeedbackSendURL, uploadTask.appIdentifier]];
+                                              kAPIFeedbackSendURL, uploadTask.appIdentifier]];
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestURL];
 
@@ -132,8 +132,8 @@ static NSString * const TRYAPIFeedbackSendURL            = @"https://api-staging
 
     NSError *error;
     NSData *serializedBody = [NSJSONSerialization dataWithJSONObject:params
-                                                               options:0
-                                                                 error:&error];
+                                                             options:0
+                                                               error:&error];
     if (error != nil) {
         NSLog(@"Error when parsing post body parameters");
 
@@ -187,7 +187,7 @@ static NSString * const TRYAPIFeedbackSendURL            = @"https://api-staging
     }
 
     [[NSUserDefaults standardUserDefaults] setObject:tasks
-                                              forKey:TRYFeedbackUploadManagerTasksKey];
+                                              forKey:kNSUserDefaultTasksKey];
 
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -221,6 +221,8 @@ didCompleteWithError:(NSError *)error {
     for (TRYFeedbackUploadTask *aTask in _uploadTasks) {
         if (aTask.taskIdentifier == task.taskIdentifier) {
             uploadedTask = aTask;
+
+            break;
         }
     }
 
@@ -246,6 +248,10 @@ didCompleteWithError:(NSError *)error {
     }
 
     _receivedData = nil;
+
+    if (_uploadTasks.count == 0) { // No need to go on
+        return;
+    }
 
     [self checkForNextTask];
     [self saveTasksInUserDefaults];
