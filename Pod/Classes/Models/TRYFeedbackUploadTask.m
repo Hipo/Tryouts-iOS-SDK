@@ -92,7 +92,7 @@
     }
 
     if (_APISecret != nil) {
-        [serializedTask setValue:_APIKey forKey:@"apisecret"];
+        [serializedTask setValue:_APISecret forKey:@"apisecret"];
     }
 
     return serializedTask;
