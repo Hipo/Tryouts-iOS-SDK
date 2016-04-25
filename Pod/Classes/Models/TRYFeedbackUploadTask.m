@@ -18,7 +18,6 @@
         _creationDate       = [taskInfo valueForKey:@"date"];
         _storagePath        = [taskInfo valueForKey:@"path"];
         _taskIdentifier     = [[taskInfo valueForKey:@"task_id"] integerValue];
-        _feedbackIdentifier = [taskInfo valueForKey:@"id"];
         _message            = [taskInfo valueForKey:@"message"];
         _screenshot         = [taskInfo objectForKey:@"screenshot"];
         _releaseVersion     = [taskInfo valueForKey:@"release_version"];
@@ -53,8 +52,7 @@
     NSMutableDictionary
     *serializedTask = [NSMutableDictionary
                        dictionaryWithDictionary:@{ @"date"    : _creationDate,
-                                                   @"task_id" : @(_taskIdentifier),
-                                                   @"post_id" : _feedbackIdentifier }];
+                                                   @"task_id" : @(_taskIdentifier) }];
 
     if (_storagePath != nil) {
         [serializedTask setValue:_storagePath forKey:@"path"];

@@ -215,11 +215,20 @@ didCompleteWithError:(NSError *)error {
         return;
     }
 
-    if (![_uploadTasks containsObject:task]) {
+    // Remove uploaded task from array
+    TRYFeedbackUploadTask *uploadedTask = nil;
+
+    for (TRYFeedbackUploadTask *aTask in _uploadTasks) {
+        if (aTask.taskIdentifier == task.taskIdentifier) {
+            uploadedTask = aTask;
+        }
+    }
+
+    if (uploadedTask == nil) {
         return;
     }
 
-    [_uploadTasks removeObject:task];
+    [_uploadTasks removeObject:uploadedTask];
 
     if (_receivedData != nil) { // Parse response data
         NSError *parseError = nil;

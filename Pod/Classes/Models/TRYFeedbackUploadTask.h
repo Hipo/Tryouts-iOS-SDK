@@ -13,7 +13,6 @@
 @interface TRYFeedbackUploadTask : NSObject
 
 @property (nonatomic, assign, readonly) NSUInteger taskIdentifier;
-@property (nonatomic, strong, readonly) NSNumber * feedbackIdentifier;
 @property (nonatomic, strong, readonly) NSString * username;
 @property (nonatomic, strong, readonly) NSString * message;
 @property (nonatomic, strong, readonly) NSString * screenshot;
