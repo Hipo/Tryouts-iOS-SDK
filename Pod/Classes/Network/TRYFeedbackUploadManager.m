@@ -94,7 +94,6 @@ static NSString * const kAPIFeedbackSendURL              = @"https://api-staging
 
         NSUInteger activeTaskIdentifier = NSNotFound;
 
-        
         for (NSURLSessionUploadTask *uploadTask in uploadTasks) {
             if (uploadTask.state == NSURLSessionTaskStateRunning
                 || uploadTask.state == NSURLSessionTaskStateSuspended) {
@@ -125,7 +124,7 @@ static NSString * const kAPIFeedbackSendURL              = @"https://api-staging
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestURL];
 
-    NSDictionary *params = @{ @"user_name"        : uploadTask.username,
+    NSDictionary *params = @{ @"user_name"       : uploadTask.username,
                               @"release_version" : uploadTask.releaseVersion,
                               @"message"         : uploadTask.message,
                               @"screenshot"      : uploadTask.screenshot };
@@ -249,12 +248,13 @@ didCompleteWithError:(NSError *)error {
 
     _receivedData = nil;
 
+    [self saveTasksInUserDefaults];
+
     if (_uploadTasks.count == 0) { // No need to go on
         return;
     }
 
     [self checkForNextTask];
-    [self saveTasksInUserDefaults];
 }
 
 @end
