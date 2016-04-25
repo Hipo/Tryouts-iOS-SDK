@@ -15,12 +15,16 @@
     self = [super init];
 
     if (self) {
-        _creationDate       = [taskInfo valueForKey:@"date"];
-        _storagePath        = [taskInfo valueForKey:@"path"];
-        _taskIdentifier     = [[taskInfo valueForKey:@"task_id"] integerValue];
-        _message            = [taskInfo valueForKey:@"message"];
-        _screenshot         = [taskInfo objectForKey:@"screenshot"];
-        _releaseVersion     = [taskInfo valueForKey:@"release_version"];
+        _creationDate   = [taskInfo valueForKey:@"date"];
+        _storagePath    = [taskInfo valueForKey:@"path"];
+        _taskIdentifier = [[taskInfo valueForKey:@"task_id"] integerValue];
+        _username       = [taskInfo valueForKey:@"username"];
+        _message        = [taskInfo valueForKey:@"message"];
+        _screenshot     = [taskInfo objectForKey:@"screenshot"];
+        _releaseVersion = [taskInfo valueForKey:@"release_version"];
+        _appIdentifier  = [taskInfo valueForKey:@"appIdentifier"];
+        _APIKey         = [taskInfo valueForKey:@"apikey"];
+        _APISecret      = [taskInfo valueForKey:@"apisecret"];
     }
 
     return self;
@@ -49,10 +53,15 @@
 }
 
 - (NSDictionary *)serializedTask {
-    NSMutableDictionary
-    *serializedTask = [NSMutableDictionary
-                       dictionaryWithDictionary:@{ @"date"    : _creationDate,
-                                                   @"task_id" : @(_taskIdentifier) }];
+    NSMutableDictionary *serializedTask = [NSMutableDictionary dictionary];
+
+    if (_creationDate != nil) {
+        [serializedTask setValue:_creationDate forKey:@"date"];
+    }
+
+    if (_taskIdentifier != nil) {
+        [serializedTask setValue:@(_taskIdentifier) forKey:@"task_id"];
+    }
 
     if (_username != nil) {
         [serializedTask setValue:_username forKey:@"username"];
@@ -72,6 +81,18 @@
 
     if (_screenshot != nil) {
         [serializedTask setValue:_screenshot forKey:@"screenshot"];
+    }
+
+    if (_appIdentifier != nil) {
+        [serializedTask setValue:_appIdentifier forKey:@"appIdentifier"];
+    }
+
+    if (_APIKey != nil) {
+        [serializedTask setValue:_APIKey forKey:@"apikey"];
+    }
+
+    if (_APISecret != nil) {
+        [serializedTask setValue:_APIKey forKey:@"apisecret"];
     }
 
     return serializedTask;

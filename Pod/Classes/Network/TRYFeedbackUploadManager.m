@@ -125,7 +125,7 @@ static NSString * const kAPIFeedbackSendURL              = @"https://api-staging
 
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestURL];
 
-    NSDictionary *params = @{ @"user_name"       : uploadTask.username,
+    NSDictionary *params = @{ @"user_name"        : uploadTask.username,
                               @"release_version" : uploadTask.releaseVersion,
                               @"message"         : uploadTask.message,
                               @"screenshot"      : uploadTask.screenshot };
@@ -175,6 +175,7 @@ static NSString * const kAPIFeedbackSendURL              = @"https://api-staging
     [_uploadTasks addObject:feedback];
 
     [self checkForNextTask];
+    [self saveTasksInUserDefaults];
 }
 
 #pragma mark - Saving task
@@ -244,7 +245,6 @@ didCompleteWithError:(NSError *)error {
 
             return;
         }
-
     }
 
     _receivedData = nil;
