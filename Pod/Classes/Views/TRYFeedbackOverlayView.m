@@ -120,6 +120,8 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 - (NSLayoutConstraint *)centerHorizontallyConstraintForView:(UIView *)view;
 - (NSLayoutConstraint *)centerVerticallyConstraintForView:(UIView *)view
                                              withConstant:(CGFloat)constant;
+- (void)shakeWithView:(UIView *)view;
+
 @end
 
 @implementation TRYFeedbackOverlayView
@@ -545,9 +547,21 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     NSLog(@"USERNAME: %@", _usernameField.text);
     NSLog(@"FEEDBACK: %@", _messageView.text);
 
-    if (_usernameField.text.length < 1
-        || _messageView.text.length < 1) {
+    BOOL isFeedbackValid = YES;
 
+    if (_usernameField.text.length < 1) {
+        [self shakeWithView:_usernameField];
+
+        isFeedbackValid = NO;
+    }
+
+    if (_messageView.text.length < 1) {
+        [self shakeWithView:_messageView];
+
+        isFeedbackValid = NO;
+    }
+
+    if (!isFeedbackValid) {
         return;
     }
 
@@ -641,6 +655,16 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     UIImage *image = [[UIImage alloc] initWithContentsOfFile:imagePath];
 
     return image;
+}
+
+- (void)shakeWithView:(UIView *)view {
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.translation.x"];
+
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+    animation.duration = 0.8;
+    animation.values = @[ @(-20), @(20), @(-20), @(20), @(-10), @(10), @(-5), @(5), @(0) ];
+
+    [view.layer addAnimation:animation forKey:@"shake"];
 }
 
 @end
