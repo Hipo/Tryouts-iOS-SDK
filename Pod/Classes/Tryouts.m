@@ -61,7 +61,7 @@ static Tryouts *_sharedManager = nil;
                                                          APIKey:APIKey
                                                          secret:secret];
 
-        [[TRYFeedbackUploadManager sharedManager] init];
+        [TRYFeedbackUploadManager sharedManager];
     });
     
     return _sharedManager;
