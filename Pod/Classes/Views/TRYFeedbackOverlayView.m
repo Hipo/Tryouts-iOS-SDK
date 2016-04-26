@@ -97,7 +97,6 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 @property (nonatomic, strong) UIImageView *usernameBackgroundView;
 @property (nonatomic, strong) UIImageView *messageBackgroundView;
 
-@property (nonatomic, strong) NSLayoutConstraint *shieldViewBottomConstraint;
 
 - (void)configureLayout;
 - (void)configureShieldView;
@@ -236,16 +235,13 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                               metrics:defaultMetrics
                                                 views:views]];
 
-    _shieldViewBottomConstraint = [NSLayoutConstraint
-                                   constraintWithItem:_shieldView
-                                            attribute:NSLayoutAttributeBottom
-                                            relatedBy:NSLayoutRelationEqual
-                                               toItem:_shieldView.superview
-                                            attribute:NSLayoutAttributeBottom
-                                           multiplier:1.0
-                                             constant:0.0];
-
-    [self addConstraint:_shieldViewBottomConstraint];
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_shieldView
+                                                     attribute:NSLayoutAttributeBottom
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:_shieldView.superview
+                                                     attribute:NSLayoutAttributeBottom
+                                                    multiplier:1.0
+                                                      constant:0.0]];
 
     // Auto layout constraints - Shield Content view - Vertical
     [self addConstraints:[NSLayoutConstraint
