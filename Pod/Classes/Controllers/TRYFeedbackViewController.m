@@ -44,6 +44,7 @@
 
     TRYFeedbackOverlayView *feedBackOverlayView = [[TRYFeedbackOverlayView alloc]
                                                    initWithFrame:self.view.bounds];
+    [feedBackOverlayView focusOnUsernameField];
     feedBackOverlayView.delegate = self;
 
     [self.view addSubview:feedBackOverlayView];

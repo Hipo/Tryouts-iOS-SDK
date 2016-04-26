@@ -19,6 +19,8 @@
 @property (nonatomic, strong, readonly) UITextField *usernameField;
 @property (nonatomic, strong, readonly) TRYMessageView *messageView;
 
+- (void)focusOnUsernameField;
+
 @end
 
 

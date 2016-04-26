@@ -88,7 +88,8 @@ static CGFloat  const kSubmitButtonBottomOffsetValue = 30.0;
 static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 
-@interface TRYFeedbackOverlayView() < UITextViewDelegate, UIScrollViewDelegate >
+@interface TRYFeedbackOverlayView() < UITextFieldDelegate, UITextViewDelegate,
+                                      UIScrollViewDelegate >
 
 @property (nonatomic, strong) UIScrollView *shieldView;
 @property (nonatomic, strong) UIView *shieldContentView;
@@ -121,6 +122,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 - (NSLayoutConstraint *)centerVerticallyConstraintForView:(UIView *)view
                                              withConstant:(CGFloat)constant;
 - (void)shakeWithView:(UIView *)view;
+- (void)focusOnUsernameField;
 
 @end
 
@@ -484,6 +486,8 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     _usernameField.text = [[NSUserDefaults standardUserDefaults]
                            stringForKey:kNSUserDefaulsUsernameKey];
 
+    _usernameField.delegate = self;
+
     [_usernameBackgroundView addSubview:_usernameField];
 }
 
@@ -575,7 +579,23 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 }
 
+#pragma mark - Text field delegate
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    [_shieldView
+     setContentOffset:CGPointMake(_shieldView.frame.origin.x,
+                                  _usernameBackgroundView.frame.origin.y)
+     animated:YES];
+}
+
 #pragma mark - Text view delegate
+
+- (void)textViewDidBeginEditing:(UITextView *)textView {
+    [_shieldView
+     setContentOffset:CGPointMake(_shieldView.frame.origin.x,
+                                  _messageBackgroundView.frame.origin.y + 12.0 + 5.0)
+     animated:YES];
+}
 
 - (void)textViewDidChange:(UITextView *)textView {
     [_messageView showPlaceholder:!(textView.text.length)];
@@ -665,6 +685,10 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     animation.values = @[ @(-20), @(20), @(-20), @(20), @(-10), @(10), @(-5), @(5), @(0) ];
 
     [view.layer addAnimation:animation forKey:@"shake"];
+}
+
+- (void)focusOnUsernameField {
+    [_usernameField becomeFirstResponder];
 }
 
 @end
