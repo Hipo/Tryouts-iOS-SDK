@@ -10,7 +10,7 @@
 #import "TRYMessageView.h"
 
 // NSUserDefaults
-static NSString const *kNSUserDefaulsUsernameKey = @"kNSUserDefaulsUsernameKey";
+static NSString const *kNSUserDefaulsUsernameKey = @"com.hipo.tryouts.kNSUserDefaultsUsername";
 
 /* METRICS */
 

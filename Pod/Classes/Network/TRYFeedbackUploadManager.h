@@ -14,6 +14,6 @@
 
 + (TRYFeedbackUploadManager *)sharedManager;
 
-- (void)addFeedbackIntoTasks:(TRYFeedbackUploadTask *)feedback;
+- (void)createUploadTaskForFeedback:(TRYFeedbackUploadTask *)feedback;
 
 @end

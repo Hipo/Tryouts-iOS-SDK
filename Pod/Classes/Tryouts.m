@@ -242,7 +242,7 @@ static Tryouts *_sharedManager = nil;
                                          apiKey:_APIKey
                                          apiSecret:_APISecret];
     
-    [[TRYFeedbackUploadManager sharedManager] addFeedbackIntoTasks:uploadTask];
+    [[TRYFeedbackUploadManager sharedManager] createUploadTaskForFeedback:uploadTask];
 }
 
 @end
