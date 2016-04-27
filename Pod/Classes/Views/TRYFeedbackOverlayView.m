@@ -544,9 +544,8 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 }
 
 - (void)didTapSubmitButton:(id)sender {
-    NSLog(@"USERNAME: %@", _usernameField.text);
-    NSLog(@"FEEDBACK: %@", _messageView.text);
-
+    [self endEditing:YES];
+    
     BOOL isFeedbackValid = YES;
 
     if (_usernameField.text.length < 1) {
