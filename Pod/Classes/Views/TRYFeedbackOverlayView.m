@@ -120,7 +120,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 - (NSLayoutConstraint *)centerHorizontallyConstraintForView:(UIView *)view;
 - (NSLayoutConstraint *)centerVerticallyConstraintForView:(UIView *)view
                                              withConstant:(CGFloat)constant;
-- (void)showShakeAnimationForView:(UIView *)view;
+- (void)showShakeAnimationForUsernameField;
 - (void)focusOnUsernameField;
 
 @end
@@ -545,22 +545,10 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 - (void)didTapSubmitButton:(id)sender {
     [self endEditing:YES];
-    
-    BOOL isFeedbackValid = YES;
 
     if (_usernameField.text.length < 1) {
-        [self showShakeAnimationForView:_usernameField];
+        [self showShakeAnimationForUsernameField];
 
-        isFeedbackValid = NO;
-    }
-
-    if (_messageView.text.length < 1) {
-        [self showShakeAnimationForView:_messageView];
-
-        isFeedbackValid = NO;
-    }
-
-    if (!isFeedbackValid) {
         return;
     }
 
@@ -678,14 +666,14 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     return image;
 }
 
-- (void)showShakeAnimationForView:(UIView *)view {
+- (void)showShakeAnimationForUsernameField {
     CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.translation.x"];
 
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     animation.duration = 0.8;
     animation.values = @[ @(-20), @(20), @(-20), @(20), @(-10), @(10), @(-5), @(5), @(0) ];
 
-    [view.layer addAnimation:animation forKey:@"shake"];
+    [_usernameField.layer addAnimation:animation forKey:@"shake"];
 }
 
 - (void)focusOnUsernameField {
