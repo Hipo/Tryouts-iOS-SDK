@@ -120,7 +120,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 - (NSLayoutConstraint *)centerHorizontallyConstraintForView:(UIView *)view;
 - (NSLayoutConstraint *)centerVerticallyConstraintForView:(UIView *)view
                                              withConstant:(CGFloat)constant;
-- (void)shakeWithView:(UIView *)view;
+- (void)showShakeAnimationForView:(UIView *)view;
 - (void)focusOnUsernameField;
 
 @end
@@ -549,13 +549,13 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     BOOL isFeedbackValid = YES;
 
     if (_usernameField.text.length < 1) {
-        [self shakeWithView:_usernameField];
+        [self showShakeAnimationForView:_usernameField];
 
         isFeedbackValid = NO;
     }
 
     if (_messageView.text.length < 1) {
-        [self shakeWithView:_messageView];
+        [self showShakeAnimationForView:_messageView];
 
         isFeedbackValid = NO;
     }
@@ -571,7 +571,13 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 }
 
 - (void)didTriggerShieldTapRecognizer:(UITapGestureRecognizer *)tapRecognizer {
+    if (_usernameField.isFirstResponder) {
+        _usernameField.resignFirstResponder;
+    }
 
+    if (_messageView.isFirstResponder) {
+        _messageView.resignFirstResponder;
+    }
 }
 
 #pragma mark - Text field delegate
@@ -672,7 +678,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     return image;
 }
 
-- (void)shakeWithView:(UIView *)view {
+- (void)showShakeAnimationForView:(UIView *)view {
     CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.translation.x"];
 
     animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
