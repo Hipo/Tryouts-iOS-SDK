@@ -22,17 +22,24 @@
 
 @implementation TRYFeedbackViewController
 
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+
+    if (self) {
+        _feedback = [TRYFeedback new];
+
+        _feedback.screenshot = [self stringWithEncodedScreenshotImageOfActiveWindow];
+    }
+
+    return self;
+}
+
 - (void)viewDidLoad {
     self.view.backgroundColor = [UIColor whiteColor];
 
     [self.view addGestureRecognizer:[[UITapGestureRecognizer alloc]
                                      initWithTarget:self
                                              action:@selector(didTapBackground:)]];
-    if (!_feedback) {
-        _feedback = [TRYFeedback new];
-    }
-
-    _feedback.screenshot = [self stringWithEncodedScreenshotImageOfActiveWindow];
 
     [self configureView];
 }
