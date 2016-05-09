@@ -466,6 +466,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
     _usernameField.translatesAutoresizingMaskIntoConstraints = NO;
     _usernameField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _usernameField.returnKeyType = UIReturnKeyNext;
 
     NSDictionary *placeholderAttributes = @{ NSForegroundColorAttributeName:[[UIColor grayColor]
                                                                              colorWithAlphaComponent:0.6],
@@ -577,6 +578,10 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
      setContentOffset:CGPointMake(_shieldView.frame.origin.x,
                                   _usernameBackgroundView.frame.origin.y)
      animated:YES];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [_messageView becomeFirstResponder];
 }
 
 #pragma mark - Text view delegate
