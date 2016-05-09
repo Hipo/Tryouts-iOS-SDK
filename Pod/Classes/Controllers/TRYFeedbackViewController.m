@@ -74,10 +74,19 @@
 #pragma mark - Screenshot
 
 - (UIImage *)imageWithScreenshotOfActiveWindow {
-    UIView *screenshotView = [[UIScreen mainScreen] snapshotViewAfterScreenUpdates:NO];
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
 
-    UIGraphicsBeginImageContextWithOptions(screenshotView.bounds.size, screenshotView.opaque, 0.0);
-    [screenshotView drawViewHierarchyInRect:screenshotView.bounds afterScreenUpdates:YES];
+    UIGraphicsBeginImageContext(screenRect.size);
+
+    CGContextRef currentContex = UIGraphicsGetCurrentContext();
+
+    [[UIColor blackColor] set];
+    CGContextFillRect(currentContex, screenRect);
+
+    UIWindow *window = [UIApplication sharedApplication].keyWindow;
+
+    [window.layer renderInContext:currentContex];
+
     UIImage *screenshotImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
