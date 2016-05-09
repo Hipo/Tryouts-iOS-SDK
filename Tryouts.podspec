@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = "Tryouts"
-    s.version          = "0.1.5"
+    s.version          = "0.1.6"
     s.summary          = "Tryouts SDK for beta distribution, version updates and tester feedback"
     s.description      = <<-DESC
     Tryouts SDK allows you to easily gather feedback from your testers
@@ -27,9 +27,5 @@ Pod::Spec.new do |s|
     s.requires_arc = true
 
     s.source_files = 'Pod/Classes/**/*'
-    s.resource_bundles = {
-        'Tryouts' => ['Pod/Assets/*.png']
-    }
-
     s.public_header_files = 'Pod/Classes/**/*.h'
 end
