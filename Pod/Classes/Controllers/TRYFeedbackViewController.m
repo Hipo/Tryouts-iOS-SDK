@@ -83,7 +83,7 @@
 - (UIImage *)imageWithScreenshotOfActiveWindow {
     CGRect screenRect = [[UIScreen mainScreen] bounds];
 
-    UIGraphicsBeginImageContext(screenRect.size);
+    UIGraphicsBeginImageContextWithOptions(screenRect.size, NO, 0.0);
 
     CGContextRef currentContex = UIGraphicsGetCurrentContext();
 
