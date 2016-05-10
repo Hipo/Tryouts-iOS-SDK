@@ -244,6 +244,14 @@ didCompleteWithError:(NSError *)error {
 
             return;
         }
+
+        
+        NSDictionary *error = [response objectForKey:@"error"];
+
+        if (error != nil) {
+            NSLog(@"Error code: %@, message: %@", [error objectForKey:@"code"],
+                                                  [error objectForKey:@"message"]);
+        }
     }
 
     _receivedData = nil;
