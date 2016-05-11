@@ -34,8 +34,8 @@ static NSString const *kCloseButtonHeightKey = @"CLOSE_BUTTON_HEIGHT";
 static NSString const *kCloseButtonTopOffsetKey = @"CLOSE_BUTTON_TOP";
 static NSString const *kCloseButtonRightOffsetKey = @"CLOSE_BUTTON_RIGHT";
 
-static CGFloat  const kCloseButtonWidthValue = 20.0;
-static CGFloat  const kCloseButtonHeightValue = 20.0;
+static CGFloat  const kCloseButtonWidthValue = 30.0;
+static CGFloat  const kCloseButtonHeightValue = 30.0;
 static CGFloat  const kCloseButtonTopOffsetValue = 10.0;
 static CGFloat  const kCloseButtonRightOffsetValue = 15.0;
 
@@ -424,7 +424,6 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     UIButton *closeButton = [UIButton buttonWithType:UIButtonTypeCustom];
 
     closeButton.translatesAutoresizingMaskIntoConstraints = NO;
-    closeButton.imageEdgeInsets = UIEdgeInsetsMake(5.0, 5.0, 5.0, 5.0);
 
     [closeButton setImage:[self imageWithName:@"bt-close"]
                  forState:UIControlStateNormal];
