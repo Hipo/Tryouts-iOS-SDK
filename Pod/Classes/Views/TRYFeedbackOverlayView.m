@@ -472,7 +472,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     NSDictionary *placeholderAttributes = @{ NSForegroundColorAttributeName:[[UIColor grayColor]
                                                                              colorWithAlphaComponent:0.6],
                                              NSFontAttributeName:[UIFont
-                                                                  systemFontOfSize:10.0
+                                                                  systemFontOfSize:12.0
                                                                   weight:UIFontWeightRegular] };
 
     _usernameField.attributedPlaceholder = [[NSAttributedString alloc]
@@ -480,7 +480,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                             attributes:placeholderAttributes];
 
     _usernameField.textAlignment = NSTextAlignmentCenter;
-    _usernameField.font = [UIFont systemFontOfSize:10.0
+    _usernameField.font = [UIFont systemFontOfSize:12.0
                                             weight:UIFontWeightRegular];
 
     _usernameField.text = [[NSUserDefaults standardUserDefaults]
@@ -545,24 +545,27 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     _panelViewVerticalCenterConstraint.constant = 20.0;
 
     if (!animated) {
+        [self layoutIfNeeded];
+
         return;
     }
 
-    [UIView animateWithDuration:0.4
-                          delay:0.0
-                        options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
-                         [self layoutIfNeeded];
-                     } completion:nil];
+    [self animateChanges];
 }
 
 - (void)hideAnimated:(BOOL)animated {
     _panelViewVerticalCenterConstraint.constant = -20.0;
 
     if (!animated) {
+        [self layoutIfNeeded];
+
         return;
     }
 
+    [self animateChanges];
+}
+
+- (void)animateChanges {
     [UIView animateWithDuration:0.4
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseInOut

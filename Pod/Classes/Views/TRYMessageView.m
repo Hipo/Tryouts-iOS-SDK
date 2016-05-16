@@ -29,7 +29,7 @@ static CGFloat  const kPlaceholderTopOffsetValue = 8.0;
 
     if (self) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
-        self.font = [UIFont systemFontOfSize:10.0
+        self.font = [UIFont systemFontOfSize:12.0
                                       weight:UIFontWeightRegular];
 
         [self configurePlaceholder];
@@ -44,9 +44,9 @@ static CGFloat  const kPlaceholderTopOffsetValue = 8.0;
     _placeholderLabel = [UILabel new];
 
     _placeholderLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    _placeholderLabel.text = NSLocalizedString(@"Feedback...", nil);
+    _placeholderLabel.text = NSLocalizedString(@"Your Feedback...", nil);
     _placeholderLabel.textColor = [[UIColor grayColor] colorWithAlphaComponent:0.6];
-    _placeholderLabel.font = [UIFont systemFontOfSize:10.0
+    _placeholderLabel.font = [UIFont systemFontOfSize:12.0
                                                weight:UIFontWeightRegular];
     [self addSubview:_placeholderLabel];
 
