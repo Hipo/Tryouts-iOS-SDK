@@ -64,6 +64,14 @@
 }
 
 - (void)feedbackOverlayViewDidTapCloseButton:(TRYFeedbackOverlayView *)feedbackOverlayView {
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.7;
+    transition.timingFunction = [CAMediaTimingFunction
+                                 functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+
+    UIView *containerView = self.view.window;
+    [containerView.layer addAnimation:transition forKey:nil];
+
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
