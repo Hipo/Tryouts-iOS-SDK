@@ -222,7 +222,16 @@ static Tryouts *_sharedManager = nil;
 
     controller.modalPresentationStyle = UIModalPresentationOverCurrentContext;
     controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+
     controller.delegate = _sharedManager;
+
+    CATransition *transition = [CATransition animation];
+    transition.duration = 0.7;
+    transition.timingFunction = [CAMediaTimingFunction
+                                 functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+
+    UIView *containerView = viewController.view.window;
+    [containerView.layer addAnimation:transition forKey:nil];
 
     [viewController presentViewController:controller
                                  animated:animated
