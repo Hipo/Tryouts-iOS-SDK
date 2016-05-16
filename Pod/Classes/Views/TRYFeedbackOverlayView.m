@@ -56,10 +56,12 @@ static NSString const *kUsernameBackgroundHeightKey = @"USERNAME_BACKG_HEIGHT";
 static CGFloat  const kUsernameBackgroundHeightValue = 36.0;
 
 // USERNAME FIELD
-static NSString const *kUsernameFieldHorizontalOffsetKey = @"USERNAME_FIELD_HORIZONTAL";
+static NSString const *kUsernameFieldHorizontalWithTextOffsetKey = @"USERNAME_FIELD_HORIZONTAL_WITHTEXT";
+static NSString const *kUsernameFieldHorizontalDefaultOffsetKey = @"USERNAME_FIELD_HORIZONTAL_DEFAULT";
 static NSString const *kUsernameFieldVerticalOffsetKey = @"USERNAME_FIELD_VERTICAL";
 
-static CGFloat  const kUsernameFieldHorizontalOffsetValue = 5.0;
+static CGFloat  const kUsernameFieldHorizontalWithTextOffsetValue = 25.0;
+static CGFloat  const kUsernameFieldHorizontalDefaultOffsetValue = 5.0;
 static CGFloat  const kUsernameFieldVerticalOffsetValue = 5.0;
 
 // MESSAGE VIEW BACKGROUND
@@ -97,6 +99,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 @property (nonatomic, strong) UIImageView *usernameBackgroundView;
 @property (nonatomic, strong) UIImageView *messageBackgroundView;
 @property (nonatomic, strong) NSLayoutConstraint *panelViewVerticalCenterConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *usernameFieldLeftPinConstraint;
 
 
 - (void)configureLayout;
@@ -210,7 +213,8 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
        kUsernameBackgroundHeightKey              : @(kUsernameBackgroundHeightValue),
        kTryoutsIconWidthKey                      : @(kTryoutsIconWidthValue),
        kTryoutsIconHeightKey                     : @(kTryoutsIconHeightValue),
-       kUsernameFieldHorizontalOffsetKey         : @(kUsernameFieldHorizontalOffsetValue),
+       kUsernameFieldHorizontalDefaultOffsetKey  : @(kUsernameFieldHorizontalDefaultOffsetValue),
+       kUsernameFieldHorizontalWithTextOffsetKey : @(kUsernameFieldHorizontalWithTextOffsetValue),
        kUsernameFieldVerticalOffsetKey           : @(kUsernameFieldVerticalOffsetValue),
        kMessageViewBackgroundHorizontalOffsetKey : @(kMessageViewBackgroundHorizontalOffsetValue),
        kMessageViewBackgroundTopOffsetKey        : @(kMessageViewBackgroundTopOffsetValue),
@@ -328,13 +332,23 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                                 views:views]];
 
 
-    // Auto layout constraints - Username field - Horizontal
+    // Auto layout constraints - Username field - Horizontal - Left constraint
+    _usernameFieldLeftPinConstraint = [NSLayoutConstraint constraintWithItem:_usernameField
+                                                                   attribute:NSLayoutAttributeLeft
+                                                                   relatedBy:NSLayoutRelationEqual
+                                                                      toItem:_usernameBackgroundView
+                                                                   attribute:NSLayoutAttributeLeft
+                                                                  multiplier:1.0
+                                                                    constant:kUsernameFieldHorizontalDefaultOffsetValue];
+    [self addConstraint:_usernameFieldLeftPinConstraint];
+
+    // Auto layout constraints - Username field - Horizontal - Right constraint
     [self addConstraints:[NSLayoutConstraint
                           constraintsWithVisualFormat:
-                          @"H:|-USERNAME_FIELD_HORIZONTAL-[usernameField]-USERNAME_FIELD_HORIZONTAL-|"
-                                              options:0
-                                              metrics:defaultMetrics
-                                                views:views]];
+                          @"H:[usernameField]-USERNAME_FIELD_HORIZONTAL_DEFAULT-|"
+                          options:0
+                          metrics:defaultMetrics
+                          views:views]];
 
     // Auto layout constraints - Username field - Vertical
     [self addConstraints:[NSLayoutConstraint
@@ -489,6 +503,9 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     _usernameField.delegate = self;
 
     [_usernameBackgroundView addSubview:_usernameField];
+
+//    _usernameField.layer.borderWidth = 1.0;
+//    _usernameField.rightView.layer.borderWidth = 1.0;
 }
 
 - (void)configureMessageBackgroundView {
@@ -620,6 +637,24 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [_messageView becomeFirstResponder];
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    // Change left inset
+    if (textField.text.length == 0) {
+        _usernameFieldLeftPinConstraint.constant = kUsernameFieldHorizontalWithTextOffsetValue;
+    } else if (string.length == 0) {
+        _usernameFieldLeftPinConstraint.constant = kUsernameFieldHorizontalDefaultOffsetValue;
+    }
+
+    return YES;
+}
+
+- (BOOL)textFieldShouldClear:(UITextField *)textField {
+    // Change left inset
+    _usernameFieldLeftPinConstraint.constant = kUsernameFieldHorizontalDefaultOffsetValue;
+
+    return YES;
 }
 
 #pragma mark - Text view delegate
