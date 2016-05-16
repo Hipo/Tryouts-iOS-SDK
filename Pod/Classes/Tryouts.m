@@ -221,6 +221,7 @@ static Tryouts *_sharedManager = nil;
     TRYFeedbackViewController *controller = [[TRYFeedbackViewController alloc] init];
 
     controller.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     controller.delegate = _sharedManager;
 
     [viewController presentViewController:controller

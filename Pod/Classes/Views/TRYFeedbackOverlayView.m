@@ -387,7 +387,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     _shieldView = [UIScrollView new];
 
     _shieldView.translatesAutoresizingMaskIntoConstraints = NO;
-    _shieldView.backgroundColor = [UIColor clearColor];
+    _shieldView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
     _shieldView.alwaysBounceVertical = YES;
 
     _shieldView.delegate = self;
