@@ -55,6 +55,8 @@
     feedBackOverlayView.delegate = self;
 
     [self.view addSubview:feedBackOverlayView];
+
+    [feedBackOverlayView showAnimated:YES];
 }
 
 #pragma mark - Actions
@@ -64,14 +66,6 @@
 }
 
 - (void)feedbackOverlayViewDidTapCloseButton:(TRYFeedbackOverlayView *)feedbackOverlayView {
-    CATransition *transition = [CATransition animation];
-    transition.duration = 0.7;
-    transition.timingFunction = [CAMediaTimingFunction
-                                 functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-
-    UIView *containerView = self.view.window;
-    [containerView.layer addAnimation:transition forKey:nil];
-
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

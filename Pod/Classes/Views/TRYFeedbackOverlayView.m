@@ -96,6 +96,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 @property (nonatomic, strong) UIImageView *panelView;
 @property (nonatomic, strong) UIImageView *usernameBackgroundView;
 @property (nonatomic, strong) UIImageView *messageBackgroundView;
+@property (nonatomic, strong) NSLayoutConstraint *panelViewVerticalCenterConstraint;
 
 
 - (void)configureLayout;
@@ -288,8 +289,9 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [self addConstraint:[self centerHorizontallyConstraintForView:_panelView]];
 
     // Auto layout constraints - Panel view - Center Vertical
-    [self addConstraint:[self centerVerticallyConstraintForView:_panelView
-                                                   withConstant:20.0]];
+    _panelViewVerticalCenterConstraint = [self centerVerticallyConstraintForView:_panelView
+                                                                    withConstant:60.0];
+    [self addConstraint:_panelViewVerticalCenterConstraint];
 
     // Auto layout constraints - Close button - Horizontal
     [self addConstraints:[NSLayoutConstraint
@@ -537,10 +539,44 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     return submitButton;
 }
 
+#pragma mark - Presenting
+
+- (void)showAnimated:(BOOL)animated {
+    _panelViewVerticalCenterConstraint.constant = 20.0;
+
+    if (!animated) {
+        return;
+    }
+
+    [UIView animateWithDuration:0.4
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         [self layoutIfNeeded];
+                     } completion:nil];
+}
+
+- (void)hideAnimated:(BOOL)animated {
+    _panelViewVerticalCenterConstraint.constant = -20.0;
+
+    if (!animated) {
+        return;
+    }
+
+    [UIView animateWithDuration:0.4
+                          delay:0.0
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         [self layoutIfNeeded];
+                     } completion:nil];
+}
+
 #pragma mark - Actions
 
 - (void)didTapCloseButton:(id)sender {
     [self endEditing:YES];
+
+    [self hideAnimated:YES];
     
     [_delegate feedbackOverlayViewDidTapCloseButton:self];
 }

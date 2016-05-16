@@ -20,6 +20,7 @@
 @property (nonatomic, strong, readonly) TRYMessageView *messageView;
 
 - (void)focusOnUsernameField;
+- (void)showAnimated:(BOOL)animated;
 
 @end
 
