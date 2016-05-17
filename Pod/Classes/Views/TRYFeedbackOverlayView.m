@@ -99,7 +99,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 @property (nonatomic, strong) UIImageView *usernameBackgroundView;
 @property (nonatomic, strong) UIImageView *messageBackgroundView;
 @property (nonatomic, strong) NSLayoutConstraint *panelViewVerticalCenterConstraint;
-@property (nonatomic, strong) NSLayoutConstraint *usernameFieldLeftPinConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *usernameFieldLeftConstraint;
 
 
 - (void)configureLayout;
@@ -333,14 +333,14 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 
     // Auto layout constraints - Username field - Horizontal - Left constraint
-    _usernameFieldLeftPinConstraint = [NSLayoutConstraint constraintWithItem:_usernameField
+    _usernameFieldLeftConstraint = [NSLayoutConstraint constraintWithItem:_usernameField
                                                                    attribute:NSLayoutAttributeLeft
                                                                    relatedBy:NSLayoutRelationEqual
                                                                       toItem:_usernameBackgroundView
                                                                    attribute:NSLayoutAttributeLeft
                                                                   multiplier:1.0
                                                                     constant:kUsernameFieldHorizontalDefaultOffsetValue];
-    [self addConstraint:_usernameFieldLeftPinConstraint];
+    [self addConstraint:_usernameFieldLeftConstraint];
 
     // Auto layout constraints - Username field - Horizontal - Right constraint
     [self addConstraints:[NSLayoutConstraint
@@ -633,6 +633,17 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
      setContentOffset:CGPointMake(_shieldView.frame.origin.x,
                                   _usernameBackgroundView.frame.origin.y)
      animated:YES];
+
+    // Change left inset
+    if (textField.text.length > 0) {
+        _usernameFieldLeftConstraint.constant = kUsernameFieldHorizontalWithTextOffsetValue;
+    } else {
+        _usernameFieldLeftConstraint.constant = kUsernameFieldHorizontalDefaultOffsetValue;
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    _usernameFieldLeftConstraint.constant = kUsernameFieldHorizontalDefaultOffsetValue;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -642,9 +653,9 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     // Change left inset
     if (textField.text.length == 0) {
-        _usernameFieldLeftPinConstraint.constant = kUsernameFieldHorizontalWithTextOffsetValue;
+        _usernameFieldLeftConstraint.constant = kUsernameFieldHorizontalWithTextOffsetValue;
     } else if (string.length == 0) {
-        _usernameFieldLeftPinConstraint.constant = kUsernameFieldHorizontalDefaultOffsetValue;
+        _usernameFieldLeftConstraint.constant = kUsernameFieldHorizontalDefaultOffsetValue;
     }
 
     return YES;
@@ -652,7 +663,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
     // Change left inset
-    _usernameFieldLeftPinConstraint.constant = kUsernameFieldHorizontalDefaultOffsetValue;
+    _usernameFieldLeftConstraint.constant = kUsernameFieldHorizontalDefaultOffsetValue;
 
     return YES;
 }
