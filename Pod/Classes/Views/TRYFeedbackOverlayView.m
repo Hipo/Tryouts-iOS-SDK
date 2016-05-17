@@ -27,6 +27,7 @@ static NSString const *kPanelViewHeightKey = @"PANEL_VIEW_HEIGHT";
 
 static CGFloat  const kPanelViewWidthValue = 290.0;
 static CGFloat  const kPanelViewHeightValue = 313.0;
+static CGFloat  const kPanelViewTopOffset = 50.0;
 
 // CLOSE BUTTON
 static NSString const *kCloseButtonWidthKey = @"CLOSE_BUTTON_WIDTH";
@@ -60,7 +61,7 @@ static NSString const *kUsernameFieldHorizontalWithTextOffsetKey = @"USERNAME_FI
 static NSString const *kUsernameFieldHorizontalDefaultOffsetKey = @"USERNAME_FIELD_HORIZONTAL_DEFAULT";
 static NSString const *kUsernameFieldVerticalOffsetKey = @"USERNAME_FIELD_VERTICAL";
 
-static CGFloat  const kUsernameFieldHorizontalWithTextOffsetValue = 25.0;
+static CGFloat  const kUsernameFieldHorizontalWithTextOffsetValue = 30.0;
 static CGFloat  const kUsernameFieldHorizontalDefaultOffsetValue = 5.0;
 static CGFloat  const kUsernameFieldVerticalOffsetValue = 5.0;
 
@@ -98,6 +99,8 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 @property (nonatomic, strong) UIImageView *panelView;
 @property (nonatomic, strong) UIImageView *usernameBackgroundView;
 @property (nonatomic, strong) UIImageView *messageBackgroundView;
+@property (nonatomic, strong) NSLayoutConstraint *shieldViewBottomConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *panelViewTopConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *panelViewVerticalCenterConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *usernameFieldLeftConstraint;
 
@@ -233,20 +236,23 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                               metrics:defaultMetrics
                                                 views:views]];
 
-    // Auto layout constraints - Shield view - Vertical
+    // Auto layout constraints - Shield view - Vertical Top
     [self addConstraints:[NSLayoutConstraint
-                          constraintsWithVisualFormat:@"V:|-ZERO_VERTICAL-[shieldView]-ZERO_VERTICAL-|"
+                          constraintsWithVisualFormat:@"V:|-ZERO_VERTICAL-[shieldView]"
                                               options:0
                                               metrics:defaultMetrics
                                                 views:views]];
 
-    [self addConstraint:[NSLayoutConstraint constraintWithItem:_shieldView
+    // Auto layout constraints - Shield view - Vertical Bottom
+    _shieldViewBottomConstraint = [NSLayoutConstraint constraintWithItem:_shieldView
                                                      attribute:NSLayoutAttributeBottom
                                                      relatedBy:NSLayoutRelationEqual
                                                         toItem:_shieldView.superview
                                                      attribute:NSLayoutAttributeBottom
                                                     multiplier:1.0
-                                                      constant:0.0]];
+                                                      constant:0.0];
+
+    [self addConstraint:_shieldViewBottomConstraint];
 
     // Auto layout constraints - Shield Content view - Vertical
     [self addConstraints:[NSLayoutConstraint
@@ -296,6 +302,19 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     _panelViewVerticalCenterConstraint = [self centerVerticallyConstraintForView:_panelView
                                                                     withConstant:60.0];
     [self addConstraint:_panelViewVerticalCenterConstraint];
+
+    // Auto layout constraints - Panel view - Pin top
+    _panelViewTopConstraint = [NSLayoutConstraint constraintWithItem:_panelView
+                                                           attribute:NSLayoutAttributeTop
+                                                           relatedBy:NSLayoutRelationEqual
+                                                              toItem:_panelView.superview
+                                                           attribute:NSLayoutAttributeTop
+                                                          multiplier:1.0
+                                                            constant:kPanelViewTopOffset];
+
+    [self addConstraint:_panelViewTopConstraint];
+
+    [NSLayoutConstraint deactivateConstraints:@[_panelViewTopConstraint]];
 
     // Auto layout constraints - Close button - Horizontal
     [self addConstraints:[NSLayoutConstraint
@@ -405,6 +424,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     _shieldView.translatesAutoresizingMaskIntoConstraints = NO;
     _shieldView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.7];
     _shieldView.alwaysBounceVertical = YES;
+    _shieldView.showsVerticalScrollIndicator = NO;
 
     _shieldView.delegate = self;
 
@@ -503,9 +523,6 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     _usernameField.delegate = self;
 
     [_usernameBackgroundView addSubview:_usernameField];
-
-//    _usernameField.layer.borderWidth = 1.0;
-//    _usernameField.rightView.layer.borderWidth = 1.0;
 }
 
 - (void)configureMessageBackgroundView {
@@ -617,22 +634,22 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 }
 
 - (void)didTriggerShieldTapRecognizer:(UITapGestureRecognizer *)tapRecognizer {
-    if (_usernameField.isFirstResponder) {
-        _usernameField.resignFirstResponder;
-    }
-
-    if (_messageView.isFirstResponder) {
-        _messageView.resignFirstResponder;
-    }
+//    if (_usernameField.isFirstResponder) {
+//        _usernameField.resignFirstResponder;
+//    }
+//
+//    if (_messageView.isFirstResponder) {
+//        _messageView.resignFirstResponder;
+//    }
 }
 
 #pragma mark - Text field delegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    [_shieldView
-     setContentOffset:CGPointMake(_shieldView.frame.origin.x,
-                                  _usernameBackgroundView.frame.origin.y)
-     animated:YES];
+//    [_shieldView
+//     setContentOffset:CGPointMake(_shieldView.frame.origin.x,
+//                                  _usernameBackgroundView.frame.origin.y)
+//     animated:YES];
 
     // Change left inset
     if (textField.text.length > 0) {
@@ -671,10 +688,9 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 #pragma mark - Text view delegate
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
-    [_shieldView
-     setContentOffset:CGPointMake(_shieldView.frame.origin.x,
-                                  _messageBackgroundView.frame.origin.y + 12.0 + 5.0)
-     animated:YES];
+//    [_shieldView setContentOffset:CGPointMake(_shieldView.frame.origin.x,
+//                                              _messageBackgroundView.frame.origin.y + 12.0 + 5.0)
+//                         animated:YES];
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
@@ -705,8 +721,14 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     UIEdgeInsets insets = _shieldView.contentInset;
 
-    insets.bottom = keyboardFrame.size.height;
+    insets.bottom = keyboardFrame.size.height + 12.0;
     _shieldView.contentInset = insets;
+//    _shieldView.contentSize = CGSizeMake(kPanelViewWidthValue, kPanelViewHeightValue + kPanelViewTopOffset);
+
+    [NSLayoutConstraint deactivateConstraints:@[_panelViewVerticalCenterConstraint]];
+    [NSLayoutConstraint activateConstraints:@[_panelViewTopConstraint]];
+
+    [self layoutIfNeeded];
 }
 
 - (void)didReceiveKeyboardWillHideNotification:(NSNotification *)notification {
@@ -714,6 +736,18 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
     insets.bottom = 0.0;
     _shieldView.contentInset = insets;
+//    _shieldView.contentSize = _shieldView.bounds.size;
+
+    [NSLayoutConstraint deactivateConstraints:@[_panelViewTopConstraint]];
+    [NSLayoutConstraint activateConstraints:@[_panelViewVerticalCenterConstraint]];
+
+    [self layoutIfNeeded];
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    _shieldView.contentSize = CGSizeMake(kPanelViewWidthValue, kPanelViewHeightValue + kPanelViewTopOffset);
 }
 
 #pragma mark - Helper Methods
