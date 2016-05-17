@@ -687,6 +687,8 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [_messageView becomeFirstResponder];
+
+    return YES;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -699,10 +701,11 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 #pragma mark - Text view delegate
 
-- (void)textViewDidBeginEditing:(UITextView *)textView {
-}
-
 - (void)textViewDidChange:(UITextView *)textView {
+    if ([_messageView.text isEqualToString:@"\n"]) {
+        _messageView.text = nil;
+    }
+
     [_messageView showPlaceholder:!(textView.text.length)];
 }
 
