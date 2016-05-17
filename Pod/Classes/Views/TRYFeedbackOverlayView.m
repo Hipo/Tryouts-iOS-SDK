@@ -120,7 +120,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 - (void)didTapSubmitButton:(id)sender;
 - (void)didTriggerShieldTapRecognizer:(UITapGestureRecognizer *)tapRecognizer;
 
-- (void)registerForKeyboardNotifications;
+- (void)registerForKeyboardAndOrientaionNotifications;
 - (void)didReceiveKeyboardWillShowNotification:(NSNotification *)notification;
 - (void)didReceiveKeyboardWillHideNotification:(NSNotification *)notification;
 
@@ -142,7 +142,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     if (self) {
         [self configureLayout];
 
-        [self registerForKeyboardNotifications];
+        [self registerForKeyboardAndOrientaionNotifications];
     }
 
     return self;
@@ -646,11 +646,6 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 #pragma mark - Text field delegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-//    [_shieldView
-//     setContentOffset:CGPointMake(_shieldView.frame.origin.x,
-//                                  _usernameBackgroundView.frame.origin.y)
-//     animated:YES];
-
     // Change left inset
     if (textField.text.length > 0) {
         _usernameFieldLeftConstraint.constant = kUsernameFieldHorizontalWithTextOffsetValue;
@@ -688,9 +683,8 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 #pragma mark - Text view delegate
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
-//    [_shieldView setContentOffset:CGPointMake(_shieldView.frame.origin.x,
-//                                              _messageBackgroundView.frame.origin.y + 12.0 + 5.0)
-//                         animated:YES];
+    [_shieldView scrollRectToVisible:CGRectMake(0.0, _messageBackgroundView.frame.origin.y, 0.0, 0.0)
+                            animated:YES];
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
@@ -701,9 +695,9 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [_messageView showPlaceholder:!(textView.text.length)];
 }
 
-#pragma mark - Keyboard
+#pragma mark - Notifications
 
-- (void)registerForKeyboardNotifications {
+- (void)registerForKeyboardAndOrientaionNotifications {
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 
     [nc addObserver:self
@@ -715,7 +709,20 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
            selector:@selector(didReceiveKeyboardWillShowNotification:)
                name:UIKeyboardWillShowNotification
              object:nil];
+
+    [nc addObserver:self
+           selector:@selector(didReceiveDeviceOrientationDidChangeNotification:)
+               name:UIDeviceOrientationDidChangeNotification
+             object:nil];
 }
+
+#pragma mark - Orientiation
+
+- (void)didReceiveDeviceOrientationDidChangeNotification:(NSNotification *)notification {
+    _shieldView.contentSize = CGSizeMake(kPanelViewWidthValue, kPanelViewHeightValue + kPanelViewTopOffset);
+}
+
+#pragma mark - Keyboard
 
 - (void)didReceiveKeyboardWillShowNotification:(NSNotification *)notification {
     CGRect keyboardFrame = [notification.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
@@ -723,7 +730,6 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
     insets.bottom = keyboardFrame.size.height + 12.0;
     _shieldView.contentInset = insets;
-//    _shieldView.contentSize = CGSizeMake(kPanelViewWidthValue, kPanelViewHeightValue + kPanelViewTopOffset);
 
     [NSLayoutConstraint deactivateConstraints:@[_panelViewVerticalCenterConstraint]];
     [NSLayoutConstraint activateConstraints:@[_panelViewTopConstraint]];
@@ -736,7 +742,6 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
     insets.bottom = 0.0;
     _shieldView.contentInset = insets;
-//    _shieldView.contentSize = _shieldView.bounds.size;
 
     [NSLayoutConstraint deactivateConstraints:@[_panelViewTopConstraint]];
     [NSLayoutConstraint activateConstraints:@[_panelViewVerticalCenterConstraint]];
