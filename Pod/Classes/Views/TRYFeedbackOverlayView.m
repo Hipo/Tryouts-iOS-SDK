@@ -531,8 +531,6 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     _usernameField.delegate = self;
 
     [_usernameBackgroundView addSubview:_usernameField];
-
-//    _usernameField.layer.borderWidth = 1.0;
 }
 
 - (void)configureClearButton {
@@ -548,8 +546,6 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
            forControlEvents:UIControlEventTouchUpInside];
 
     [_usernameBackgroundView addSubview:_clearButton];
-
-//    _clearButton.layer.borderWidth = 1.0;
 }
 
 - (void)configureMessageBackgroundView {
@@ -666,13 +662,11 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 }
 
 - (void)didTriggerShieldTapRecognizer:(UITapGestureRecognizer *)tapRecognizer {
-//    if (_usernameField.isFirstResponder) {
-//        _usernameField.resignFirstResponder;
-//    }
-//
-//    if (_messageView.isFirstResponder) {
-//        _messageView.resignFirstResponder;
-//    }
+    if (_usernameField.isFirstResponder) {
+        _usernameField.resignFirstResponder;
+    } else if (_messageView.isFirstResponder) {
+        _messageView.resignFirstResponder;
+    }
 }
 
 #pragma mark - Text field delegate
