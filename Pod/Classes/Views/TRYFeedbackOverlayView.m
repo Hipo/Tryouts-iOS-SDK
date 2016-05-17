@@ -57,12 +57,10 @@ static NSString const *kUsernameBackgroundHeightKey = @"USERNAME_BACKG_HEIGHT";
 static CGFloat  const kUsernameBackgroundHeightValue = 36.0;
 
 // USERNAME FIELD
-static NSString const *kUsernameFieldHorizontalWithTextOffsetKey = @"USERNAME_FIELD_HORIZONTAL_WITHTEXT";
 static NSString const *kUsernameFieldHorizontalDefaultOffsetKey = @"USERNAME_FIELD_HORIZONTAL_DEFAULT";
 static NSString const *kUsernameFieldVerticalOffsetKey = @"USERNAME_FIELD_VERTICAL";
 
-static CGFloat  const kUsernameFieldHorizontalWithTextOffsetValue = 30.0;
-static CGFloat  const kUsernameFieldHorizontalDefaultOffsetValue = 5.0;
+static CGFloat  const kUsernameFieldHorizontalDefaultOffsetValue = 30.0;
 static CGFloat  const kUsernameFieldVerticalOffsetValue = 5.0;
 
 // MESSAGE VIEW BACKGROUND
@@ -97,12 +95,13 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 @property (nonatomic, strong) UIScrollView *shieldView;
 @property (nonatomic, strong) UIView *shieldContentView;
 @property (nonatomic, strong) UIImageView *panelView;
+@property (nonatomic, strong) UIButton *clearButton;
 @property (nonatomic, strong) UIImageView *usernameBackgroundView;
 @property (nonatomic, strong) UIImageView *messageBackgroundView;
 @property (nonatomic, strong) NSLayoutConstraint *shieldViewBottomConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *panelViewTopConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *panelViewVerticalCenterConstraint;
-@property (nonatomic, strong) NSLayoutConstraint *usernameFieldLeftConstraint;
+//@property (nonatomic, strong) NSLayoutConstraint *usernameFieldLeftConstraint;
 
 
 - (void)configureLayout;
@@ -112,6 +111,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 - (UIImageView *)configureTryoutsIconView;
 - (void)configureUsernameBackgroundView;
 - (void)configureUsernameField;
+- (void)configureClearButton;
 - (void)configureMessageBackgroundView;
 - (void)configureMessageView;
 - (UIButton *)configureSubmitButton;
@@ -180,6 +180,9 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     // Username field
     [self configureUsernameField];
 
+    // Clear button
+    [self configureClearButton];
+
     // Message view background
     [self configureMessageBackgroundView];
 
@@ -198,6 +201,7 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                                         @"usernameBackground" : _usernameBackgroundView,
                                                         @"tryoutsIcon"        : tryoutsIconView,
                                                         @"usernameField"      : _usernameField,
+                                                        @"clearButton"        : _clearButton,
                                                         @"messageBackground"  : _messageBackgroundView,
                                                         @"submitButton"       : submitButton,
                                                         @"messageView"        : _messageView }];
@@ -217,7 +221,6 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
        kTryoutsIconWidthKey                      : @(kTryoutsIconWidthValue),
        kTryoutsIconHeightKey                     : @(kTryoutsIconHeightValue),
        kUsernameFieldHorizontalDefaultOffsetKey  : @(kUsernameFieldHorizontalDefaultOffsetValue),
-       kUsernameFieldHorizontalWithTextOffsetKey : @(kUsernameFieldHorizontalWithTextOffsetValue),
        kUsernameFieldVerticalOffsetKey           : @(kUsernameFieldVerticalOffsetValue),
        kMessageViewBackgroundHorizontalOffsetKey : @(kMessageViewBackgroundHorizontalOffsetValue),
        kMessageViewBackgroundTopOffsetKey        : @(kMessageViewBackgroundTopOffsetValue),
@@ -350,21 +353,10 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                               metrics:defaultMetrics
                                                 views:views]];
 
-
-    // Auto layout constraints - Username field - Horizontal - Left constraint
-    _usernameFieldLeftConstraint = [NSLayoutConstraint constraintWithItem:_usernameField
-                                                                   attribute:NSLayoutAttributeLeft
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:_usernameBackgroundView
-                                                                   attribute:NSLayoutAttributeLeft
-                                                                  multiplier:1.0
-                                                                    constant:kUsernameFieldHorizontalDefaultOffsetValue];
-    [self addConstraint:_usernameFieldLeftConstraint];
-
     // Auto layout constraints - Username field - Horizontal - Right constraint
     [self addConstraints:[NSLayoutConstraint
                           constraintsWithVisualFormat:
-                          @"H:[usernameField]-USERNAME_FIELD_HORIZONTAL_DEFAULT-|"
+                          @"H:|-USERNAME_FIELD_HORIZONTAL_DEFAULT-[usernameField]-ZERO_HORIZONTAL-[clearButton]-|"
                           options:0
                           metrics:defaultMetrics
                           views:views]];
@@ -376,6 +368,23 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
                                              options:0
                                              metrics:defaultMetrics
                                                views:views]];
+
+    // Auto layout constraints - Clear Button - Equalize width to its height
+    [self addConstraint:[NSLayoutConstraint constraintWithItem:_clearButton
+                                                     attribute:NSLayoutAttributeWidth
+                                                     relatedBy:NSLayoutRelationEqual
+                                                        toItem:_clearButton
+                                                     attribute:NSLayoutAttributeHeight
+                                                    multiplier:1.0
+                                                      constant:0.0]];
+
+    // Auto layout constraints - Clear Button - Vertical
+    [self addConstraints:[NSLayoutConstraint
+                          constraintsWithVisualFormat:
+                          @"V:|-USERNAME_FIELD_VERTICAL-[clearButton]-USERNAME_FIELD_VERTICAL-|"
+                          options:0
+                          metrics:defaultMetrics
+                          views:views]];
 
     // Auto layout constraints - Message view background - Horizontal
     [self addConstraints:[NSLayoutConstraint
@@ -500,7 +509,6 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     _usernameField = [UITextField new];
 
     _usernameField.translatesAutoresizingMaskIntoConstraints = NO;
-    _usernameField.clearButtonMode = UITextFieldViewModeWhileEditing;
     _usernameField.returnKeyType = UIReturnKeyNext;
 
     NSDictionary *placeholderAttributes = @{ NSForegroundColorAttributeName:[[UIColor grayColor]
@@ -523,6 +531,25 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     _usernameField.delegate = self;
 
     [_usernameBackgroundView addSubview:_usernameField];
+
+//    _usernameField.layer.borderWidth = 1.0;
+}
+
+- (void)configureClearButton {
+    _clearButton = [UIButton buttonWithType:UIButtonTypeCustom];
+
+    _clearButton.translatesAutoresizingMaskIntoConstraints = NO;
+
+    [_clearButton setImage:[self imageWithName:@"bt-clear"]
+                  forState:UIControlStateNormal];
+
+    [_clearButton addTarget:self
+                     action:@selector(didTapClearButton:)
+           forControlEvents:UIControlEventTouchUpInside];
+
+    [_usernameBackgroundView addSubview:_clearButton];
+
+//    _clearButton.layer.borderWidth = 1.0;
 }
 
 - (void)configureMessageBackgroundView {
@@ -618,6 +645,11 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
     [_delegate feedbackOverlayViewDidTapCloseButton:self];
 }
 
+- (void)didTapClearButton:(id)sender {
+    _usernameField.text = nil;
+    _clearButton.hidden = YES;
+}
+
 - (void)didTapSubmitButton:(id)sender {
     [self endEditing:YES];
 
@@ -646,16 +678,11 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 #pragma mark - Text field delegate
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
-    // Change left inset
-    if (textField.text.length > 0) {
-        _usernameFieldLeftConstraint.constant = kUsernameFieldHorizontalWithTextOffsetValue;
-    } else {
-        _usernameFieldLeftConstraint.constant = kUsernameFieldHorizontalDefaultOffsetValue;
-    }
+    _clearButton.hidden = (textField.text.length == 0);
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
-    _usernameFieldLeftConstraint.constant = kUsernameFieldHorizontalDefaultOffsetValue;
+    _clearButton.hidden = YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -663,19 +690,9 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    // Change left inset
-    if (textField.text.length == 0) {
-        _usernameFieldLeftConstraint.constant = kUsernameFieldHorizontalWithTextOffsetValue;
-    } else if (string.length == 0) {
-        _usernameFieldLeftConstraint.constant = kUsernameFieldHorizontalDefaultOffsetValue;
-    }
+    NSString *resultString = [textField.text stringByReplacingCharactersInRange:range withString:string];
 
-    return YES;
-}
-
-- (BOOL)textFieldShouldClear:(UITextField *)textField {
-    // Change left inset
-    _usernameFieldLeftConstraint.constant = kUsernameFieldHorizontalDefaultOffsetValue;
+    _clearButton.hidden = (resultString.length == 0);
 
     return YES;
 }
@@ -683,8 +700,6 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 #pragma mark - Text view delegate
 
 - (void)textViewDidBeginEditing:(UITextView *)textView {
-    [_shieldView scrollRectToVisible:CGRectMake(0.0, _messageBackgroundView.frame.origin.y, 0.0, 0.0)
-                            animated:YES];
 }
 
 - (void)textViewDidChange:(UITextView *)textView {
