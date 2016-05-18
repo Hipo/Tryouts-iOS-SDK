@@ -56,6 +56,7 @@
 
     [self.view addSubview:feedBackOverlayView];
 
+    [feedBackOverlayView layoutIfNeeded];
     [feedBackOverlayView showAnimated:YES];
 }
 
