@@ -647,13 +647,13 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 }
 
 - (void)didTapSubmitButton:(id)sender {
-    [self endEditing:YES];
-
     if (_usernameField.text.length < 1) {
         [self showShakeAnimationForUsernameField];
 
         return;
     }
+
+    [self endEditing:YES];
 
     [[NSUserDefaults standardUserDefaults] setObject:_usernameField.text
                                               forKey:kNSUserDefaulsUsernameKey];
