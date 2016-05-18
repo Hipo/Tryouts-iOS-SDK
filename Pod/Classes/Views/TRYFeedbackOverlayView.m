@@ -98,10 +98,8 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 @property (nonatomic, strong) UIButton *clearButton;
 @property (nonatomic, strong) UIImageView *usernameBackgroundView;
 @property (nonatomic, strong) UIImageView *messageBackgroundView;
-@property (nonatomic, strong) NSLayoutConstraint *shieldViewBottomConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *panelViewTopConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *panelViewVerticalCenterConstraint;
-//@property (nonatomic, strong) NSLayoutConstraint *usernameFieldLeftConstraint;
 
 
 - (void)configureLayout;
@@ -241,21 +239,10 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
     // Auto layout constraints - Shield view - Vertical Top
     [self addConstraints:[NSLayoutConstraint
-                          constraintsWithVisualFormat:@"V:|-ZERO_VERTICAL-[shieldView]"
+                          constraintsWithVisualFormat:@"V:|-ZERO_VERTICAL-[shieldView]-ZERO_VERTICAL-|"
                                               options:0
                                               metrics:defaultMetrics
                                                 views:views]];
-
-    // Auto layout constraints - Shield view - Vertical Bottom
-    _shieldViewBottomConstraint = [NSLayoutConstraint constraintWithItem:_shieldView
-                                                     attribute:NSLayoutAttributeBottom
-                                                     relatedBy:NSLayoutRelationEqual
-                                                        toItem:_shieldView.superview
-                                                     attribute:NSLayoutAttributeBottom
-                                                    multiplier:1.0
-                                                      constant:0.0];
-
-    [self addConstraint:_shieldViewBottomConstraint];
 
     // Auto layout constraints - Shield Content view - Vertical
     [self addConstraints:[NSLayoutConstraint
