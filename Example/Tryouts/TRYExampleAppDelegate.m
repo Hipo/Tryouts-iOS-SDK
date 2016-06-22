@@ -43,24 +43,15 @@
 
 #pragma mark - Motion Recognization
 
-- (void)motionRecognizingWindowDidRecognizeShakeMotion:(TRYMotionRecognizingWindow *)motionRecognizingWindow {
-    if ([[self topMostController] isKindOfClass:[TRYFeedbackViewController class]]) {
+- (void)motionRecognizingWindowDidRecognizeShakeMotion:(TRYMotionRecognizingWindow *)motionRecognizingWindow
+                                  andTopMostController:(UIViewController *)topMostController {
+
+    if ([topMostController isKindOfClass:[TRYFeedbackViewController class]]) {
         return;
     }
 
-    [Tryouts presentFeedBackControllerFromViewController:[self topMostController]
+    [Tryouts presentFeedBackControllerFromViewController:topMostController
                                                 animated:YES];
 }
-
-- (UIViewController *)topMostController {
-    UIViewController *topMostController = [UIApplication sharedApplication].keyWindow.rootViewController;
-
-    while (topMostController.presentedViewController) {
-        topMostController = topMostController.presentedViewController;
-    }
-
-    return topMostController;
-}
-
 
 @end

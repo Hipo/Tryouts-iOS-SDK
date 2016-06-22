@@ -20,6 +20,7 @@
 
 @protocol TRYMotionRecognizingWindowDelegate <NSObject>
 
-- (void)motionRecognizingWindowDidRecognizeShakeMotion:(TRYMotionRecognizingWindow *)motionRecognizingWindow;
+- (void)motionRecognizingWindowDidRecognizeShakeMotion:(TRYMotionRecognizingWindow *)motionRecognizingWindow
+                                  andTopMostController:(UIViewController *)topMostController;
 
 @end

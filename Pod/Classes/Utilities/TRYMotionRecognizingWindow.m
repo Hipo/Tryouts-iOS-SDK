@@ -14,10 +14,23 @@
     if (event.type == UIEventTypeMotion
         && event.subtype == UIEventSubtypeMotionShake) {
 
-        if ([_motionDelegate respondsToSelector:@selector(motionRecognizingWindowDidRecognizeShakeMotion:)]) {
-            [_motionDelegate motionRecognizingWindowDidRecognizeShakeMotion:self];
+        if ([_motionDelegate respondsToSelector:@selector(motionRecognizingWindowDidRecognizeShakeMotion:
+                                                          andTopMostController:)]) {
+
+            [_motionDelegate motionRecognizingWindowDidRecognizeShakeMotion:self
+                                                       andTopMostController:[self topMostController]];
         }
     }
+}
+
+- (UIViewController *)topMostController {
+    UIViewController *topMostController = [UIApplication sharedApplication].keyWindow.rootViewController;
+
+    while (topMostController.presentedViewController) {
+        topMostController = topMostController.presentedViewController;
+    }
+
+    return topMostController;
 }
 
 @end
