@@ -14,6 +14,7 @@
 #import "TRYFeedbackUploadManager.h"
 #import "TRYFeedbackUploadTask.h"
 
+
 static NSString * const TRYAPIVersionCheckURL = @"https://api.tryouts.io/v1/applications/%@/";
 
 static NSTimeInterval const TRYAPIUpdateCheckInterval = 15.0 * 60.0;

@@ -1,7 +1,7 @@
 PODS:
   - Expecta (1.0.3)
   - Specta (1.0.4)
-  - Tryouts (0.1.6)
+  - Tryouts (0.1.7)
 
 DEPENDENCIES:
   - Expecta
@@ -15,8 +15,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Expecta: 9d1bff6c8b0eeee73a166a2ee898892478927a15
   Specta: 69bb134672aae190a1379ff91df07dad8dd1f869
-  Tryouts: e1940c668930db288fb7b52f8814e696fe903a06
+  Tryouts: 22fb5aa72e981404649ce4f14acf0c52336c0040
 
 PODFILE CHECKSUM: 7b4316ea12b888d5d6eea6234a59f4ec45683dcb
 
-COCOAPODS: 1.0.0.rc.2
+COCOAPODS: 1.0.1

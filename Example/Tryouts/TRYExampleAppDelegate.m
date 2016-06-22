@@ -7,10 +7,15 @@
 //
 
 #import <Tryouts/Tryouts.h>
-
 #import "TRYExampleAppDelegate.h"
-
 #import "TRYExampleViewController.h"
+#import <Tryouts/TRYFeedbackViewController.h>
+#import <Tryouts/TRYMotionRecognizingWindow.h>
+
+
+@interface TRYExampleAppDelegate ()<TRYMotionRecognizingWindowDelegate>
+
+@end
 
 @implementation TRYExampleAppDelegate
 
@@ -20,7 +25,10 @@
                                   APIKey:@"5fa26ce4c439a879c047f34b10f64f99"
                                   secret:@"3498ac2fed57069b388868aefd7b3099715043b0"];
 
-    UIWindow *window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    TRYMotionRecognizingWindow *window = [[TRYMotionRecognizingWindow alloc]
+                                          initWithFrame:[[UIScreen mainScreen] bounds]];
+    window.motionDelegate = self;
+
 
     UINavigationController *navController = [[UINavigationController alloc]
                                              initWithRootViewController:[[TRYExampleViewController alloc] init]];
@@ -32,5 +40,27 @@
 
     return YES;
 }
+
+#pragma mark - Motion Recognization
+
+- (void)motionRecognizingWindowDidRecognizeShakeMotion:(TRYMotionRecognizingWindow *)motionRecognizingWindow {
+    if ([[self topMostController] isKindOfClass:[TRYFeedbackViewController class]]) {
+        return;
+    }
+
+    [Tryouts presentFeedBackControllerFromViewController:[self topMostController]
+                                                animated:YES];
+}
+
+- (UIViewController *)topMostController {
+    UIViewController *topMostController = [UIApplication sharedApplication].keyWindow.rootViewController;
+
+    while (topMostController.presentedViewController) {
+        topMostController = topMostController.presentedViewController;
+    }
+
+    return topMostController;
+}
+
 
 @end

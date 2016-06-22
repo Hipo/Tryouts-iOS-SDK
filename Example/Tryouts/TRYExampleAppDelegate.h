@@ -8,7 +8,6 @@
 
 @import UIKit;
 
-
 @interface TRYExampleAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
