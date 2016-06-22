@@ -25,18 +25,19 @@
                                   APIKey:@"5fa26ce4c439a879c047f34b10f64f99"
                                   secret:@"3498ac2fed57069b388868aefd7b3099715043b0"];
 
-    TRYMotionRecognizingWindow *window = [[TRYMotionRecognizingWindow alloc]
+    TRYMotionRecognizingWindow *motionRecognizingWindow = [[TRYMotionRecognizingWindow alloc]
                                           initWithFrame:[[UIScreen mainScreen] bounds]];
-    window.motionDelegate = self;
+
+    motionRecognizingWindow.motionDelegate = self;
 
 
     UINavigationController *navController = [[UINavigationController alloc]
                                              initWithRootViewController:[[TRYExampleViewController alloc] init]];
 
-    [window setRootViewController:navController];
-    [window makeKeyAndVisible];
+    [motionRecognizingWindow setRootViewController:navController];
+    [motionRecognizingWindow makeKeyAndVisible];
 
-    [self setWindow:window];
+    [self setWindow:motionRecognizingWindow];
 
     return YES;
 }
