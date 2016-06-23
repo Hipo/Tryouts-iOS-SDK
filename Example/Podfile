@@ -3,11 +3,11 @@ source 'https://github.com/CocoaPods/Specs.git'
 use_frameworks!
 inhibit_all_warnings!
 
-target 'Tryouts_Example', :exclusive => true do
+target 'Tryouts_Example' do
   pod "Tryouts", :path => "../"
 end
 
-target 'Tryouts_Tests', :exclusive => true do
+target 'Tryouts_Tests' do
   pod "Tryouts", :path => "../"
 
   pod 'Specta'

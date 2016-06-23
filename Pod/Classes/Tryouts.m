@@ -9,13 +9,18 @@
 #import "Tryouts.h"
 
 #import "TRYAppRelease.h"
+#import "TRYFeedbackViewController.h"
+#import "TRYFeedback.h"
+#import "TRYFeedbackUploadManager.h"
+#import "TRYFeedbackUploadTask.h"
 
 
 static NSString * const TRYAPIVersionCheckURL = @"https://api.tryouts.io/v1/applications/%@/";
+
 static NSTimeInterval const TRYAPIUpdateCheckInterval = 15.0 * 60.0;
 
 
-@interface Tryouts () <UIAlertViewDelegate>
+@interface Tryouts () <UIAlertViewDelegate, TRYFeedbackViewControllerDelegate>
 
 @property (nonatomic, strong) NSString *appIdentifier;
 @property (nonatomic, strong) NSString *APIKey;
@@ -36,6 +41,7 @@ static NSTimeInterval const TRYAPIUpdateCheckInterval = 15.0 * 60.0;
 
 - (void)fetchLatestVersion;
 - (void)compareWithRelease:(TRYAppRelease *)release;
+- (void)sendFeedback:(TRYFeedback *)feedback;
 
 @end
 
@@ -54,6 +60,8 @@ static Tryouts *_sharedManager = nil;
         _sharedManager = [[Tryouts alloc] initWithAppIdentifier:appIdentifier
                                                          APIKey:APIKey
                                                          secret:secret];
+
+        [TRYFeedbackUploadManager sharedManager];
     });
     
     return _sharedManager;
@@ -204,6 +212,40 @@ static Tryouts *_sharedManager = nil;
     }
     
     [[UIApplication sharedApplication] openURL:_latestRelease.installURL];
+}
+
+#pragma mark - Feedback
+
++ (void)presentFeedBackControllerFromViewController:(UIViewController *)viewController
+                                           animated:(BOOL)animated {
+
+    TRYFeedbackViewController *controller = [[TRYFeedbackViewController alloc] init];
+
+    controller.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+    controller.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+
+    controller.delegate = _sharedManager;
+
+    [viewController presentViewController:controller
+                                 animated:animated
+                               completion:nil];
+}
+
+#pragma mark - Feedback delegate
+
+- (void)feedbackViewControllerDidFinishWithFeedback:(TRYFeedback *)feedback {
+    if (feedback == nil) {
+        return;
+    }
+
+    TRYFeedbackUploadTask *uploadTask = [[TRYFeedbackUploadTask alloc]
+                                         initFeedbackUploadTaskWithFeedback:feedback
+                                         releaseVersion:_appVersion
+                                         appIdentifier:_appIdentifier
+                                         apiKey:_APIKey
+                                         apiSecret:_APISecret];
+    
+    [[TRYFeedbackUploadManager sharedManager] createUploadTaskForFeedback:uploadTask];
 }
 
 @end

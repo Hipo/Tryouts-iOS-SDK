@@ -75,7 +75,11 @@ static NSString * const TRYSystemAppInstallURLScheme = @"itms-services://?action
 
 - (id)nonNullValueForKey:(NSString *)key
           fromDictionary:(NSDictionary *)dict {
-    
+
+    if ([dict isEqual:[NSNull null]]) {
+        return nil;
+    }
+
     id value = dict[key];
     
     if (value == nil || [value isEqual:[NSNull null]]) {

@@ -48,4 +48,7 @@
                                   APIKey:(NSString *)APIKey
                                   secret:(NSString *)secret;
 
++ (void)presentFeedBackControllerFromViewController:(UIViewController *)viewController
+                                           animated:(BOOL)animated;
+
 @end
