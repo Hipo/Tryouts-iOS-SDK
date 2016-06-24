@@ -216,8 +216,8 @@ static Tryouts *_sharedManager = nil;
 
 #pragma mark - Feedback
 
-+ (void)presentFeedBackControllerFromViewController:(UIViewController *)viewController
-                                           animated:(BOOL)animated {
++ (void)presentFeedBackControllerWithPresentingViewController:(UIViewController *)presentingViewController
+                                                     animated:(BOOL)animated {
 
     TRYFeedbackViewController *controller = [[TRYFeedbackViewController alloc] init];
 
@@ -226,9 +226,9 @@ static Tryouts *_sharedManager = nil;
 
     controller.delegate = _sharedManager;
 
-    [viewController presentViewController:controller
-                                 animated:animated
-                               completion:nil];
+    [presentingViewController presentViewController:controller
+                                           animated:animated
+                                         completion:nil];
 }
 
 #pragma mark - Feedback delegate

@@ -48,7 +48,23 @@
                                   APIKey:(NSString *)APIKey
                                   secret:(NSString *)secret;
 
-+ (void)presentFeedBackControllerFromViewController:(UIViewController *)viewController
-                                           animated:(BOOL)animated;
+/**
+ * @method
+ *
+ * @abstract
+ * Method to be used for presenting feedback overlay view
+ * 
+ * @discussion
+ * This method can be used to present feedback view which has username and feedback fields. Username
+ * field is required and feedback field is optional. An snapshot of the screen is taken automatically when
+ * presenting feedback view and sent to the server attached to feedback data.
+ * 
+ * @param presentingViewController View controller that presents the feedback view controller
+ * @param animated                 Determines whether feedback view controller is presented animated or not
+ * 
+ * @return
+ */
++ (void)presentFeedBackControllerWithPresentingViewController:(UIViewController *)presentingViewController
+                                                     animated:(BOOL)animated;
 
 @end
