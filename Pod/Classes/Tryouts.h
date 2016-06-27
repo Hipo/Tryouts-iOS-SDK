@@ -56,8 +56,8 @@
  * 
  * @discussion
  * This method can be used to present feedback view which has username and feedback fields. Username
- * field is required and feedback field is optional. An snapshot of the screen is taken automatically when
- * presenting feedback view and sent to the server attached to feedback data.
+ * field is required and feedback field is optional. A snapshot of the screen is taken automatically when
+ * presenting feedback view and sent to your Tryouts account with user comments.
  * 
  * @param presentingViewController View controller that presents the feedback view controller
  * @param animated                 Determines whether feedback view controller is presented animated or not
