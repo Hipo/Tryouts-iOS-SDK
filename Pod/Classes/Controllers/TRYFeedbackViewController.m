@@ -49,15 +49,15 @@
 - (void)configureView {
     self.view.backgroundColor = [UIColor clearColor];
 
-    TRYFeedbackOverlayView *feedBackOverlayView = [[TRYFeedbackOverlayView alloc]
+    TRYFeedbackOverlayView *feedbackOverlayView = [[TRYFeedbackOverlayView alloc]
                                                    initWithFrame:self.view.bounds];
-    [feedBackOverlayView focusOnUsernameField];
-    feedBackOverlayView.delegate = self;
+    [feedbackOverlayView focusOnUsernameField];
+    feedbackOverlayView.delegate = self;
 
-    [self.view addSubview:feedBackOverlayView];
+    [self.view addSubview:feedbackOverlayView];
 
-    [feedBackOverlayView layoutIfNeeded];
-    [feedBackOverlayView showAnimated:YES];
+    [feedbackOverlayView layoutIfNeeded];
+    [feedbackOverlayView showAnimated:YES];
 }
 
 #pragma mark - Actions
