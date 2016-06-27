@@ -27,16 +27,16 @@ Tryouts SDK will automatically check for new releases every time the app becomes
 
 ### Feedback
 
-Tryouts SDK can be used to get feedbacks from users of an application. The method to be used is `presentFeedbackControllerFromViewController:animated:`
+Tryouts SDK can be used to gather in-app feedback from your users. The method to be used is `presentFeedbackControllerFromViewController:animated:`
 
 ```objc
 [Tryouts presentFeedbackControllerFromViewController:presentingViewController
                                             animated:animated];
 ```
 
-Feedback overlay view will be presented on presentingViewController when this method called. Feedback overlay view has username and feedback fields, feedback is optional while username is required. Also, a snapshot of the screen is taken in the background when feedback overlay view is being presented, and sent to server attached to username and feedback data.
+Feedback overlay view will be presented on presentingViewController when this method called. Feedback overlay view has username and feedback fields, feedback is optional while username is required. Also, a snapshot of the screen is taken in the background when feedback overlay view is being presented, and sent to your Tryouts account.
 
-Tryouts SDK has also support for presenting feedback view by using shake motion. This functionality is optional. To use the functionality, simply initialize your application's window with `TRYMotionRecognizingWindow` class, and implement `motionRecognizingWindowDidRecognizeShakeMotion:andTopMostController:` delegate method conforming `TRYMotionRecognizingWindowDelegate` protocol.
+Tryouts SDK also has support for presenting the feedback view by using shake motion. This functionality is optional. To use the functionality, simply initialize your application's window with `TRYMotionRecognizingWindow` class, and implement `motionRecognizingWindowDidRecognizeShakeMotion:andTopMostController:` delegate method conforming `TRYMotionRecognizingWindowDelegate` protocol.
 
 ```objc
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
