@@ -21,12 +21,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    [Tryouts initializeWithAppIdentifier:@"QOCWOqT0"
-                                  APIKey:@"5fa26ce4c439a879c047f34b10f64f99"
-                                  secret:@"3498ac2fed57069b388868aefd7b3099715043b0"];
+    [Tryouts initializeWithAppIdentifier:@"7HB7Ke6X"
+                                  APIKey:@"b9d09ac13e52c0f09dd988f302dca833"
+                                  secret:@"de55be15922da790c0862d3db152c5d75e18fbb0"];
 
     TRYMotionRecognizingWindow *motionRecognizingWindow = [[TRYMotionRecognizingWindow alloc]
-                                          initWithFrame:[[UIScreen mainScreen] bounds]];
+                                                           initWithFrame:[[UIScreen mainScreen] bounds]];
 
     motionRecognizingWindow.motionDelegate = self;
 
@@ -51,7 +51,7 @@
         return;
     }
 
-    [Tryouts presentFeedBackControllerFromViewController:topMostController
+    [Tryouts presentFeedbackControllerFromViewController:topMostController
                                                 animated:YES];
 }
 

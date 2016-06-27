@@ -12,7 +12,7 @@
 static NSString * const kStorageDirectoryName            = @"com.hipo.tryouts.kStorageDirectoryName";
 static NSString * const kNSUserDefaultTasksKey           = @"com.hipo.tryouts.kNSUserDefaultTasksKey";
 static NSString * const kBackgroundSessionIdentifier     = @"com.hipo.tryouts.kBackgroundSessionIdentifier";
-static NSString * const kAPIFeedbackSendURL              = @"https://api-staging.tryouts.io/v1/applications/%@/feedback/"; // TODO: will be changed into production's url
+static NSString * const kAPIFeedbackSendURL              = @"https://api.tryouts.io/v1/applications/%@/feedback/";
 
 
 @interface TRYFeedbackUploadManager () <NSURLSessionTaskDelegate,
