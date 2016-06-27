@@ -216,8 +216,8 @@ static Tryouts *_sharedManager = nil;
 
 #pragma mark - Feedback
 
-+ (void)presentFeedBackControllerWithPresentingViewController:(UIViewController *)presentingViewController
-                                                     animated:(BOOL)animated {
++ (void)presentFeedbackControllerFromViewController:(UIViewController *)presentingViewController
+                                           animated:(BOOL)animated {
 
     TRYFeedbackViewController *controller = [[TRYFeedbackViewController alloc] init];
 

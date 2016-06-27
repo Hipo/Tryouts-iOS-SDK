@@ -67,8 +67,8 @@
 #pragma mark - Actions
 
 - (void)didTapFeedbackButton:(id)sender {
-    [Tryouts presentFeedBackControllerWithPresentingViewController:self
-                                                          animated:YES];
+    [Tryouts presentFeedbackControllerFromViewController:self
+                                                animated:YES];
 }
 
 @end

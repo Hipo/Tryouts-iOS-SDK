@@ -64,7 +64,7 @@
  * 
  * @return
  */
-+ (void)presentFeedBackControllerWithPresentingViewController:(UIViewController *)presentingViewController
-                                                     animated:(BOOL)animated;
++ (void)presentFeedbackControllerFromViewController:(UIViewController *)presentingViewController
+                                           animated:(BOOL)animated;
 
 @end

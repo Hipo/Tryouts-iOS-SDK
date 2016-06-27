@@ -51,8 +51,8 @@
         return;
     }
 
-    [Tryouts presentFeedBackControllerWithPresentingViewController:topMostController
-                                                          animated:YES];
+    [Tryouts presentFeedbackControllerFromViewController:topMostController
+                                                animated:YES];
 }
 
 @end
