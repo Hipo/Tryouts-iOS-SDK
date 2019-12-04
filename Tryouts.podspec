@@ -7,9 +7,9 @@
 #
 
 Pod::Spec.new do |s|
-    s.name             = "Tryouts"
-    s.version          = "0.2.0"
-    s.summary          = "Tryouts SDK for beta distribution, version updates and tester feedback"
+    s.name             = 'Tryouts'
+    s.version          = '0.2.1'
+    s.summary          = 'Tryouts SDK for beta distribution, version updates and tester feedback'
     s.description      = <<-DESC
     Tryouts SDK allows you to easily gather feedback from your testers
     about your beta releases and notifies them when new versions of your
@@ -17,10 +17,10 @@ Pod::Spec.new do |s|
     distribution.
     DESC
 
-    s.homepage         = "https://tryouts.io"
+    s.homepage         = 'https://tryouts.io'
     s.license          = 'MIT'
-    s.author           = { "Taylan Pince" => "taylan@hipolabs.com" }
-    s.source           = { :git => "https://github.com/Hipo/Tryouts-iOS-SDK.git", :tag => s.version.to_s }
+    s.author           = { 'Taylan Pince' => 'taylan@hipolabs.com' }
+    s.source           = { :git => 'https://github.com/Hipo/Tryouts-iOS-SDK.git', :tag => s.version.to_s }
     s.social_media_url = 'https://twitter.com/tryoutsio'
 
     s.platform     = :ios, '7.0'
