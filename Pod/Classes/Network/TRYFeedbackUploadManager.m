@@ -103,8 +103,8 @@ static NSString * const kAPIFeedbackSendURL              = @"https://api.tryouts
             }
         }
 
-        if (activeTaskIdentifier == NSNotFound && [_uploadTasks count] > 0) {
-            for (TRYFeedbackUploadTask *nextTask in _uploadTasks) {
+        if (activeTaskIdentifier == NSNotFound && [self.uploadTasks count] > 0) {
+            for (TRYFeedbackUploadTask *nextTask in self.uploadTasks) {
                 if (nextTask.taskIdentifier == activeTaskIdentifier) {
                     [self beginUploadForTask:nextTask];
 

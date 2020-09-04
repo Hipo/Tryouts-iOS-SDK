@@ -59,7 +59,7 @@
         [serializedTask setValue:_creationDate forKey:@"date"];
     }
 
-    if (_taskIdentifier != nil) {
+    if (_taskIdentifier != NSNotFound) {
         [serializedTask setValue:@(_taskIdentifier) forKey:@"task_id"];
     }
 

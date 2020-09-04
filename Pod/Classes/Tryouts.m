@@ -41,7 +41,6 @@ static NSTimeInterval const TRYAPIUpdateCheckInterval = 15.0 * 60.0;
 
 - (void)fetchLatestVersion;
 - (void)compareWithRelease:(TRYAppRelease *)release;
-- (void)sendFeedback:(TRYFeedback *)feedback;
 
 @end
 
@@ -155,7 +154,7 @@ static Tryouts *_sharedManager = nil;
                                                                         initWithReleaseInfo:releaseInfo]];
                                           }
                                       } else {
-                                          _lastUpdateCheckDate = nil;
+                                          self.lastUpdateCheckDate = nil;
                                       }
                                   }];
     
@@ -179,7 +178,7 @@ static Tryouts *_sharedManager = nil;
                                   initWithTitle:NSLocalizedString(@"New Version Found", nil)
                                   message:[NSString stringWithFormat:
                                            NSLocalizedString(@"%@ is available as an update.", nil),
-                                           _latestRelease.name]
+                                           self.latestRelease.name]
                                   delegate:self
                                   cancelButtonTitle:NSLocalizedString(@"Remind me later", nil)
                                   otherButtonTitles:NSLocalizedString(@"Update now", nil), nil];

@@ -99,7 +99,7 @@
 
     NSData *imageData = UIImageJPEGRepresentation(screenshotImage, 1.0);
 
-    return [imageData base64Encoding];
+    return [imageData base64EncodedStringWithOptions:0];
 }
 
 @end
