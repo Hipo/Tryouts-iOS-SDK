@@ -14,6 +14,8 @@
 
 @interface TRYFeedbackOverlayView : UIView
 
+extern NSString* const kNSUserDefaulsUsernameKey;
+
 @property (nonatomic, weak) id<TRYFeedbackOverlayViewDelegate> delegate;
 
 @property (nonatomic, strong, readonly) UITextField *usernameField;

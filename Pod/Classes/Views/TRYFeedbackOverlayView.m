@@ -10,7 +10,7 @@
 #import "TRYMessageView.h"
 
 // NSUserDefaults
-static NSString const *kNSUserDefaulsUsernameKey = @"com.hipo.tryouts.kNSUserDefaultsUsername";
+NSString* const kNSUserDefaulsUsernameKey = @"com.hipo.tryouts.kNSUserDefaultsUsername";
 
 /* METRICS */
 
@@ -497,20 +497,26 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
     _usernameField.translatesAutoresizingMaskIntoConstraints = NO;
     _usernameField.returnKeyType = UIReturnKeyNext;
+    
+    UIFont *placeholderFont;
+    
+    if (@available(iOS 8.2, *)) {
+        placeholderFont = [UIFont systemFontOfSize:12.0
+                                                   weight:UIFontWeightRegular];
+    } else {
+        placeholderFont = [UIFont systemFontOfSize:12.0];
+    }
 
     NSDictionary *placeholderAttributes = @{ NSForegroundColorAttributeName:[[UIColor grayColor]
                                                                              colorWithAlphaComponent:0.6],
-                                             NSFontAttributeName:[UIFont
-                                                                  systemFontOfSize:12.0
-                                                                  weight:UIFontWeightRegular] };
+                                             NSFontAttributeName:placeholderFont };
 
     _usernameField.attributedPlaceholder = [[NSAttributedString alloc]
                                             initWithString:NSLocalizedString(@"Your name", nil)
                                             attributes:placeholderAttributes];
 
     _usernameField.textAlignment = NSTextAlignmentCenter;
-    _usernameField.font = [UIFont systemFontOfSize:12.0
-                                            weight:UIFontWeightRegular];
+    _usernameField.font = [UIFont systemFontOfSize:12.0];
 
     _usernameField.text = [[NSUserDefaults standardUserDefaults]
                            stringForKey:kNSUserDefaulsUsernameKey];
@@ -650,9 +656,9 @@ static CGFloat  const kSubmitButtonHeightValue = 40.0;
 
 - (void)didTriggerShieldTapRecognizer:(UITapGestureRecognizer *)tapRecognizer {
     if (_usernameField.isFirstResponder) {
-        _usernameField.resignFirstResponder;
+        [_usernameField resignFirstResponder];
     } else if (_messageView.isFirstResponder) {
-        _messageView.resignFirstResponder;
+        [_messageView resignFirstResponder];
     }
 }
 

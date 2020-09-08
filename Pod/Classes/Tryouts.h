@@ -61,8 +61,7 @@
  * 
  * @param presentingViewController View controller that presents the feedback view controller
  * @param animated                 Determines whether feedback view controller is presented animated or not
- * 
- * @return
+ *
  */
 + (void)presentFeedbackControllerFromViewController:(UIViewController *)presentingViewController
                                            animated:(BOOL)animated;
